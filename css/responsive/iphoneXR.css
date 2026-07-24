@@ -1,0 +1,44 @@
+/* =========================
+        ABOUT
+========================= */
+
+@media(max-width: 420px){
+    .about{
+        height: 220vh;
+    }
+
+    .cards-grid{
+        margin-top: 8rem;
+        height: 50% ;
+    }
+    
+}
+
+/* =========================
+        VIRTUAL
+========================= */
+
+@media(max-width: 420px){
+    .virtualTeam{
+        height: 170vh;
+    }
+
+    .roadmap{
+        margin-left: -4.05%;
+    }
+
+}
+
+/* =========================
+        CONTATTI
+========================= */
+
+@media(max-width: 420px){
+    .contatti{
+        height: 125vh;
+    }
+
+    .send button{
+        width: 40%;
+    }
+}

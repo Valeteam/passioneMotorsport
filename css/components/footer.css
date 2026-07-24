@@ -1,0 +1,26 @@
+/* =========================
+        FOOTER
+========================= */
+
+footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+}
+
+.footer-logo {
+    font-family: var(--mono);
+    font-size: 1.2rem;
+    color: var(--white);
+    letter-spacing: .1em;
+}
+
+.footer-copy {
+    font-family: var(--mono);
+    font-size: .7rem;
+    color: var(--white);
+    letter-spacing: .1em;
+}

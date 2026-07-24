@@ -1,0 +1,347 @@
+/* =========================
+        HOME
+========================= */
+@media(max-width: 1950px) {
+    .home {
+        height: 100vh;
+    }
+
+    .home svg {
+        transform: rotate(5deg);
+    }
+
+    .home-route {
+        margin-top: 0%;
+        transform: rotate(5deg);
+    }
+
+    .home-route2 {
+        margin-top: 40%;
+    }
+
+    .wrap {
+        margin-top: 15%;
+        margin-left: 15%;
+    }
+}
+
+@media(max-width: 1250px){
+    .wrap{
+        margin-top: 25%;
+    }
+    .home-route2{
+        margin-top: 65%;
+    }
+}
+
+
+@media(max-width: 920px) {
+    .wrap {
+        margin-left: 9%;
+        margin-top: 40%;
+    }
+
+    .home svg {
+        transform: rotate(10deg);
+    }
+
+    .home-route2 {
+        margin-top: 100%;
+    }
+}
+
+@media(max-width:860px) {
+    .home-route2 {
+        margin-top: 105%;
+    }
+
+    .wrap {
+        margin-left: 11%;
+    }
+}
+
+@media(max-width:750px) {
+    .home{
+        height: 80vh;
+    }
+    .home svg {
+        display: none;
+    }
+}
+
+@media(max-width:550px) {
+    .home {
+        height: 70vh;
+    }
+
+
+    .wrap {
+        margin-left: 11%;
+        margin-top: 20%;
+    }
+}
+
+@media (max-width: 380px) {
+    .home {
+        height: 80vh;
+    }
+
+    .wrap h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* =========================
+        ABOUT
+========================= */
+
+@media(max-width: 920px) {
+    .about {
+        height: 75vh;
+    }
+
+    .about h3 {
+        font-size: 2rem;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .cards-grid {
+        width: 80%;
+        margin-left: 12%;
+        height: 40vh;
+    }
+
+    .info-card ul li {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .about {
+        height: 200vh;
+    }
+
+    .cards-grid {
+        height: 110vh;
+    }
+}
+
+@media(max-width: 435px) {
+    .about {
+        height: 220vh;
+    }
+
+    .cards-grid {
+        margin-top: 8rem;
+        height: 50%;
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 400px) {
+    .about {
+        height: 240vh;
+    }
+
+    .cards-grid {
+        margin-top: 5rem;
+        grid-template-columns: 1fr;
+        height: 120vh;
+    }
+}
+
+@media (max-width: 380px) {
+    .about {
+        height: 290vh;
+    }
+
+    .cards-grid {
+        height: 150vh;
+    }
+}
+
+/* =========================
+        NEWS
+========================= */
+
+@media (max-width: 920px) {
+    .news-highlight {
+        grid-template-columns: 1fr;
+    }
+
+    .news-article-grid {
+        grid-template-columns: 1fr;
+        border: none;
+    }
+
+    .news-article-card {
+        margin-top: 2rem;
+    }
+}
+
+/* =========================
+        CONTATTI
+========================= */
+
+@media(max-width: 920px) {
+    .send button {
+        width: 20%;
+    }
+
+    .email {
+        width: 30%;
+        /* margin-left: 38%; */
+    }
+
+    .text {
+        width: 60%;
+        /* margin-left: 22%; */
+    }
+}
+
+@media(max-width:860px) {
+
+    .email,
+    .text {
+        width: 25%;
+        /* margin-left: 40%; */
+    }
+
+    .text {
+        width: 50%;
+        /* margin-left: 27%; */
+    }
+}
+
+@media(max-width:550px) {
+    .contatti {
+        height: 65vh;
+    }
+
+    .email {
+        width: 35%;
+        /* margin-left: 35%; */
+    }
+
+    .text {
+        width: 70%;
+        /* margin-left: 17%; */
+    }
+
+    .send button {
+        width: 40%;
+        margin-top: 2rem;
+    }
+}
+
+@media(max-width: 420px) {
+    .contatti {
+        height: 125vh;
+    }
+
+    .send button {
+        width: 40%;
+    }
+}
+
+@media (max-width: 400px) {
+    .contatti {
+        height: 145vh;
+    }
+
+    .email {
+        width: 40%;
+        /* margin-left: 32.5%; */
+    }
+}
+
+@media(max-width: 380px) {
+    .contatti {
+        height: 170vh;
+    }
+}
+
+/* =========================
+        CALENDARIO
+========================= */
+
+@media(max-width:550px) {
+    .calendario {
+        height: 155vh;
+    }
+}
+
+/* =========================
+        SPONSOR
+========================= */
+
+@media(max-width:550px) {
+    .sponsor {
+        height: 65vh;
+    }
+}
+
+@media (max-width: 380px) {
+    .sponsor {
+        height: 80vh;
+    }
+}
+
+/* =========================
+        VIRTUAL
+========================= */
+
+@media(max-width: 920px) {
+    .virtualTeam {
+        height: 100vh;
+    }
+}
+
+@media(max-width:550px) {
+    .virtualTeam {
+        height: 200vh;
+    }
+
+    .roadmap {
+        border: none;
+    }
+
+    .roadmap-item::before {
+        display: none;
+    }
+
+    .roadmap-item {
+        margin-left: -1.5%;
+        width: 90%;
+    }
+}
+
+@media(max-width: 420px) {
+    .virtualTeam {
+        height: 170vh;
+    }
+
+    .roadmap {
+        margin-left: -4.05%;
+    }
+
+}
+
+@media(max-width: 400px) {
+    .virtualTeam {
+        height: 200vh;
+    }
+
+    .roadmap {
+        margin-left: -4.05%;
+    }
+
+}
+
+@media (max-width: 380px) {
+    .virtualTeam {
+        height: 240vh;
+    }
+}

@@ -1,0 +1,98 @@
+/* =========================
+        HOME
+========================= */
+
+@media(max-width:550px) {
+    .home{
+        height: 100vh;
+    }
+
+    .home svg{
+        display: none;
+    }
+
+    .wrap {
+        margin-left: 11%;
+        margin-top: 20%;
+    }
+}
+
+/* =========================
+        ABOUT
+========================= */
+
+@media (max-width: 550px) {
+    .about {
+        height: 250vh;
+    }
+
+    .cards-grid {
+        height: 140vh;
+    }
+}
+
+/* =========================
+        CONTATTI
+========================= */
+
+
+@media(max-width:550px){
+    .contatti{
+        height: 65vh;
+    }
+    .email{
+        width: 35%;
+        margin-left: 35%;
+    }
+    .text{
+        width: 70%;
+        margin-left: 17%;
+    }
+
+    .send button{
+        width: 40%;
+        margin-top: 2rem;
+    }
+}
+
+/* =========================
+        CALENDARIO
+========================= */
+
+@media(max-width:550px){
+    .calendario{
+        height: 155vh;
+    }
+}
+
+/* =========================
+        SPONSOR
+========================= */
+
+@media(max-width:550px){
+    .sponsor{
+        height: 65vh;
+    }
+}
+
+/* =========================
+        VIRTUAL
+========================= */
+
+@media(max-width:550px){
+    .virtualTeam{
+        height: 200vh;
+    }
+    .roadmap{
+        border: none;
+    }
+
+    .roadmap-item::before{
+        display: none;
+    }
+
+    .roadmap-item{
+        margin-left: -1.5%;
+        width: 90%;
+    }
+}
