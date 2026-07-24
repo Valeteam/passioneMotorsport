@@ -53,41 +53,43 @@ html {
 
 .home {
     width: 100%;
-    height: 85vh;
+    min-height: 90vh;
     position: relative;
-    padding: 120px 0 120px;
+    display: flex;
+    align-items: center;
+    padding: 160px 24px 80px;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
+    box-sizing: border-box;
 }
 
-.home-route {
+.home-route,
+.home-route2 {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
-    opacity: 0.5;
-    margin-top: 3%;
+    opacity: 0.35;
     pointer-events: none;
 }
 
 .home-route2 {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.5;
-    margin-top: 28%;
-    pointer-events: none;
+    opacity: 0.2;
 }
 
 .wrap {
-    margin-left: 25%;
-    margin-top: 12.5%;
+    position: relative;
     z-index: 1;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .wrap h1 {
     color: var(--white);
     text-transform: uppercase;
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
 }
 
 .lineeta {
@@ -169,10 +171,11 @@ html {
 .about {
     width: 100%;
     position: relative;
-    padding: 120px 0 90px;
+    padding: 120px 24px 90px;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
     text-align: center;
+    box-sizing: border-box;
 }
 
 .about h1 {
@@ -180,12 +183,15 @@ html {
     text-transform: uppercase;
     align-items: center;
     text-align: center;
-    margin-top: 2.5%;
+    margin-top: 0;
 }
 
 .about h3 {
     color: var(--white);
-    margin-top: 5%;
+    margin: 2rem auto 0;
+    max-width: 760px;
+    font-weight: 400;
+    line-height: 1.7;
 }
 
 .cards-grid {
@@ -193,13 +199,14 @@ html {
     grid-template-columns: 1fr 1fr;
     gap: 1px;
     border: 1px solid var(--line);
-    width: 50%;
-    margin-left: 25%;
-    margin-top: 5%;
+    max-width: 760px;
+    width: 100%;
+    margin: 3rem auto 0;
 }
 
 .info-card {
     padding: 28px 24px;
+    text-align: left;
 }
 
 .card-title {
@@ -411,14 +418,13 @@ html {
 .calendario {
     width: 100%;
     position: relative;
-    padding: 120px 0 90px;
-    overflow: hidden;
+    padding: 120px 24px 90px;
     border-bottom: 1px solid var(--line);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1px;
-    margin-top: 5%;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .boxing {
@@ -665,12 +671,12 @@ html {
 .contatti {
     width: 100%;
     position: relative;
-    padding: 120px 0 90px;
-    overflow: hidden;
+    padding: 120px 24px 90px;
     border-bottom: 1px solid var(--line);
     text-align: center;
     align-items: center;
     align-content: center;
+    box-sizing: border-box;
 }
 
 .spacing {
@@ -697,16 +703,14 @@ html {
 
 .email,
 .text {
-    width: 20%;
-    padding: 12px 20px;
-    margin: 8px 0;
+    width: 100%;
+    max-width: 420px;
+    padding: 16px 20px;
+    margin: 8px auto 0;
     box-sizing: border-box;
     border: 2px solid var(--line);
     border-radius: 24px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    /* margin-left: 40%; */
-    margin-top: 2rem;
+    display: block;
     background-color: var(--trasparente);
     font-size: 16px;
     color: var(--white);
@@ -715,13 +719,13 @@ html {
 .email:focus,
 .text:focus {
     box-shadow: 0 0 25px var(--yellowBold);
+    outline: none;
 }
 
 .text {
-    width: 25%;
-    padding-top: 10vh;
-    /* margin-left: 37.5%; */
-    resize: none;
+    max-width: 520px;
+    min-height: 140px;
+    resize: vertical;
     overflow-wrap: break-word;
     white-space: pre-wrap;
 }
@@ -732,9 +736,10 @@ html {
 }
 
 .send button {
-    width: 15%;
-    padding: 30px 20px;
-    margin-top: 1%;
+    width: 100%;
+    max-width: 220px;
+    padding: 20px 20px;
+    margin: 1.5rem auto 0;
     background-color: var(--trasparente);
     color: var(--white);
     text-align: center;
