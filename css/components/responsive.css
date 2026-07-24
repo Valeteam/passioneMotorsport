@@ -1,93 +1,16 @@
 /* =========================
         HOME
 ========================= */
-@media(max-width: 1950px) {
+
+@media (max-width: 750px) {
     .home {
-        height: 100vh;
+        min-height: 80vh;
+        padding-top: 140px;
     }
 
-    .home svg {
-        transform: rotate(5deg);
-    }
-
-    .home-route {
-        margin-top: 0%;
-        transform: rotate(5deg);
-    }
-
+    .home-route,
     .home-route2 {
-        margin-top: 40%;
-    }
-
-    .wrap {
-        margin-top: 15%;
-        margin-left: 15%;
-    }
-}
-
-@media(max-width: 1250px){
-    .wrap{
-        margin-top: 25%;
-    }
-    .home-route2{
-        margin-top: 65%;
-    }
-}
-
-
-@media(max-width: 920px) {
-    .wrap {
-        margin-left: 9%;
-        margin-top: 40%;
-    }
-
-    .home svg {
-        transform: rotate(10deg);
-    }
-
-    .home-route2 {
-        margin-top: 100%;
-    }
-}
-
-@media(max-width:860px) {
-    .home-route2 {
-        margin-top: 105%;
-    }
-
-    .wrap {
-        margin-left: 11%;
-    }
-}
-
-@media(max-width:750px) {
-    .home{
-        height: 80vh;
-    }
-    .home svg {
         display: none;
-    }
-}
-
-@media(max-width:550px) {
-    .home {
-        height: 70vh;
-    }
-
-
-    .wrap {
-        margin-left: 11%;
-        margin-top: 20%;
-    }
-}
-
-@media (max-width: 380px) {
-    .home {
-        height: 80vh;
-    }
-
-    .wrap h1 {
-        font-size: 2.5rem;
     }
 }
 
@@ -95,53 +18,14 @@
         ABOUT
 ========================= */
 
-@media(max-width: 920px) {
+@media (max-width: 640px) {
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
 
     .about h3 {
-        font-size: 2rem;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .cards-grid {
-        width: 80%;
-        margin-left: 12%;
-        height: 40vh;
-    }
-
-    .info-card ul li {
-        font-size: 2rem;
-    }
-}
-
-@media (max-width: 550px) {
-
-    .cards-grid {
-        height: 110vh;
-    }
-}
-
-@media(max-width: 435px) {
-
-    .cards-grid {
-        margin-top: 8rem;
-        height: 50%;
-        grid-template-columns: 1fr;
-    }
-
-}
-
-@media (max-width: 400px) {
-    .cards-grid {
-        margin-top: 5rem;
-        grid-template-columns: 1fr;
-        height: 120vh;
-    }
-}
-
-@media (max-width: 380px) {
-    .cards-grid {
-        height: 150vh;
+        font-size: 1rem;
+        padding: 0 8px;
     }
 }
 
@@ -160,7 +44,32 @@
     }
 
     .news-article-card {
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+    }
+}
+
+/* =========================
+        VIRTUAL TEAM
+========================= */
+
+@media (max-width: 640px) {
+    .virtualTeam h1 {
+        font-size: 1.8rem;
+    }
+
+    .virtualTeam h2 {
+        font-size: 1rem;
+        padding: 0 8px;
+    }
+
+    .roadmap {
+        border: none;
+        padding-left: 0;
+        max-width: 100%;
+    }
+
+    .roadmap-item::before {
+        display: none;
     }
 }
 
@@ -168,114 +77,12 @@
         CONTATTI
 ========================= */
 
-@media(max-width: 920px) {
-    .send button {
-        width: 20%;
+@media (max-width: 480px) {
+    .send h2 {
+        font-size: 1.6rem;
     }
 
-    .email {
-        width: 30%;
-        /* margin-left: 38%; */
+    .social h3 {
+        font-size: 1.6rem;
     }
-
-    .text {
-        width: 60%;
-        /* margin-left: 22%; */
-    }
-}
-
-@media(max-width:860px) {
-
-    .email,
-    .text {
-        width: 25%;
-        /* margin-left: 40%; */
-    }
-
-    .text {
-        width: 50%;
-        /* margin-left: 27%; */
-    }
-}
-
-@media(max-width:550px) {
-    .contatti {
-        height: 65vh;
-    }
-
-    .email {
-        width: 35%;
-        /* margin-left: 35%; */
-    }
-
-    .text {
-        width: 70%;
-        /* margin-left: 17%; */
-    }
-
-    .send button {
-        width: 40%;
-        margin-top: 2rem;
-    }
-}
-
-@media(max-width: 420px) {
-    .contatti {
-        height: 125vh;
-    }
-
-    .send button {
-        width: 40%;
-    }
-}
-
-@media (max-width: 400px) {
-    .contatti {
-        height: 145vh;
-    }
-
-    .email {
-        width: 40%;
-        /* margin-left: 32.5%; */
-    }
-}
-
-@media(max-width: 380px) {
-    .contatti {
-        height: 170vh;
-    }
-}
-
-
-/* =========================
-        VIRTUAL
-========================= */
-
-@media(max-width:550px) {
-    .roadmap {
-        border: none;
-    }
-
-    .roadmap-item::before {
-        display: none;
-    }
-
-    .roadmap-item {
-        margin-left: -1.5%;
-        width: 90%;
-    }
-}
-
-@media(max-width: 420px) {
-    .roadmap {
-        margin-left: -4.05%;
-    }
-
-}
-
-@media(max-width: 400px) {
-    .roadmap {
-        margin-left: -4.05%;
-    }
-
 }
