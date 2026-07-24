@@ -49,6 +49,22 @@
 }
 
 /* =========================
+        Calendario
+========================= */
+
+@media (max-width: 820px) {
+    .calendario {
+        grid-template-columns: 1fr;
+        padding-top: 90px;
+    }
+
+    .virtualRace {
+        border-left: none;
+        border-top: 1px solid var(--line);
+    }
+}
+
+/* =========================
         VIRTUAL TEAM
 ========================= */
 
