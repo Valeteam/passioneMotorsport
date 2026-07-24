@@ -168,7 +168,6 @@ html {
 
 .about {
     width: 100%;
-    height: 65vh;
     position: relative;
     padding: 120px 0 90px;
     overflow: hidden;
@@ -411,7 +410,6 @@ html {
 
 .calendario {
     width: 100%;
-    height: 60vh;
     position: relative;
     padding: 120px 0 90px;
     overflow: hidden;
@@ -471,7 +469,6 @@ html {
 
 .sponsor {
     width: 100%;
-    height: 50vh;
     position: relative;
     padding: 120px 0 90px;
     overflow: hidden;
@@ -512,8 +509,6 @@ html {
     height: 5em;
     width: 5em;
     padding: 1em;
-    /*!se manca sponsor attivare bg*/
-    /* background-color: var(--bg1); */
     font-size: 3rem;
     border-radius: .2em;
     text-align: center;
@@ -541,7 +536,6 @@ html {
 
 .virtualTeam {
     width: 100%;
-    height: 120vh;
     position: relative;
     padding: 120px 0 90px;
     overflow: hidden;
@@ -670,7 +664,6 @@ html {
 
 .contatti {
     width: 100%;
-    height: 60vh;
     position: relative;
     padding: 120px 0 90px;
     overflow: hidden;
