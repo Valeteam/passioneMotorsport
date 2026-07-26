@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor — Admin Passione Motorsport</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+
+<body>
+
+    <aside class="admin-sidebar">
+        <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
+        <p class="admin-role">ruolo: admin</p>
+
+        <nav class="admin-nav">
+            <a href="../admin.html">dashboard</a>
+
+            <p class="admin-nav-group">contenuti</p>
+            <a href="news.html" class="active">news</a>
+            <a href="calendario.html">calendario gare</a>
+            <a href="sponsor.html">sponsor</a>
+            <a href="categorie.html">categorie news</a>
+
+            <p class="admin-nav-group">richieste</p>
+            <a href="messaggi.html">messaggi contatti</a>
+            <a href="candidature.html">candidature roster</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <span class="admin-eyebrow">contenuti</span>
+                <h1 class="admin-title">sponsor</h1>
+            </div>
+        </div>
+
+        <!-- SPONSOR ATTIVI -->
+        <div class="admin-panel">
+            <h3 id="form-heading">nuovo sponsor</h3>
+            <form id="sponsor-form">
+                <input type="hidden" id="sponsor-id">
+
+                <div class="admin-form-row">
+                    <div class="admin-field">
+                        <label for="sponsor-nome">nome azienda</label>
+                        <input type="text" id="sponsor-nome" required placeholder="es. OfficinaTech">
+                    </div>
+                    <div class="admin-field">
+                        <label for="sponsor-livello">livello</label>
+                        <select id="sponsor-livello" required>
+                            <option value="supporter">supporter</option>
+                            <option value="official partner">official partner</option>
+                            <option value="tech partner">tech partner</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="admin-field">
+                    <label>logo</label>
+                    <label class="admin-upload" id="upload-label">
+                        clicca per caricare il logo
+                        <input type="file" id="sponsor-logo" accept="image/*">
+                        <div class="admin-upload-preview" id="upload-preview" style="display:none;">
+                            <img id="upload-preview-img" src="" alt="anteprima logo">
+                        </div>
+                    </label>
+                </div>
+
+                <div style="display:flex; gap:12px;">
+                    <button type="submit" class="btn primary">salva sponsor</button>
+                    <button type="button" class="btn" id="cancel-edit" style="display:none;">annulla modifica</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-panel">
+            <h3>sponsor attivi</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>azienda</th>
+                        <th>livello</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="sponsor-table-body"></tbody>
+            </table>
+            <div class="admin-empty" id="sponsor-empty" style="display:none;">Nessuno sponsor attivo.</div>
+        </div>
+
+        <!-- RICHIESTE DI SPONSORIZZAZIONE -->
+        <div class="admin-panel">
+            <h3>richieste di sponsorizzazione ricevute</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>azienda</th>
+                        <th>referente</th>
+                        <th>data</th>
+                        <th>stato</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="requests-table-body"></tbody>
+            </table>
+            <div class="admin-empty" id="requests-empty" style="display:none;">Nessuna richiesta ricevuta.</div>
+        </div>
+    </main>
+
+    <!-- modale dettaglio richiesta -->
+    <div class="admin-modal-overlay" id="request-modal">
+        <div class="admin-modal">
+            <span class="admin-modal-close" onclick="closeRequestModal()">chiudi ✕</span>
+            <h3 id="modal-azienda"></h3>
+            <p style="color:var(--text-muted); font-size:13px; margin:10px 0;" id="modal-referente"></p>
+            <p style="margin-bottom:16px;" id="modal-messaggio"></p>
+            <button class="btn primary small" onclick="markRequestReplied()">segna come risposto</button>
+        </div>
+    </div>
+
+    <script src="../../js/admin/admin-storage.js"></script>
+    <script src="../../js/admin/sponsor.js"></script>
+
+</body>
+
+</html>

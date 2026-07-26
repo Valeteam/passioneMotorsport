@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario — Admin Passione Motorsport</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+
+<body>
+
+    <aside class="admin-sidebar">
+        <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
+        <p class="admin-role">ruolo: admin</p>
+
+        <nav class="admin-nav">
+            <a href="../admin.html">dashboard</a>
+
+            <p class="admin-nav-group">contenuti</p>
+            <a href="news.html" class="active">news</a>
+            <a href="calendario.html">calendario gare</a>
+            <a href="sponsor.html">sponsor</a>
+            <a href="categorie.html">categorie news</a>
+
+            <p class="admin-nav-group">richieste</p>
+            <a href="messaggi.html">messaggi contatti</a>
+            <a href="candidature.html">candidature roster</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <span class="admin-eyebrow">contenuti</span>
+                <h1 class="admin-title">calendario gare</h1>
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <h3 id="form-heading">nuova gara</h3>
+            <form id="race-form">
+                <input type="hidden" id="race-id">
+
+                <div class="admin-field">
+                    <label for="race-nome">nome gara</label>
+                    <input type="text" id="race-nome" required placeholder="es. Rally del Titano">
+                </div>
+
+                <div class="admin-form-row">
+                    <div class="admin-field">
+                        <label for="race-reparto">reparto</label>
+                        <select id="race-reparto" required>
+                            <option value="esports">esports</option>
+                            <option value="reale">reale</option>
+                        </select>
+                    </div>
+                    <div class="admin-field">
+                        <label for="race-data">data</label>
+                        <input type="date" id="race-data" required>
+                    </div>
+                </div>
+
+                <div class="admin-field">
+                    <label for="race-stato">stato</label>
+                    <select id="race-stato" required>
+                        <option value="in programma">in programma</option>
+                        <option value="prossima">prossima</option>
+                        <option value="disputata">disputata</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; gap:12px;">
+                    <button type="submit" class="btn primary">salva gara</button>
+                    <button type="button" class="btn" id="cancel-edit" style="display:none;">annulla modifica</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-panel">
+            <h3>gare in calendario</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>data</th>
+                        <th>nome gara</th>
+                        <th>reparto</th>
+                        <th>stato</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="race-table-body"></tbody>
+            </table>
+            <div class="admin-empty" id="race-empty" style="display:none;">Nessuna gara in calendario.</div>
+        </div>
+    </main>
+
+    <script src="../../js/admin/admin-storage.js"></script>
+    <script src="../../js/admin/calendario.js"></script>
+
+</body>
+
+</html>

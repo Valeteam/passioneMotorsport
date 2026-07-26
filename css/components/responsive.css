@@ -96,9 +96,6 @@
 ========================= */
 
 @media(max-width: 920px) {
-    .about {
-        height: 75vh;
-    }
 
     .about h3 {
         font-size: 2rem;
@@ -118,9 +115,6 @@
 }
 
 @media (max-width: 550px) {
-    .about {
-        height: 200vh;
-    }
 
     .cards-grid {
         height: 110vh;
@@ -128,9 +122,6 @@
 }
 
 @media(max-width: 435px) {
-    .about {
-        height: 220vh;
-    }
 
     .cards-grid {
         margin-top: 8rem;
@@ -141,10 +132,6 @@
 }
 
 @media (max-width: 400px) {
-    .about {
-        height: 240vh;
-    }
-
     .cards-grid {
         margin-top: 5rem;
         grid-template-columns: 1fr;
@@ -153,10 +140,6 @@
 }
 
 @media (max-width: 380px) {
-    .about {
-        height: 290vh;
-    }
-
     .cards-grid {
         height: 150vh;
     }
@@ -263,47 +246,12 @@
     }
 }
 
-/* =========================
-        CALENDARIO
-========================= */
-
-@media(max-width:550px) {
-    .calendario {
-        height: 155vh;
-    }
-}
-
-/* =========================
-        SPONSOR
-========================= */
-
-@media(max-width:550px) {
-    .sponsor {
-        height: 65vh;
-    }
-}
-
-@media (max-width: 380px) {
-    .sponsor {
-        height: 80vh;
-    }
-}
 
 /* =========================
         VIRTUAL
 ========================= */
 
-@media(max-width: 920px) {
-    .virtualTeam {
-        height: 100vh;
-    }
-}
-
 @media(max-width:550px) {
-    .virtualTeam {
-        height: 200vh;
-    }
-
     .roadmap {
         border: none;
     }
@@ -319,10 +267,6 @@
 }
 
 @media(max-width: 420px) {
-    .virtualTeam {
-        height: 170vh;
-    }
-
     .roadmap {
         margin-left: -4.05%;
     }
@@ -330,18 +274,8 @@
 }
 
 @media(max-width: 400px) {
-    .virtualTeam {
-        height: 200vh;
-    }
-
     .roadmap {
         margin-left: -4.05%;
     }
 
-}
-
-@media (max-width: 380px) {
-    .virtualTeam {
-        height: 240vh;
-    }
 }

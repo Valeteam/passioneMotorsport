@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaggi — Admin Passione Motorsport</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+
+<body>
+
+    <aside class="admin-sidebar">
+        <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
+        <p class="admin-role">ruolo: admin</p>
+
+        <nav class="admin-nav">
+            <a href="../admin.html">dashboard</a>
+
+            <p class="admin-nav-group">contenuti</p>
+            <a href="news.html" class="active">news</a>
+            <a href="calendario.html">calendario gare</a>
+            <a href="sponsor.html">sponsor</a>
+            <a href="categorie.html">categorie news</a>
+
+            <p class="admin-nav-group">richieste</p>
+            <a href="messaggi.html">messaggi contatti</a>
+            <a href="candidature.html">candidature roster</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <span class="admin-eyebrow">richieste</span>
+                <h1 class="admin-title">messaggi contatti</h1>
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <h3>messaggi ricevuti dal form contatti</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>nome</th>
+                        <th>motivo</th>
+                        <th>data</th>
+                        <th>stato</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="msg-table-body"></tbody>
+            </table>
+            <div class="admin-empty" id="msg-empty" style="display:none;">Nessun messaggio ricevuto.</div>
+        </div>
+    </main>
+
+    <div class="admin-modal-overlay" id="msg-modal">
+        <div class="admin-modal">
+            <span class="admin-modal-close" onclick="closeMsgModal()">chiudi ✕</span>
+            <h3 id="modal-nome"></h3>
+            <p style="color:var(--text-muted); font-size:13px; margin:10px 0;" id="modal-email"></p>
+            <p style="font-family:var(--mono); font-size:11px; text-transform:uppercase; color:var(--accent); margin-bottom:14px;"
+                id="modal-motivo"></p>
+            <p style="margin-bottom:22px; line-height:1.6;" id="modal-testo"></p>
+            <button class="btn primary small" onclick="markReplied()">segna come risposto</button>
+        </div>
+    </div>
+
+    <script src="../../js/admin/admin-storage.js"></script>
+    <script src="../../js/admin/messaggioForm.js"></script>
+
+</body>
+
+</html>

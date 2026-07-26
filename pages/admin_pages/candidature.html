@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidature — Admin Passione Motorsport</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+
+<body>
+
+    <aside class="admin-sidebar">
+        <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
+        <p class="admin-role">ruolo: admin</p>
+
+        <nav class="admin-nav">
+            <a href="../admin.html">dashboard</a>
+
+            <p class="admin-nav-group">contenuti</p>
+            <a href="news.html" class="active">news</a>
+            <a href="calendario.html">calendario gare</a>
+            <a href="sponsor.html">sponsor</a>
+            <a href="categorie.html">categorie news</a>
+
+            <p class="admin-nav-group">richieste</p>
+            <a href="messaggi.html">messaggi contatti</a>
+            <a href="candidature.html">candidature roster</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="admin-topbar">
+            <div>
+                <span class="admin-eyebrow">richieste</span>
+                <h1 class="admin-title">candidature roster</h1>
+            </div>
+        </div>
+
+        <div class="admin-panel">
+            <h3>candidature ricevute per entrare nel team</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>nome</th>
+                        <th>reparto richiesto</th>
+                        <th>data</th>
+                        <th>stato</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="cand-table-body"></tbody>
+            </table>
+            <div class="admin-empty" id="cand-empty" style="display:none;">Nessuna candidatura ricevuta.</div>
+        </div>
+    </main>
+
+    <div class="admin-modal-overlay" id="cand-modal">
+        <div class="admin-modal">
+            <span class="admin-modal-close" onclick="closeCandModal()">chiudi ✕</span>
+            <h3 id="modal-nome"></h3>
+            <p style="color:var(--text-muted); font-size:13px; margin:10px 0;" id="modal-email"></p>
+            <p style="margin-bottom:6px;"><span class="tag dept-esports" id="modal-reparto"></span></p>
+            <p style="margin:14px 0 22px; line-height:1.6;" id="modal-esperienza"></p>
+            <button class="btn primary small" onclick="markReplied()">segna come risposto</button>
+        </div>
+    </div>
+
+    <script src="../../js/admin/admin-storage.js"></script>
+    <script src="../../js/admin/candidature.js"></script>
+
+</body>
+
+</html>
