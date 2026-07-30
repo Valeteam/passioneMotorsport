@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg: #1a1815;
+    --black: black;
+    --white: white;
+    --line: rgba(240, 234, 217, 0.774);
+    --arancio: #c9531c;
+    --arancio-rgb: 201, 83, 28;
+    --arancioBold: rgb(202, 155, 68);
+    --yellowBold: rgba(235, 235, 156, 0.788);
+    --overlay: rgba(0, 0, 0, 0.6);
+    --trasparente: transparent;
+
+    --display: 'Oswald', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--body);
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-text {
+    text-align: center;
+    font-size: 2rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-top: 2.5rem;
+}
+
+.setting-content {
+    margin-top: 10rem;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    display: grid;
+}
+
+
+.name-setting h2 {
+    color: var(--white);
+    font-family: var(--mono);
+    font-size: 1.2rem;
+}
+
+.setting-content {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    row-gap: 10rem;
+}
+
+.righe {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    gap: 4rem;
+}
+
+.righe form {
+    display: flex;
+    gap: 4rem;
+}
+
+.name-setting,
+.password-setting,
+.photo-setting {
+    gap: 2rem;
+}
+
+.righe span {
+    width: 100%;
+    background: var(--panel);
+    color: var(--white);
+    padding: 20px 14px;
+    font-family: var(--body);
+    font-size: 14px;
+}
+
+.change-group {
+    margin-bottom: 20px;
+}
+
+.change-group label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.change-group input[type="text"],
+.change-group input[type="password"] {
+    width: 120%;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--white);
+    padding: 20px 14px;
+    font-family: var(--body);
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+.change-group input:focus {
+    border-color: var(--yellowBold);
+    box-shadow: 0 0 10px var(--yellowBold);
+    outline: none;
+}
+
+.btn.pLog {
+    background: var(--arancioBold);
+    border-color: var(--arancioBold);
+    color: var(--black);
+    font-weight: 500;
+    width: 200px;
+    padding: 20px 20px;
+}
+
+.btn.pLog:hover {
+    background: var(--yellowBold);
+}

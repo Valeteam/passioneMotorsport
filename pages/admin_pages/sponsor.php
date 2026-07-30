@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../../login.php");
+    exit;
+}
+
+$ruolo = $_SESSION['ruolo']
+
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -12,20 +24,24 @@
 
     <aside class="admin-sidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
-        <p class="admin-role">ruolo: admin</p>
+        <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
 
         <nav class="admin-nav">
-            <a href="../admin.html">dashboard</a>
+            <a href="../admin.php">dashboard</a>
 
             <p class="admin-nav-group">contenuti</p>
-            <a href="news.html" class="active">news</a>
-            <a href="calendario.html">calendario gare</a>
-            <a href="sponsor.html">sponsor</a>
-            <a href="categorie.html">categorie news</a>
+            <a href="news.php">news</a>
+            <a href="calendario.php">calendario gare</a>
+            <a href="sponsor.php" class="active">sponsor</a>
+            <a href="categorie.php">categorie news</a>
 
             <p class="admin-nav-group">richieste</p>
-            <a href="messaggi.html">messaggi contatti</a>
-            <a href="candidature.html">candidature roster</a>
+            <a href="messaggi.php">messaggi contatti</a>
+            <a href="candidature.php">candidature Pilota</a>
+
+            <p class="admin-nav-group">Impostazioni</p>
+            <a href="../../php/setting.php" class="option">settings</a>
+            <a href="../../php/logout.php">logout</a>
         </nav>
     </aside>
 
@@ -121,7 +137,7 @@
         </div>
     </div>
 
-    <script src="../../js/admin/admin-storage.js"></script>
+    <script src="../../js/admin-storage.js"></script>
     <script src="../../js/admin/sponsor.js"></script>
 
 </body>

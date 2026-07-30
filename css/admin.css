@@ -1,17 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-    --bg: #171512;
+    --bg: #1a1815;
     --panel: #201d18;
     --panel-2: #262218;
-    --text: #f0ead9;
-    --text-muted: #a89c85;
+    --black: black;
+    --white: white;
+    --line: rgba(240, 234, 217, 0.774);
     --text-dim: #6f6656;
-    --accent: #c9531c;
+    --text-dim-rgb: 111, 102, 86;
+    --arancio: #c9531c;
+    --arancio-rgb: 201, 83, 28;
+    --arancioBold: rgb(202, 155, 68);
+    --yellowBold: rgba(235, 235, 156, 0.788);
     --stage: #4a6650;
+    --stage-rgb: 74, 102, 80;
+    --stage-light: #8fb59a;
     --danger: #b23b3b;
-    --line: rgba(240, 234, 217, 0.12);
-    --line-strong: rgba(240, 234, 217, 0.22);
+    --danger-rgb: 178, 59, 59;
+    --done: rgba(119, 247, 119, 0.712);
+    --during: rgb(241, 241, 96);
+    --program: rgb(235, 126, 126);
+    --next: rgb(235, 179, 126);
+    --overlay: rgba(0, 0, 0, 0.6);
+    --trasparente: transparent;
 
     --display: 'Oswald', sans-serif;
     --body: 'Inter', sans-serif;
@@ -26,7 +38,7 @@
 
 body {
     background: var(--bg);
-    color: var(--text);
+    color: var(--white);
     font-family: var(--body);
     font-size: 15px;
     line-height: 1.6;
@@ -52,12 +64,63 @@ h3 {
     letter-spacing: 0.02em;
     font-weight: 600;
 }
+/* =========================================================
+    BOTTONI
+========================================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 11px 20px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
 
-/* ---------- sidebar ---------- */
+.btn:hover {
+    border-color: var(--arancio);
+}
+
+.btn.primary {
+    background: var(--arancioBold);
+    border-color: var(--arancioBold);
+    color: var(--black);
+    font-weight: 500;
+}
+
+.btn.primary:hover {
+    background: var(--yellowBold);
+}
+
+.btn.danger {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.btn.danger:hover {
+    background: rgba(var(--danger-rgb), 0.12);
+}
+
+.btn.small {
+    padding: 7px 14px;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+    SIDEBAR
+========================================================= */
 .admin-sidebar {
     width: 230px;
     flex-shrink: 0;
-    background: var(--panel);
+    background: var(--bg);
     border-right: 1px solid var(--line);
     padding: 26px 18px;
     position: sticky;
@@ -75,7 +138,7 @@ h3 {
 }
 
 .admin-logo span {
-    color: var(--accent);
+    color: var(--arancio);
 }
 
 .admin-role {
@@ -91,11 +154,11 @@ h3 {
     gap: 2px;
 }
 
-.admin-nav a {
+.admin-nav a, .a {
     font-size: 14px;
     padding: 10px 12px;
     border-radius: 4px;
-    color: var(--text-muted);
+    color: var(--white);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -104,21 +167,21 @@ h3 {
 
 .admin-nav a:hover {
     background: var(--panel-2);
-    color: var(--text);
+    color: var(--arancio);
 }
 
 .admin-nav a.active {
     background: var(--panel-2);
-    color: var(--text);
-    border-left: 2px solid var(--accent);
+    color: var(--white);
+    border-left: 2px solid var(--arancio);
     padding-left: 10px;
 }
 
 .admin-nav .badge {
     font-family: var(--mono);
     font-size: 11px;
-    background: var(--accent);
-    color: #171512;
+    background: var(--arancio);
+    color: var(--bg);
     padding: 1px 7px;
     border-radius: 10px;
 }
@@ -132,7 +195,10 @@ h3 {
     margin: 22px 0 8px 12px;
 }
 
-/* ---------- main area ---------- */
+
+/* =========================================================
+    DASHBOARD
+========================================================= */
 .admin-main {
     flex: 1;
     min-width: 0;
@@ -153,7 +219,7 @@ h3 {
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--arancio);
     margin-bottom: 6px;
     display: block;
 }
@@ -162,54 +228,18 @@ h3 {
     font-size: 26px;
 }
 
-/* ---------- buttons ---------- */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 11px 20px;
-    border-radius: 3px;
-    border: 1px solid var(--line-strong);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    transition: border-color .15s, background .15s;
+.admin-panel {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    padding: 28px;
+    margin-bottom: 30px;
 }
 
-.btn:hover {
-    border-color: var(--accent);
+.admin-panel h3 {
+    font-size: 16px;
+    margin-bottom: 18px;
 }
 
-.btn.primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #171512;
-    font-weight: 500;
-}
-
-.btn.primary:hover {
-    background: #dd6528;
-}
-
-.btn.danger {
-    color: var(--danger);
-    border-color: var(--danger);
-}
-
-.btn.danger:hover {
-    background: rgba(178, 59, 59, 0.12);
-}
-
-.btn.small {
-    padding: 7px 14px;
-    font-size: 11px;
-}
-
-/* ---------- cards / stats ---------- */
 .admin-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -233,23 +263,14 @@ h3 {
     font-family: var(--mono);
     font-size: 11px;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--text-dim);
     margin-top: 4px;
 }
 
-.admin-panel {
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    padding: 28px;
-    margin-bottom: 30px;
-}
 
-.admin-panel h3 {
-    font-size: 16px;
-    margin-bottom: 18px;
-}
-
-/* ---------- forms ---------- */
+/* =========================================================
+    NEWS / CALENDARIO / SPONSOR / CATEGORIE
+========================================================= */
 .admin-field {
     margin-bottom: 20px;
 }
@@ -271,8 +292,8 @@ h3 {
 .admin-field select {
     width: 100%;
     background: var(--panel);
-    border: 1px solid var(--line-strong);
-    color: var(--text);
+    border: 1px solid var(--line);
+    color: var(--white);
     padding: 12px 14px;
     font-family: var(--body);
     font-size: 14px;
@@ -287,7 +308,7 @@ h3 {
 .admin-field input:focus,
 .admin-field textarea:focus,
 .admin-field select:focus {
-    border-color: var(--accent);
+    border-color: var(--arancio);
     outline: none;
 }
 
@@ -297,21 +318,20 @@ h3 {
     gap: 20px;
 }
 
-/* upload immagine */
 .admin-upload {
-    border: 1px dashed var(--line-strong);
+    border: 1px dashed var(--line);
     border-radius: 3px;
     padding: 26px;
     text-align: center;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--text-dim);
     font-size: 13px;
     background: var(--panel);
     transition: border-color .15s;
 }
 
 .admin-upload:hover {
-    border-color: var(--accent);
+    border-color: var(--arancio);
 }
 
 .admin-upload input {
@@ -330,7 +350,10 @@ h3 {
     object-fit: cover;
 }
 
-/* ---------- table ---------- */
+
+/* =========================================================
+    CALENDARIO / NEWS / SPONSOR / MESSAGGI / CANDIDATURE
+========================================================= */
 table.admin-table {
     width: 100%;
     border-collapse: collapse;
@@ -345,7 +368,7 @@ table.admin-table {
     letter-spacing: 0.05em;
     color: var(--text-dim);
     padding: 10px 14px;
-    border-bottom: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
 }
 
 .admin-table td {
@@ -359,7 +382,7 @@ table.admin-table {
 }
 
 .admin-table tr.unread {
-    background: rgba(201, 83, 28, 0.05);
+    background: rgba(var(--arancio-rgb), 0.05);
 }
 
 .admin-table .actions {
@@ -367,7 +390,6 @@ table.admin-table {
     gap: 8px;
 }
 
-/* ---------- badges ---------- */
 .tag {
     font-family: var(--mono);
     font-size: 10px;
@@ -379,46 +401,45 @@ table.admin-table {
 }
 
 .tag.status-done {
-    background: rgba(111, 102, 86, 0.25);
-    color: var(--text-muted);
+    background: rgba(var(--text-dim-rgb), 0.25);
+    color: var(--done);
 }
 
 .tag.status-next {
-    background: rgba(201, 83, 28, 0.18);
-    color: var(--accent);
+    background: rgba(var(--arancio-rgb), 0.18);
+    color: var(--next);
 }
 
 .tag.status-planned {
-    background: rgba(74, 102, 80, 0.25);
-    color: #8fb59a;
+    background: rgba(var(--stage-rgb), 0.25);
+    color: var(--program);
 }
 
 .tag.status-unread {
-    background: rgba(201, 83, 28, 0.2);
-    color: var(--accent);
+    background: rgba(var(--arancio-rgb), 0.2);
+    color: var(--arancio);
 }
 
 .tag.status-read {
-    background: rgba(111, 102, 86, 0.2);
-    color: var(--text-muted);
+    background: rgba(var(--text-dim-rgb), 0.2);
+    color: var(--white);
 }
 
 .tag.status-replied {
-    background: rgba(74, 102, 80, 0.25);
-    color: #8fb59a;
+    background: rgba(var(--stage-rgb), 0.25);
+    color: var(--stage-light);
 }
 
 .tag.dept-esports {
-    background: rgba(201, 83, 28, 0.15);
-    color: var(--accent);
+    background: rgba(var(--arancio-rgb), 0.15);
+    color: var(--arancio);
 }
 
 .tag.dept-reale {
-    background: rgba(74, 102, 80, 0.2);
-    color: #8fb59a;
+    background: rgba(var(--stage-rgb), 0.2);
+    color: var(--stage-light);
 }
 
-/* ---------- empty state ---------- */
 .admin-empty {
     padding: 40px;
     text-align: center;
@@ -426,11 +447,14 @@ table.admin-table {
     font-size: 13px;
 }
 
-/* ---------- modal (dettaglio messaggio) ---------- */
+
+/* =========================================================
+    SPONSOR / MESSAGGI / CANDIDATURE
+========================================================= */
 .admin-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: var(--overlay);
     display: none;
     align-items: center;
     justify-content: center;
@@ -443,7 +467,7 @@ table.admin-table {
 
 .admin-modal {
     background: var(--panel-2);
-    border: 1px solid var(--line-strong);
+    border: 1px solid var(--line);
     max-width: 560px;
     width: 90%;
     max-height: 80vh;
@@ -454,11 +478,15 @@ table.admin-table {
 .admin-modal-close {
     float: right;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--text-dim);
     font-family: var(--mono);
     font-size: 13px;
 }
 
+
+/* =========================================================
+    RESPONSIVE — valido su tutte le pagine
+========================================================= */
 @media (max-width: 900px) {
     .admin-sidebar {
         display: none;

@@ -68,7 +68,7 @@
 
             <div class="hero-actions">
                 <a href="#news" class="btn primary">ultime news</a>
-                <a href="#contatti" id="contatti" class="btn ghost">contatti</a>
+                <a href="#contatti" class="btn ghost">contatti</a>
             </div>
 
         </div>
@@ -369,7 +369,7 @@
         <div class="footer-copy">Passione Motorsport Racing Team © 2026 — TUTTI I DIRITTI RISERVATI</div>
     </footer>
 
-    <script src="js/admin/admin-storage.js"></script>
+    <script src="js/admin-storage.js"></script>
     <script src="js/services/news.js"></script>
     <script src="js/utils/navbarSwitch.js"></script>
     <script src="js/services/navbar.js"></script>

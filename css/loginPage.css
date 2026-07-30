@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg: #1a1815;
+    --panel: #201d18;
+    --panel-2: #262218;
+    --black: black;
+    --white: white;
+    --line: rgba(240, 234, 217, 0.774);
+    --text-dim: #6f6656;
+    --text-dim-rgb: 111, 102, 86;
+    --arancio: #c9531c;
+    --arancio-rgb: 201, 83, 28;
+    --arancioBold: rgb(202, 155, 68);
+    --yellowBold: rgba(235, 235, 156, 0.788);
+    --stage: #4a6650;
+    --stage-rgb: 74, 102, 80;
+    --stage-light: #8fb59a;
+    --danger: #b23b3b;
+    --danger-rgb: 178, 59, 59;
+    --done: rgba(119, 247, 119, 0.712);
+    --during: rgb(241, 241, 96);
+    --program: rgb(235, 126, 126);
+    --next: rgb(235, 179, 126);
+    --overlay: rgba(0, 0, 0, 0.6);
+    --trasparente: transparent;
+
+    --display: 'Oswald', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--body);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.admin_panel {
+    max-width: 500px;
+    width: 100%;
+}
+
+.admin_panel p {
+    color: var(--danger);
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+}
+
+.btn.pLog {
+    background: var(--arancioBold);
+    border-color: var(--arancioBold);
+    color: var(--black);
+    font-weight: 500;
+    width: 100%;
+}
+
+.btn.pLog:hover {
+    background: var(--yellowBold);
+}
+
+.admin-compilation {
+    margin-bottom: 20px;
+}
+
+.admin-compilation label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.admin-compilation input[type="text"],
+.admin-compilation input[type="password"] {
+    width: 100%;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--white);
+    padding: 20px 14px;
+    font-family: var(--body);
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+.admin-compilation input:focus {
+    border-color: var(--yellowBold);
+    box-shadow: 0 0 10px var(--yellowBold);
+    outline: none;
+}

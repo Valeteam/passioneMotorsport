@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../loginPage.php");
+    exit;
+}
+
+$ruolo = $_SESSION['ruolo']
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -12,20 +25,25 @@
 
     <aside class="admin-sidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
-        <p class="admin-role" id="admin-role-label">ruolo: admin</p>
+        <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
 
         <nav class="admin-nav">
-            <a href="admin.html" class="active">dashboard</a>
+            <a href="admin.php" class="active">dashboard</a>
 
             <p class="admin-nav-group">contenuti</p>
-            <a href="admin_pages/news.html">news</a>
-            <a href="admin_pages/calendario.html">calendario gare</a>
-            <a href="admin_pages/sponsor.html">sponsor</a>
-            <a href="admin_pages/categorie.html">categorie news</a>
+            <a href="admin_pages/news.php">news</a>
+            <a href="admin_pages/calendario.php">calendario gare</a>
+            <a href="admin_pages/sponsor.php">sponsor</a>
+            <a href="admin_pages/categorie.php">categorie news</a>
 
             <p class="admin-nav-group">richieste</p>
-            <a href="admin_pages/messaggi.html">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>
-            <a href="admin_pages/candidature.html">candidature roster <span class="badge" id="badge-candidature">0</span></a>
+            <a href="admin_pages/messaggi.php">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>
+            <a href="admin_pages/candidature.php">candidature Pilota<span class="badge" id="badge-candidature">0</span></a>
+
+            <p class="admin-nav-group">Impostazioni</p>
+            <a href="../php/setting.php" class="option">settings</a>
+            <a href="../php/logout.php">logout</a>
+
         </nav>
     </aside>
 
@@ -67,8 +85,9 @@
         </div>
     </main>
 
-    <script src="../../js/admin.js"></script>
-    <script src="../../js/admin/admin-storage.js"></script>
+
+    <script src="../js/admin-storage.js"></script>
+    <script src="../js/admin.js"></script>
 
 </body>
 
