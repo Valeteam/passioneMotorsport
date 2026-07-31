@@ -139,7 +139,7 @@ $ruolo = $_SESSION['ruolo']
 
     <script src="../../js/admin-storage.js"></script>
     <script src="../../js/admin/sponsor.js"></script>
-    <script src="../../js/services/sidebar.js"></script>
+    <script src="../../js/sidebar.js"></script>
 
 </body>
 
