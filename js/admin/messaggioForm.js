@@ -27,7 +27,7 @@ async function loadMessages() {
     <tr class="${m.stato === 'da leggere' ? 'unread' : ''}">
       <td>${m.nome}</td>
       <td>${m.motivo}</td>
-      <td>${formatDate(m.data)}</td>
+      <td>${formatDate(m.creato_il)}</td>
       <td><span class="tag ${statusClass(m.stato)}">${m.stato}</span></td>
       <td class="actions">
         <button class="btn small" onclick="openModal(${m.id})">apri</button>

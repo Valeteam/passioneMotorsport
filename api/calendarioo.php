@@ -23,8 +23,7 @@ switch ($metodo) {
             $dati['nome'],
             $dati['reparto'],
             $dati['data_gara'],
-            $dati['stato'],
-            $dati['id']
+            $dati['stato']
         ]);
 
         echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
@@ -42,7 +41,8 @@ switch ($metodo) {
             $dati['nome'],
             $dati['reparto'],
             $dati['data_gara'],
-            $dati['stato']
+            $dati['stato'],
+            $dati['id']
         ]);
 
         echo json_encode(['successo' => true]);

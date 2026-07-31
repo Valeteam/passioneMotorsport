@@ -17,15 +17,14 @@ switch ($metodo) {
 
         $stmt = $pdo->prepare("
             INSERT INTO messaggi (nome, email, motivo, messaggio, stato)
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         ");
         $stmt->execute([
             $dati['nome'],
             $dati['email'],
             $dati['motivo'],
             $dati['messaggio'],
-            $dati['stato'],
-            $dati['id']
+            $dati['stato']
         ]);
 
         echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
@@ -36,7 +35,8 @@ switch ($metodo) {
 
         $stmt = $pdo->prepare("
             UPDATE messaggi
-            SET nome = ?, email = ?, motivo = ?, messaggio = ?, stato = ?, WHERE id = ?
+            SET nome = ?, email = ?, motivo = ?, messaggio = ?, stato = ?
+            WHERE id = ?
         ");
         $stmt->execute([
             $dati['nome'],

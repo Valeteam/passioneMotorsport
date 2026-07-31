@@ -127,7 +127,7 @@ async function loadRequests() {
     <tr class="${r.stato === 'da leggere' ? 'unread' : ''}">
       <td>${r.azienda}</td>
       <td>${r.referente}</td>
-      <td>${formatDate(r.data)}</td>
+      <td>${formatDate(r.creato_il)}</td>
       <td><span class="tag ${requestStatusClass(r.stato)}">${r.stato}</span></td>
       <td class="actions">
         <button class="btn small" onclick="openRequestModal(${r.id})">apri</button>

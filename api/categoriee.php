@@ -20,8 +20,7 @@ switch ($metodo) {
             VALUES (?)
         ");
         $stmt->execute([
-            $dati['nome'],
-            $dati['id']
+            $dati['nome']
         ]);
 
         echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
@@ -36,7 +35,8 @@ switch ($metodo) {
             WHERE id = ?
         ");
         $stmt->execute([
-            $dati['nome']
+            $dati['nome'],
+            $dati['id']
         ]);
 
         echo json_encode(['successo' => true]);

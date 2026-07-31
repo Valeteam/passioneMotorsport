@@ -15,7 +15,7 @@ function statusClass(stato) {
 
 async function loadRaces() {
     let gare = await AdminDB.getAll('calendario');
-    gare = [...gare].sort((a, b) => new Date(a.data) - new Date(b.data));
+    gare = [...gare].sort((a, b) => new Date(a.data_gara) - new Date(b.data_gara));
 
     const tbody = document.getElementById('race-table-body');
     const empty = document.getElementById('race-empty');
@@ -29,7 +29,7 @@ async function loadRaces() {
 
     tbody.innerHTML = gare.map(g => `
     <tr>
-      <td>${formatDate(g.data)}</td>
+      <td>${formatDate(g.data_gara)}</td>
       <td>${g.nome}</td>
       <td><span class="tag dept-${g.reparto}">${g.reparto}</span></td>
       <td><span class="tag ${statusClass(g.stato)}">${g.stato}</span></td>
@@ -54,7 +54,7 @@ async function editRace(id) {
     idField.value = item.id;
     nomeField.value = item.nome;
     repartoField.value = item.reparto;
-    dataField.value = item.data;
+    dataField.value = item.data_gara;
     statoField.value = item.stato;
 
     formHeading.textContent = 'modifica gara';
@@ -81,7 +81,7 @@ form.addEventListener('submit', async (e) => {
     const payload = {
         nome: nomeField.value,
         reparto: repartoField.value,
-        data: dataField.value,
+        data_gara: dataField.value,
         stato: statoField.value
     };
 

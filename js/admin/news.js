@@ -14,7 +14,7 @@ const formHeading = document.getElementById('form-heading');
 let currentImageData = "";
 
 // converte l'immagine caricata in base64 solo per l'anteprima locale.
-// quando ci sara' il backend, qui invece si fara' l'upload vero del file
+// quando ci sara' l'upload vero (Fase 5), qui si fara' l'upload reale del file
 // al server (FormData + fetch) e si salvera' il percorso restituito.
 imageField.addEventListener('change', () => {
     const file = imageField.files[0];
@@ -30,7 +30,9 @@ imageField.addEventListener('change', () => {
 
 async function loadCategoryOptions() {
     const categorie = await AdminDB.getAll('categorie');
-    categoryField.innerHTML = categorie.map(c => `<option value="${c.nome}">${c.nome}</option>`).join('');
+    // il value deve essere l'id (numero), perche' news.categoria_id nel database
+    // e' una foreign key verso categorie.id, non il nome della categoria
+    categoryField.innerHTML = categorie.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
 }
 
 async function loadNewsTable() {
@@ -47,10 +49,10 @@ async function loadNewsTable() {
 
     tbody.innerHTML = news.map(item => `
     <tr>
-      <td>${item.title}</td>
-      <td><span class="tag status-planned">${item.category}</span></td>
-      <td>${formatDate(item.date)}</td>
-      <td>${item.featured ? 'sì' : 'no'}</td>
+      <td>${item.titolo}</td>
+      <td><span class="tag status-planned">${item.categoria ?? '—'}</span></td>
+      <td>${formatDate(item.data_pubblicazione)}</td>
+      <td>${Number(item.in_evidenza) ? 'sì' : 'no'}</td>
       <td class="actions">
         <button class="btn small" onclick="editNews(${item.id})">modifica</button>
         <button class="btn small danger" onclick="deleteNews(${item.id})">elimina</button>
@@ -70,15 +72,15 @@ async function editNews(id) {
     if (!item) return;
 
     idField.value = item.id;
-    titleField.value = item.title;
-    excerptField.value = item.excerpt;
-    categoryField.value = item.category;
-    dateField.value = item.date;
-    featuredField.checked = !!item.featured;
+    titleField.value = item.titolo;
+    excerptField.value = item.descrizione;
+    categoryField.value = item.categoria_id;
+    dateField.value = item.data_pubblicazione;
+    featuredField.checked = !!Number(item.in_evidenza);
 
-    if (item.image) {
-        currentImageData = item.image;
-        previewImg.src = item.image;
+    if (item.immagine) {
+        currentImageData = item.immagine;
+        previewImg.src = item.immagine;
         previewWrap.style.display = 'block';
     } else {
         currentImageData = "";
@@ -109,12 +111,12 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const payload = {
-        title: titleField.value,
-        excerpt: excerptField.value,
-        category: categoryField.value,
-        date: dateField.value,
-        image: currentImageData,
-        featured: featuredField.checked
+        titolo: titleField.value,
+        descrizione: excerptField.value,
+        categoria_id: Number(categoryField.value),
+        data_pubblicazione: dateField.value,
+        immagine: currentImageData,
+        in_evidenza: featuredField.checked
     };
 
     if (idField.value) {

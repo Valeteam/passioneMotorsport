@@ -7,7 +7,7 @@ $metodo = $_SERVER['REQUEST_METHOD'];
 switch ($metodo) {
 
     case 'GET':
-        $stmt = $pdo->query("SELECT * FROM candidature ORDER BY stato ASC");
+        $stmt = $pdo->query("SELECT * FROM calendario ORDER BY data_gara ASC");
         $risultati = $stmt->fetchAll();
         echo json_encode($risultati);
         break;
@@ -16,17 +16,14 @@ switch ($metodo) {
         $dati = json_decode(file_get_contents('php://input'), true);
 
         $stmt = $pdo->prepare("
-            INSERT INTO candidature (nome, email, reparto, esperienza, stato, creato_il)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO calendario (nome, reparto, data_gara, stato)
+            VALUES (?, ?, ?, ?)
         ");
         $stmt->execute([
             $dati['nome'],
-            $dati['email'],
             $dati['reparto'],
-            $dati['esperienza'],
-            $dati['stato'],
-            $dati['creato_il'],
-            $dati['id']
+            $dati['data_gara'],
+            $dati['stato']
         ]);
 
         echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
@@ -36,17 +33,16 @@ switch ($metodo) {
         $dati = json_decode(file_get_contents('php://input'), true);
 
         $stmt = $pdo->prepare("
-            UPDATE candidature
-            SET nome = ?, email = ?, reparto = ?, esperienza = ?, stato = ?, creato_il = ?
+            UPDATE calendario
+            SET nome = ?, reparto = ?, data_gara = ?, stato = ?
             WHERE id = ?
         ");
         $stmt->execute([
             $dati['nome'],
-            $dati['email'],
             $dati['reparto'],
-            $dati['esperienza'],
+            $dati['data_gara'],
             $dati['stato'],
-            $dati['creato_il']
+            $dati['id']
         ]);
 
         echo json_encode(['successo' => true]);
@@ -55,7 +51,7 @@ switch ($metodo) {
     case 'DELETE':
         $dati = json_decode(file_get_contents('php://input'), true);
 
-        $stmt = $pdo->prepare("DELETE FROM candidature WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM calendario WHERE id = ?");
         $stmt->execute([$dati['id']]);
 
         echo json_encode(['successo' => true]);

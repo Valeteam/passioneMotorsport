@@ -1,3 +1,12 @@
+<?php
+
+session_start();
+
+$ruolo = $_SESSION['ruolo']
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="ita">
 
@@ -38,6 +47,7 @@
             <a href="#contatti" class="headerCTA" id="headerCTAin">Entra nel Team</a>
         </div>
         <a href="#contatti" class="headerCTA">Entra nel Team</a>
+        <a href="php/logout.php">logout</a>
     </nav>
 
     <!-- home -->
@@ -361,6 +371,14 @@
             </div>
         </div>
     </section>
+
+    <!-- Accesso Vip -->
+
+    <?php if (in_array($ruolo, ['admin', 'manager', 'membro'])): ?>
+        <section class="PremiumAccess">
+            ciao
+        </section>
+    <?php endif; ?>
 
     <!-- footer -->
 

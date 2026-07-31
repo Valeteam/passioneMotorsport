@@ -27,7 +27,7 @@ async function loadCandidacies() {
     <tr class="${c.stato === 'da leggere' ? 'unread' : ''}">
       <td>${c.nome}</td>
       <td><span class="tag dept-${c.reparto}">${c.reparto}</span></td>
-      <td>${formatDate(c.data)}</td>
+      <td>${formatDate(c.creato_il)}</td>
       <td><span class="tag ${statusClass(c.stato)}">${c.stato}</span></td>
       <td class="actions">
         <button class="btn small" onclick="openModal(${c.id})">apri</button>
