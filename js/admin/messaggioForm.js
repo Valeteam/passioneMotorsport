@@ -39,7 +39,7 @@ async function loadMessages() {
 
 async function openModal(id) {
     const messaggi = await AdminDB.getAll('messaggi');
-    const item = messaggi.find(m => m.id === id);
+    const item = messaggi.find(m => Number(m.id) === id);
     if (!item) return;
 
     activeId = id;

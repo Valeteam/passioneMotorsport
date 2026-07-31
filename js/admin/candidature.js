@@ -39,7 +39,7 @@ async function loadCandidacies() {
 
 async function openModal(id) {
     const candidature = await AdminDB.getAll('candidature');
-    const item = candidature.find(c => c.id === id);
+    const item = candidature.find(c => Number(c.id) === id);
     if (!item) return;
 
     activeId = id;

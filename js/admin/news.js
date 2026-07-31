@@ -68,7 +68,7 @@ function formatDate(iso) {
 
 async function editNews(id) {
     const news = await AdminDB.getAll('news');
-    const item = news.find(n => n.id === id);
+    const item = news.find(n => Number(n.id) === id);
     if (!item) return;
 
     idField.value = item.id;

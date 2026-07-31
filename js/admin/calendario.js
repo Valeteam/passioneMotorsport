@@ -48,7 +48,7 @@ function formatDate(iso) {
 
 async function editRace(id) {
     const gare = await AdminDB.getAll('calendario');
-    const item = gare.find(g => g.id === id);
+    const item = gare.find(g => Number(g.id) === id);
     if (!item) return;
 
     idField.value = item.id;

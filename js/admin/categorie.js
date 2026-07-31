@@ -29,7 +29,7 @@ async function loadCategories() {
 
 async function editCategory(id) {
     const categorie = await AdminDB.getAll('categorie');
-    const item = categorie.find(c => c.id === id);
+    const item = categorie.find(c => Number(c.id) === id);
     if (!item) return;
 
     idField.value = item.id;

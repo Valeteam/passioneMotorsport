@@ -90,6 +90,7 @@ $ruolo = $_SESSION['ruolo']
 
     <script src="../../js/admin-storage.js"></script>
     <script src="../../js/admin/categorie.js"></script>
+    <script src="../../js/services/sidebar.js"></script>
 
 </body>
 

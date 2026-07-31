@@ -49,7 +49,7 @@ async function loadSponsors() {
 
 async function editSponsor(id) {
     const sponsor = await AdminDB.getAll('sponsor');
-    const item = sponsor.find(s => s.id === id);
+    const item = sponsor.find(s => Number(s.id) === id);
     if (!item) return;
 
     idField.value = item.id;
@@ -144,7 +144,7 @@ function formatDate(iso) {
 
 async function openRequestModal(id) {
     const richieste = await AdminDB.getAll('richiesteSponsor');
-    const item = richieste.find(r => r.id === id);
+    const item = richieste.find(r => Number(r.id) === id);
     if (!item) return;
 
     activeRequestId = id;
