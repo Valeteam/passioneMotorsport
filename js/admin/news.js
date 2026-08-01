@@ -110,12 +110,18 @@ cancelBtn.addEventListener('click', () => {
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    let percorsoImmagine = currentImageData;
+    const nuovoFile = imageField.files[0];
+    if (nuovoFile) {
+        percorsoImmagine = await uploadImage(nuovoFile);
+    }
+
     const payload = {
         titolo: titleField.value,
         descrizione: excerptField.value,
         categoria_id: Number(categoryField.value),
         data_pubblicazione: dateField.value,
-        immagine: currentImageData,
+        immagine: percorsoImmagine,
         in_evidenza: featuredField.checked
     };
 
@@ -126,14 +132,22 @@ form.addEventListener('submit', async (e) => {
     }
 
     form.reset();
-    idField.value = '';
-    currentImageData = '';
-    previewWrap.style.display = 'none';
-    formHeading.textContent = 'nuovo articolo';
-    cancelBtn.style.display = 'none';
-
-    loadNewsTable();
 });
+
+async function uploadImage(file) {
+    const dati = new FormData();
+    dati.append('tipo', 'news');
+    dati.append('immagine', file);
+
+    const risposta = await fetch(API_BASE + 'upload.php', {
+        method: 'POST',
+        body: dati
+    });
+
+    const risultato = await risposta.json();
+    return risultato.percorso;
+}
 
 loadCategoryOptions();
 loadNewsTable();
+uploadImage();

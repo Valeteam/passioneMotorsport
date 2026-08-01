@@ -36,8 +36,8 @@ $ruolo = $_SESSION['ruolo']
             <a href="categorie.php">categorie news</a>
 
             <p class="admin-nav-group">richieste</p>
-            <a href="messaggi.php" class="active">messaggi contatti</a>
-            <a href="candidature.php">candidature Pilota</a>
+            <a href="messaggi.php">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>
+            <a href="candidature.php">candidature Pilota<span class="badge" id="badge-candidature">0</span></a>
 
             <p class="admin-nav-group">Impostazioni</p>
             <a href="../../php/setting.php" class="option">settings</a>

@@ -84,7 +84,18 @@ cancelBtn.addEventListener('click', () => {
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const payload = { nome: nomeField.value, livello: livelloField.value, logo: currentLogoData };
+
+    let percorsoImmagine = currentImageData;
+    const nuovoFile = imageField.files[0];
+    if (nuovoFile) {
+        percorsoImmagine = await uploadImage(nuovoFile);
+    }
+
+    const payload = {
+        nome: nomeField.value,
+        livello: livelloField.value,
+        logo: currentLogoData
+    };
 
     if (idField.value) {
         await AdminDB.update('sponsor', Number(idField.value), payload);
@@ -101,6 +112,20 @@ form.addEventListener('submit', async (e) => {
 
     loadSponsors();
 });
+
+async function uploadImage(file) {
+    const dati = new FormData();
+    dati.append('tipo', 'sponsor');
+    dati.append('immagine', file);
+
+    const risposta = await fetch(API_BASE + 'upload.php', {
+        method: 'POST',
+        body: dati
+    });
+
+    const risultato = await risposta.json();
+    return risultato.percorso;
+}
 
 /* ---------- richieste di sponsorizzazione ---------- */
 let activeRequestId = null;
@@ -179,3 +204,4 @@ async function deleteRequest(id) {
 
 loadSponsors();
 loadRequests();
+uploadImage();
