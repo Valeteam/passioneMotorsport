@@ -13,9 +13,6 @@ const formHeading = document.getElementById('form-heading');
 
 let currentImageData = "";
 
-// converte l'immagine caricata in base64 solo per l'anteprima locale.
-// quando ci sara' l'upload vero (Fase 5), qui si fara' l'upload reale del file
-// al server (FormData + fetch) e si salvera' il percorso restituito.
 imageField.addEventListener('change', () => {
     const file = imageField.files[0];
     if (!file) return;
@@ -30,8 +27,6 @@ imageField.addEventListener('change', () => {
 
 async function loadCategoryOptions() {
     const categorie = await AdminDB.getAll('categorie');
-    // il value deve essere l'id (numero), perche' news.categoria_id nel database
-    // e' una foreign key verso categorie.id, non il nome della categoria
     categoryField.innerHTML = categorie.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
 }
 
@@ -139,7 +134,7 @@ async function uploadImage(file) {
     dati.append('tipo', 'news');
     dati.append('immagine', file);
 
-    const risposta = await fetch(API_BASE + 'upload.php', {
+    const risposta = await fetch(API_BASE + 'uploadImg.php', {
         method: 'POST',
         body: dati
     });
@@ -150,4 +145,3 @@ async function uploadImage(file) {
 
 loadCategoryOptions();
 loadNewsTable();
-uploadImage();

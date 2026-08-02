@@ -447,6 +447,11 @@ html {
     margin-bottom: 1.8rem;
 }
 
+.virtualRace h3 span,
+.realRace h3 span {
+    padding-left: 1rem;
+}
+
 .done {
     color: var(--done);
     text-shadow: 0 0 6px var(--done);

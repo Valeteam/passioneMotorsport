@@ -2,7 +2,42 @@
 
 session_start();
 
-$ruolo = $_SESSION['ruolo']
+$ruolo = $_SESSION['ruolo'];
+
+require_once '../psmrt_new/php/config.php';
+
+function fetchAllQuery(PDO $pdo, string $sql, array $params = []): array
+{
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll();
+}
+
+$ultimeNews = fetchAllQuery($pdo, "
+    SELECT news.*, categorie.nome AS categoria
+    FROM news
+    LEFT JOIN categorie ON news.categoria_id = categorie.id
+    ORDER BY data_pubblicazione DESC
+    LIMIT 6
+");
+
+$sponsorAttivi = fetchAllQuery($pdo, "
+    SELECT * FROM sponsor ORDER BY nome ASC
+");
+
+$calendario = fetchAllQuery($pdo, "
+    SELECT * FROM calendario ORDER BY stato DESC
+    LIMIT 20
+");
+
+$gareReali = array_filter($calendario, fn($gara) => $gara['reparto'] === 'reale');
+$gareEsports = array_filter($calendario, fn($gara) => $gara['reparto'] === 'esports');
+function classeStato($stato)
+{
+    if ($stato === 'disputata') return 'done';
+    if ($stato === 'prossima') return 'during';
+    return 'program';
+}
 
 ?>
 
@@ -21,8 +56,8 @@ $ruolo = $_SESSION['ruolo']
 
 
     <link rel="stylesheet" href="css/components/navbar.css">
-    <link rel="stylesheet" href="css/components/footer.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components/footer.css">
     <link rel="stylesheet" href="css/components/responsive.css">
 
 </head>
@@ -138,61 +173,48 @@ $ruolo = $_SESSION['ruolo']
                 <button class="news-filter-btn" data-filter="annunci">annunci</button>
             </div>
 
-            <article class="news-highlight" data-id="1" data-category="gare" data-date="2026-07-20">
-                <img class="news-highlight-image" src="assets/img/news/img1.png" alt="" loading="lazy">
-                <div class="news-highlight-content">
-                    <div class="news-item-meta">
-                        <span class="news-item-tag">gare</span>
-                        <span class="news-item-date">20 luglio 2026</span>
-                    </div>
-                    <h3 class="news-highlight-title">Titolo dell'articolo in evidenza</h3>
-                    <p class="news-highlight-text">Breve descrizione dell'articolo in evidenza.</p>
-                    <a href="#" class="news-readmore-link">leggi tutto →</a>
-                </div>
-            </article>
+
+            <?php foreach ($ultimeNews as $articolo): ?>
+                <?php if ($articolo['in_evidenza'] === '1'): ?>
+                    <article class="news-article-card"
+                        data-id="<?php echo $articolo['id']; ?>"
+                        data-category="<?php echo htmlspecialchars($articolo['categoria']); ?>"
+                        data-date="<?php echo $articolo['data_pubblicazione']; ?>">
+                        <img class="news-highlight-image" src="<?php echo htmlspecialchars($articolo['immagine']); ?>" alt="" loading="lazy">
+                        <div class="news-highlight-content">
+                            <div class="news-item-meta">
+                                <span class="news-item-tag"><?php echo htmlspecialchars($articolo['categoria']); ?></span>
+                                <span class="news-item-date"><?php echo htmlspecialchars($articolo['data_pubblicazione']); ?></span>
+                            </div>
+                            <h3 class="news-highlight-title"><?php echo htmlspecialchars($articolo['titolo']); ?></h3>
+                            <p class="news-highlight-text"><?php echo htmlspecialchars($articolo['descrizione']); ?></p>
+                            <a href="#" class="news-readmore-link">leggi tutto →</a>
+                        </div>
+                    </article>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
 
             <div class="news-article-grid">
-
-                <article class="news-article-card" data-id="2" data-category="community" data-date="2026-07-15">
-                    <img class="news-card-image" src="assets/img/news/img2.png" alt="" loading="lazy">
-                    <div class="news-card-content">
-                        <div class="news-item-meta">
-                            <span class="news-item-tag">community</span>
-                            <span class="news-item-date">15 luglio 2026</span>
+                <?php foreach ($ultimeNews as $articolo): ?>
+                    <article class="news-article-card"
+                        data-id="<?php echo $articolo['id']; ?>"
+                        data-category="<?php echo htmlspecialchars($articolo['categoria']); ?>"
+                        data-date="<?php echo $articolo['data_pubblicazione']; ?>">
+                        <img class="news-card-image" src="<?php echo htmlspecialchars($articolo['immagine']); ?>" alt="" loading="lazy">
+                        <div class="news-card-content">
+                            <div class="news-item-meta">
+                                <span class="news-item-tag"><?php echo htmlspecialchars($articolo['categoria']); ?></span>
+                                <span class="news-item-date"><?php echo htmlspecialchars($articolo['data_pubblicazione']); ?></span>
+                            </div>
+                            <h4 class="news-card-title"><?php echo htmlspecialchars($articolo['titolo']); ?></h4>
+                            <p class="news-card-text"><?php echo htmlspecialchars($articolo['descrizione']); ?></p>
+                            <a href="#" class="news-readmore-link">leggi tutto →</a>
                         </div>
-                        <h4 class="news-card-title">Titolo secondo articolo</h4>
-                        <p class="news-card-text">Descrizione breve dell'articolo.</p>
-                        <a href="#" class="news-readmore-link">leggi tutto →</a>
-                    </div>
-                </article>
-
-                <article class="news-article-card" data-id="3" data-category="annunci" data-date="2026-07-10">
-                    <img class="news-card-image" src="assets/img/news/img3.png" alt="" loading="lazy">
-                    <div class="news-card-content">
-                        <div class="news-item-meta">
-                            <span class="news-item-tag">annunci</span>
-                            <span class="news-item-date">10 luglio 2026</span>
-                        </div>
-                        <h4 class="news-card-title">Titolo terzo articolo</h4>
-                        <p class="news-card-text">Descrizione breve dell'articolo.</p>
-                        <a href="#" class="news-readmore-link">leggi tutto →</a>
-                    </div>
-                </article>
-
-                <article class="news-article-card" data-id="4" data-category="gare" data-date="2026-07-05">
-                    <img class="news-card-image" src="assets/img/news/img4.png" alt="" loading="lazy">
-                    <div class="news-card-content">
-                        <div class="news-item-meta">
-                            <span class="news-item-tag">gare</span>
-                            <span class="news-item-date">5 luglio 2026</span>
-                        </div>
-                        <h4 class="news-card-title">Titolo quarto articolo</h4>
-                        <p class="news-card-text">Descrizione breve dell'articolo.</p>
-                        <a href="#" class="news-readmore-link">leggi tutto →</a>
-                    </div>
-                </article>
-
+                    </article>
+                <?php endforeach; ?>
             </div>
+        </div>
 
         </div>
     </section>
@@ -202,73 +224,57 @@ $ruolo = $_SESSION['ruolo']
     <section class="calendario" id="calendario">
         <div class="realRace boxing">
             <h2>Calendario Gare Real Che Supportiamo</h2>
-            <h3 class="done">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="during">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
+            <?php foreach ($gareReali as $realRace): ?>
+                <h3 class="tag <?php echo classeStato($realRace['stato']); ?>" >
+                    <?php echo htmlspecialchars($realRace['nome']); ?>
+                    <span><?php echo htmlspecialchars($realRace['data_gara']); ?></span>
+                    <span><?php echo htmlspecialchars($realRace['stato']); ?></span>
+                </h3>
+            <?php endforeach; ?>
         </div>
+
         <div class="virtualRace boxing">
             <h2>Calendario Gare Virtuale</h2>
-            <h3 class="done">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="during">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
-            <h3 class="program">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h3>
+            <?php foreach ($gareEsports as $virtualRace): ?>
+                <h3 class="tag <?php echo classeStato($virtualRace['stato']); ?>">
+                    <?php echo htmlspecialchars($virtualRace['nome']); ?>
+                    <span><?php echo htmlspecialchars($virtualRace['data_gara']); ?></span>
+                    <span><?php echo htmlspecialchars($virtualRace['stato']); ?></span>
+                </h3>
+            <?php endforeach; ?>
         </div>
     </section>
 
     <!-- sponsor -->
 
     <section class="sponsor" id="sponsor">
-        <h1>I Sostenitori della Pagina</h1>
+        <h1>Sostenitori O Collaboratori della Pagina</h1>
         <div class="carousel">
+
             <div class="group">
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
+                <?php foreach ($sponsorAttivi as $sponsor): ?>
+                    <div class="card">
+                        <img src="<?php echo htmlspecialchars($sponsor['logo']); ?>" alt="<?php echo htmlspecialchars($sponsor['nome']); ?>">
+                    </div>
+                <?php endforeach; ?>
             </div>
+
             <div aria-hidden class="group">
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
+                <?php foreach ($sponsorAttivi as $sponsor): ?>
+                    <div class="card">
+                        <img src="<?php echo htmlspecialchars($sponsor['logo']); ?>" alt="<?php echo htmlspecialchars($sponsor['nome']); ?>">
+                    </div>
+                <?php endforeach; ?>
             </div>
+
             <div aria-hidden class="group">
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.jpg" alt=""></div>
-                <div class="card"><img src="assets/img/sponsor/logo.png" alt=""></div>
+                <?php foreach ($sponsorAttivi as $sponsor): ?>
+                    <div class="card">
+                        <img src="<?php echo htmlspecialchars($sponsor['logo']); ?>" alt="<?php echo htmlspecialchars($sponsor['nome']); ?>">
+                    </div>
+                <?php endforeach; ?>
             </div>
+
         </div>
     </section>
 
@@ -371,6 +377,7 @@ $ruolo = $_SESSION['ruolo']
             </div>
         </div>
     </section>
+
 
     <!-- Accesso Vip -->
 

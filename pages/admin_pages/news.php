@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$ruolo = $_SESSION['ruolo']
+$ruolo = $_SESSION['ruolo'];
 
 ?>
 

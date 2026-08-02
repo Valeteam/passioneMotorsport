@@ -85,8 +85,8 @@ cancelBtn.addEventListener('click', () => {
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    let percorsoImmagine = currentImageData;
-    const nuovoFile = imageField.files[0];
+    let percorsoImmagine = currentLogoData;
+    const nuovoFile = logoField.files[0];
     if (nuovoFile) {
         percorsoImmagine = await uploadImage(nuovoFile);
     }
@@ -94,7 +94,7 @@ form.addEventListener('submit', async (e) => {
     const payload = {
         nome: nomeField.value,
         livello: livelloField.value,
-        logo: currentLogoData
+        logo: percorsoImmagine
     };
 
     if (idField.value) {
@@ -118,7 +118,7 @@ async function uploadImage(file) {
     dati.append('tipo', 'sponsor');
     dati.append('immagine', file);
 
-    const risposta = await fetch(API_BASE + 'upload.php', {
+    const risposta = await fetch(API_BASE + 'uploadImg.php', {
         method: 'POST',
         body: dati
     });
@@ -204,4 +204,3 @@ async function deleteRequest(id) {
 
 loadSponsors();
 loadRequests();
-uploadImage();
