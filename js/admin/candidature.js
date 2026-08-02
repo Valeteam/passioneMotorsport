@@ -51,7 +51,7 @@ async function openModal(id) {
     document.getElementById('cand-modal').classList.add('open');
 
     if (item.stato === 'da leggere') {
-        await AdminDB.update('candidature', id, { stato: 'letto' });
+        await AdminDB.update('candidature', id, { ...item, stato: 'letto' });
         loadCandidacies();
     }
 }
@@ -63,7 +63,12 @@ function closeCandModal() {
 
 async function markReplied() {
     if (!activeId) return;
-    await AdminDB.update('candidature', activeId, { stato: 'risposto' });
+
+    const candidature = await AdminDB.getAll('candidature');
+    const item = candidature.find(c => Number(c.id) === activeId);
+    if (!item) return;
+
+    await AdminDB.update('candidature', activeId, { ...item, stato: 'risposto' });
     closeCandModal();
     loadCandidacies();
 }

@@ -197,21 +197,23 @@ function classeStato($stato)
 
             <div class="news-article-grid">
                 <?php foreach ($ultimeNews as $articolo): ?>
-                    <article class="news-article-card"
-                        data-id="<?php echo $articolo['id']; ?>"
-                        data-category="<?php echo htmlspecialchars($articolo['categoria']); ?>"
-                        data-date="<?php echo $articolo['data_pubblicazione']; ?>">
-                        <img class="news-card-image" src="<?php echo htmlspecialchars($articolo['immagine']); ?>" alt="" loading="lazy">
-                        <div class="news-card-content">
-                            <div class="news-item-meta">
-                                <span class="news-item-tag"><?php echo htmlspecialchars($articolo['categoria']); ?></span>
-                                <span class="news-item-date"><?php echo htmlspecialchars($articolo['data_pubblicazione']); ?></span>
+                    <?php if ($articolo['in_evidenza'] !== '1'): ?>
+                        <article class="news-article-card"
+                            data-id="<?php echo $articolo['id']; ?>"
+                            data-category="<?php echo htmlspecialchars($articolo['categoria']); ?>"
+                            data-date="<?php echo $articolo['data_pubblicazione']; ?>">
+                            <img class="news-card-image" src="<?php echo htmlspecialchars($articolo['immagine']); ?>" alt="" loading="lazy">
+                            <div class="news-card-content">
+                                <div class="news-item-meta">
+                                    <span class="news-item-tag"><?php echo htmlspecialchars($articolo['categoria']); ?></span>
+                                    <span class="news-item-date"><?php echo htmlspecialchars($articolo['data_pubblicazione']); ?></span>
+                                </div>
+                                <h4 class="news-card-title"><?php echo htmlspecialchars($articolo['titolo']); ?></h4>
+                                <p class="news-card-text"><?php echo htmlspecialchars($articolo['descrizione']); ?></p>
+                                <a href="#" class="news-readmore-link">leggi tutto →</a>
                             </div>
-                            <h4 class="news-card-title"><?php echo htmlspecialchars($articolo['titolo']); ?></h4>
-                            <p class="news-card-text"><?php echo htmlspecialchars($articolo['descrizione']); ?></p>
-                            <a href="#" class="news-readmore-link">leggi tutto →</a>
-                        </div>
-                    </article>
+                        </article>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -225,7 +227,7 @@ function classeStato($stato)
         <div class="realRace boxing">
             <h2>Calendario Gare Real Che Supportiamo</h2>
             <?php foreach ($gareReali as $realRace): ?>
-                <h3 class="tag <?php echo classeStato($realRace['stato']); ?>" >
+                <h3 class="tag <?php echo classeStato($realRace['stato']); ?>">
                     <?php echo htmlspecialchars($realRace['nome']); ?>
                     <span><?php echo htmlspecialchars($realRace['data_gara']); ?></span>
                     <span><?php echo htmlspecialchars($realRace['stato']); ?></span>
@@ -344,11 +346,32 @@ function classeStato($stato)
     <section class="contatti" id="contatti">
         <div class="spacing send">
             <h2>Scrivici qui sotto se hai qualche domanda</h2>
-            <input type="email" class="email" id="email" placeholder="email" name="email">
-            <input type="text" maxlength="150" class="text" id="text"
-                placeholder="Inserisci qui il contenuto del messaggio" name="text">
-            <button type="submit" class="submit" id="submit">Invia</button>
+            <form method="POST" action="php/invia_contatto.php">
+                <input type="text" class="text" id="nome" placeholder="il tuo nome" name="nome" required>
+                <input type="email" class="email" id="email" placeholder="email" name="email" required>
+
+                <select class="text" id="motivo" name="motivo" required>
+                    <option value="generico">Motivo Messaggio</option>
+                    <option value="generico">messaggio generico</option>
+                    <option value="candidatura">candidatura roster</option>
+                    <option value="sponsor">proposta di sponsorizzazione</option>
+                </select>
+
+                <input type="text" class="text" id="azienda" placeholder="nome azienda (solo per sponsor)" name="azienda">
+
+                <select class="text" id="reparto" name="reparto">
+                    <option value="">reparto (solo per candidatura)</option>
+                    <option value="esports">esports</option>
+                    <option value="reale">reale</option>
+                </select>
+
+                <input type="text" maxlength="150" class="text" id="text"
+                    placeholder="Inserisci qui il contenuto del messaggio" name="messaggio" required>
+
+                <button type="submit" class="submit" id="submit">Invia</button>
+            </form>
         </div>
+
         <div class="spacing social">
             <h3>Seguici sui nostri social per rimanere aggiornato</h3>
             <div class="social-links">

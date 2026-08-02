@@ -687,6 +687,8 @@ html {
     align-content: center;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    color-scheme: dark;
 }
 
 .send h2 {
@@ -699,46 +701,75 @@ html {
     font-style: italic;
 }
 
-.email,
-.text {
-    width: 20%;
+.send form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#nome,
+#email,
+#azienda,
+#motivo,
+#reparto {
+    width: 100%;
+    max-width: 420px;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 10px auto 0;
     box-sizing: border-box;
     border: 2px solid var(--line);
     border-radius: 24px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    /* margin-left: 40%; */
-    margin-top: 2rem;
     background-color: var(--trasparente);
-    font-size: 16px;
     color: var(--white);
-}
-
-.email:focus,
-.text:focus {
-    box-shadow: 0 0 25px var(--yellowBold);
-}
-
-.text {
-    width: 25%;
-    padding-top: 10vh;
-    /* margin-left: 37.5%; */
-    resize: none;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-}
-
-.email::placeholder,
-.text::placeholder {
+    font-size: 16px;
+    appearance: none;
     text-align: center;
 }
 
+#text {
+    width: 100%;
+    max-width: 520px;
+    padding: 20px;
+    margin: 10px auto 0;
+    box-sizing: border-box;
+    border: 2px solid var(--line);
+    border-radius: 24px;
+    background-color: var(--trasparente);
+    color: var(--white);
+    font-size: 16px;
+    min-height: 140px;
+}
+
+#nome:focus,
+#email:focus,
+#azienda:focus,
+#motivo:focus,
+#reparto:focus,
+#text:focus {
+    box-shadow: 0 0 25px var(--yellowBold);
+    outline: none;
+}
+
+#nome::placeholder,
+#email::placeholder,
+#azienda::placeholder,
+#text::placeholder {
+    text-align: center;
+    color: var(--line);
+}
+
+#motivo option,
+#reparto option{
+    color: var(--black);
+    background-color: var(--trasparente);
+}
+
 .send button {
-    width: 15%;
-    padding: 30px 20px;
-    margin-top: 1%;
+    width: 100%;
+    max-width: 220px;
+    padding: 20px 20px;
+    margin-top: 1.5rem;
     background-color: var(--trasparente);
     color: var(--white);
     text-align: center;

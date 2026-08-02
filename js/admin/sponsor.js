@@ -179,7 +179,7 @@ async function openRequestModal(id) {
     document.getElementById('request-modal').classList.add('open');
 
     if (item.stato === 'da leggere') {
-        await AdminDB.update('richiesteSponsor', id, { stato: 'letto' });
+        await AdminDB.update('richiesteSponsor', id, { ...item, stato: 'letto' });
         loadRequests();
     }
 }
@@ -191,7 +191,12 @@ function closeRequestModal() {
 
 async function markRequestReplied() {
     if (!activeRequestId) return;
-    await AdminDB.update('richiesteSponsor', activeRequestId, { stato: 'risposto' });
+
+    const richieste = await AdminDB.getAll('richiesteSponsor');
+    const item = richieste.find(r => Number(r.id) === activeRequestId);
+    if (!item) return;
+
+    await AdminDB.update('richiesteSponsor', activeRequestId, { ...item, stato: 'risposto' });
     closeRequestModal();
     loadRequests();
 }

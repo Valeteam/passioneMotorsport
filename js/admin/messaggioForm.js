@@ -50,7 +50,7 @@ async function openModal(id) {
     document.getElementById('msg-modal').classList.add('open');
 
     if (item.stato === 'da leggere') {
-        await AdminDB.update('messaggi', id, { stato: 'letto' });
+        await AdminDB.update('messaggi', id, { ...item, stato: 'letto' });
         loadMessages();
     }
 }
@@ -62,7 +62,12 @@ function closeMsgModal() {
 
 async function markReplied() {
     if (!activeId) return;
-    await AdminDB.update('messaggi', activeId, { stato: 'risposto' });
+
+    const messaggi = await AdminDB.getAll('messaggi');
+    const item = messaggi.find(m => Number(m.id) === activeId);
+    if (!item) return;
+
+    await AdminDB.update('messaggi', activeId, { ...item, stato: 'risposto' });
     closeMsgModal();
     loadMessages();
 }
