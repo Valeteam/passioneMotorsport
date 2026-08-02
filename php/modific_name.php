@@ -1,19 +1,21 @@
 <?php
 session_start();
+require 'config.php';
 
-$username_new = $_POST['username'];
+$username_new = trim($_POST['username'] ?? '');
 $id = $_SESSION['user_id'];
 
-$stmt = $pdo->prepare("UPDATE utente_admin SET username = ? WHERE ID = ?");
+if ($username_new === '') {
+    header('Location: setting.php?errore=1');
+    exit;
+}
+
+$stmt = $pdo->prepare("UPDATE utenti_admin SET username = ? WHERE id = ?");
 $stmt->execute([$username_new, $id]);
 
-$password_new = $_POST['password'];
-
-$password_new_hash = password_hash($password_new, PASSWORD_DEFAULT);
-
-$stmt = $pdo->prepare("UPDATE utente_admin SET password = ? WHERE ID = ?");
-$stmt->execute([$password_new_hash, $id]);
+$_SESSION['username'] = $username_new;
 
 header('Location: setting.php');
 exit;
+
 ?>
