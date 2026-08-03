@@ -404,11 +404,10 @@ function classeStato($stato)
 
     <!-- Accesso Vip -->
 
-    <?php if (in_array($ruolo, ['admin', 'manager', 'membro'])): ?>
-        <section class="PremiumAccess">
-            ciao
-        </section>
-    <?php endif; ?>
+    <section class="PremiumAccess">
+        <h5>Collegamento Accesso Per gli utenti del team</h5>
+        <a href="pages/TeamPage.php" class="PremiumAccessButton" target="_blank" >Vai alla pagina</a>
+    </section>
 
     <!-- footer -->
 

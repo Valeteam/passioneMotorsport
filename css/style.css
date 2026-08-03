@@ -760,7 +760,7 @@ html {
 }
 
 #motivo option,
-#reparto option{
+#reparto option {
     color: var(--black);
     background-color: var(--trasparente);
 }
@@ -858,4 +858,45 @@ html {
 
 .social-links a.facebook {
     --c: #3B5998;
+}
+
+
+/* =========================
+        Accesso Premium
+========================= */
+
+.PremiumAccess {
+    width: 100%;
+    position: relative;
+    padding: 120px 0 90px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+.PremiumAccess h5{
+    text-align: center;
+    font-family: var(--display);
+    font-size: 2rem;
+    text-transform: lowercase;
+    color: var(--white);
+    margin-bottom: 5rem;
+    margin-top: -2.5rem;
+}
+
+.PremiumAccessButton{
+    width: 420px;
+    padding: 20px 20px;
+    border-radius: 20px;
+    background-color: var(--yellowBold);
+    border: 2px solid var(--line);
+    transition: background-color 0.5s ease-in-out;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.PremiumAccessButton:hover{
+    background-color: var(--arancioBold);
 }
