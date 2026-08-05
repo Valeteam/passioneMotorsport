@@ -55,14 +55,14 @@ $user = fetchAllQuery($pdo, "
         <div class="nav-links">
             <a href="#home" id="homes" aria-current="page">home</a>
             <a href="#setup" id="setups">Setup</a>
-            <a href="#newss" id="newss">news</a>
+            <a href="#news" id="newss">news</a>
             <a href="#driver" id="drivers">Lista Driver</a>
             <a href="../php/setting.php" class="option">settings</a>
             <a href="../php/logout.php">logout</a>
         </div>
     </nav>
 
-    <section class="news" id="newss">
+    <section class="news" id="news">
         <div class="news-container">
 
             <div class="news-header">
@@ -175,10 +175,10 @@ $user = fetchAllQuery($pdo, "
         <div class="content-card">
             <?php foreach ($user as $utente): ?>
                 <div class="driver-card">
-                    <img src="<?php echo htmlspecialchars($utente['foto_profilo']) ?>" alt="<?php echo htmlspecialchars($utente['username']); ?>" class="profilo">
+                    <img src="<?php echo $utente['foto_profilo'] ? htmlspecialchars('../' . $utente['foto_profilo']) : '../assets/img/piloti/placeholder.jpg'; ?>" alt="<?php echo htmlspecialchars($utente['username']); ?>" class="profilo">
                     <h2><?php echo htmlspecialchars($utente['username']) ?></h2>
                     <h2><?php echo htmlspecialchars($utente['categoria']) ?></h2>
-                    <h3><?php echo htmlspecialchars($utente['position']) ?></h3>
+                    <h3><?php echo htmlspecialchars($utente['ultima_posizione']) ?></h3>
                     </img>
                 </div>
             <?php endforeach ?>
