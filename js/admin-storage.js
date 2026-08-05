@@ -7,7 +7,8 @@ const ENDPOINT = {
     sponsor: "sponsorAttivi.php",
     richiesteSponsor: "richiesteSponsor.php",
     messaggi: "messaggii.php",
-    candidature: "candidaturee.php"
+    candidature: "candidaturee.php",
+    piloti: "piloti.php"
 };
 
 const AdminDB = (() => {

@@ -7,6 +7,7 @@ header('Content-Type: application/json');
 $cartelle_consentite = [
     'news'    => __DIR__ . '/../assets/img/news/',
     'sponsor' => __DIR__ . '/../assets/img/sponsor/',
+    'piloti'  => __DIR__ . '/../assets/img/piloti/',
 ];
 
 // solo POST ha senso per un upload

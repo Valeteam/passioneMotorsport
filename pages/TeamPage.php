@@ -104,7 +104,6 @@ $user = fetchAllQuery($pdo, "
     </section>
 
     <?php
-    // Array di esempio: sostituisci con i tuoi dati reali (es. da query DB)
     $categorie = [
         'rally2' => 'Rally2',
         'rally3' => 'Rally3',

@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../login.php");
+    header("Location: ../../loginPage.php");
     exit;
 }
 
@@ -16,12 +16,12 @@ $ruolo = $_SESSION['ruolo'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News — Admin Passione Motorsport</title>
+    <title>Piloti — Admin Passione Motorsport</title>
 
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/logo/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/logo/logo.png">
     <link rel="icon" type="image/x-icon" href="../../assets/img/logo/logo.png">
-    
+
     <link rel="stylesheet" href="../../css/admin.css">
 </head>
 
@@ -35,15 +35,15 @@ $ruolo = $_SESSION['ruolo'];
             <a href="../admin.php">dashboard</a>
 
             <p class="admin-nav-group">contenuti</p>
-            <a href="news.php" class="active">news</a>
+            <a href="news.php">news</a>
             <a href="calendario.php">calendario gare</a>
             <a href="sponsor.php">sponsor</a>
             <a href="categorie.php">categorie news</a>
-            <a href="piloti.php">piloti</a>
+            <a href="piloti.php" class="active">piloti</a>
 
             <p class="admin-nav-group">richieste</p>
             <a href="messaggi.php">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>
-            <a href="candidature.php">candidature Pilota<span class="badge" id="badge-candidature">0</span></a>
+            <a href="candidature.php">candidature roster <span class="badge" id="badge-candidature">0</span></a>
 
             <p class="admin-nav-group">Impostazioni</p>
             <a href="../../php/setting.php" class="option">settings</a>
@@ -55,81 +55,76 @@ $ruolo = $_SESSION['ruolo'];
         <div class="admin-topbar">
             <div>
                 <span class="admin-eyebrow">contenuti</span>
-                <h1 class="admin-title">news</h1>
+                <h1 class="admin-title">piloti</h1>
             </div>
         </div>
 
-        <!-- FORM NUOVO ARTICOLO -->
+        <p style="color:var(--text-dim); font-size:13px; margin-bottom:24px;">
+            Gli account dei piloti si creano da phpMyAdmin (tabella <code>utenti_admin</code>, ruolo
+            <code>membro</code>). Da qui gestisci solo categoria vettura, ultima posizione e foto profilo
+            di chi è già registrato.
+        </p>
+
+        <!-- FORM MODIFICA PILOTA -->
         <div class="admin-panel">
-            <h3 id="form-heading">nuovo articolo</h3>
-            <form id="news-form">
-                <input type="hidden" id="news-id">
+            <h3 id="form-heading">seleziona un pilota dalla tabella per modificarlo</h3>
+            <form id="pilota-form">
+                <input type="hidden" id="pilota-id">
 
                 <div class="admin-field">
-                    <label for="news-title">titolo</label>
-                    <input type="text" id="news-title" required placeholder="Titolo dell'articolo">
-                </div>
-
-                <div class="admin-field">
-                    <label for="news-excerpt">descrizione</label>
-                    <textarea id="news-excerpt" required placeholder="Breve sommario dell'articolo"></textarea>
+                    <label>pilota</label>
+                    <p id="pilota-nome-selezionato" style="color:var(--text-muted); font-size:14px;">nessuno selezionato</p>
                 </div>
 
                 <div class="admin-form-row">
                     <div class="admin-field">
-                        <label for="news-category">categoria</label>
-                        <select id="news-category" required></select>
+                        <label for="pilota-categoria">categoria vettura</label>
+                        <input type="text" id="pilota-categoria" placeholder="es. R5, Rally2, N4">
                     </div>
                     <div class="admin-field">
-                        <label for="news-date">data pubblicazione</label>
-                        <input type="date" id="news-date" required>
+                        <label for="pilota-posizione">ultima posizione</label>
+                        <input type="text" id="pilota-posizione" placeholder="es. 2° assoluto">
                     </div>
                 </div>
 
                 <div class="admin-field">
-                    <label>immagine di copertina</label>
+                    <label>foto profilo</label>
                     <label class="admin-upload" id="upload-label">
-                        trascina un'immagine qui o clicca per selezionarla
-                        <input type="file" id="news-image" accept="image/*">
+                        clicca per caricare la foto
+                        <input type="file" id="pilota-foto" accept="image/*">
                         <div class="admin-upload-preview" id="upload-preview" style="display:none;">
-                            <img id="upload-preview-img" src="" alt="anteprima">
+                            <img id="upload-preview-img" src="" alt="anteprima foto">
                         </div>
                     </label>
                 </div>
 
-                <div class="admin-field" style="display:flex; align-items:center; gap:10px;">
-                    <input type="checkbox" id="news-featured" style="width:auto;">
-                    <label for="news-featured" style="margin:0;">mostra come articolo in evidenza in home</label>
-                </div>
-
                 <div style="display:flex; gap:12px;">
-                    <button type="submit" class="btn primary">pubblica articolo</button>
-                    <button type="button" class="btn" id="cancel-edit" style="display:none;">annulla modifica</button>
+                    <button type="submit" class="btn primary" id="save-btn" disabled>salva modifiche</button>
+                    <button type="button" class="btn" id="cancel-edit" style="display:none;">annulla</button>
                 </div>
             </form>
         </div>
 
-        <!-- LISTA ARTICOLI ESISTENTI -->
         <div class="admin-panel">
-            <h3>articoli pubblicati</h3>
+            <h3>elenco piloti</h3>
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>titolo</th>
-                        <th>categoria</th>
-                        <th>data</th>
-                        <th>evidenza</th>
+                        <th>foto</th>
+                        <th>nome</th>
+                        <th>categoria vettura</th>
+                        <th>ultima posizione</th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody id="news-table-body"></tbody>
+                <tbody id="piloti-table-body"></tbody>
             </table>
-            <div class="admin-empty" id="news-empty" style="display:none;">Nessun articolo pubblicato ancora.</div>
+            <div class="admin-empty" id="piloti-empty" style="display:none;">Nessun pilota registrato.</div>
         </div>
     </main>
 
     <script src="../../js/admin-storage.js"></script>
-    <script src="../../js/admin/news.js"></script>
+    <script src="../../js/admin/piloti.js"></script>
     <script src="../../js/sidebar.js"></script>
 
 </body>
