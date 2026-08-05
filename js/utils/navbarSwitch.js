@@ -3,8 +3,8 @@ const about = document.getElementById('abouts')
 const news = document.getElementById('newss')
 const calendario = document.getElementById('calendarios')
 const sponsor = document.getElementById('sponsors')
-const contatti = document.getElementById('contattis')
 const virtualTeam = document.getElementById('virtualTeams')
+const contatti = document.getElementById('contattis')
 
 function getCurrentPageLink() {
     return document.querySelector('.nav-links a[aria-current="page"]');
@@ -31,9 +31,9 @@ calendario.onclick = () => {
 sponsor.onclick = () => {
     setActive(sponsor);
 }
-contatti.onclick = () => {
-    setActive(contatti);
-}
 virtualTeam.onclick = () => {
+    setActive(virtualTeam);
+}
+contatti.onclick = () => {
     setActive(contatti);
 }

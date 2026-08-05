@@ -17,6 +17,11 @@ $ruolo = $_SESSION['ruolo']
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messaggi — Admin Passione Motorsport</title>
+
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/logo/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/logo/logo.png">
+    <link rel="icon" type="image/x-icon" href="../../assets/img/logo/logo.png">
+    
     <link rel="stylesheet" href="../../css/admin.css">
 </head>
 

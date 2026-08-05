@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Lug 28, 2026 alle 08:30
+-- Creato il: Ago 05, 2026 alle 21:06
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.0.30
 
@@ -35,6 +35,14 @@ CREATE TABLE `calendario` (
   `stato` enum('in programma','prossima','disputata') NOT NULL DEFAULT 'in programma'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `calendario`
+--
+
+INSERT INTO `calendario` (`id`, `nome`, `reparto`, `data_gara`, `stato`) VALUES
+(7, 'Rally del Tirreno', 'esports', '2026-08-08', 'in programma'),
+(8, 'Rally Bassano', 'reale', '2026-10-29', 'in programma');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +69,14 @@ CREATE TABLE `categorie` (
   `id` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `categorie`
+--
+
+INSERT INTO `categorie` (`id`, `nome`) VALUES
+(5, 'community'),
+(3, 'gare');
 
 -- --------------------------------------------------------
 
@@ -95,6 +111,13 @@ CREATE TABLE `news` (
   `creato_il` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `news`
+--
+
+INSERT INTO `news` (`id`, `titolo`, `descrizione`, `categoria_id`, `immagine`, `in_evidenza`, `data_pubblicazione`, `creato_il`) VALUES
+(6, 'RALLY CITTA\' DI NOALE', 'rally vinto da dfdfggf', 5, 'assets/img/news/img_6a6f65327d97d1.89370235.PNG', 1, '2026-08-02', '2026-08-02 15:41:38');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +147,15 @@ CREATE TABLE `sponsor` (
   `logo` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `sponsor`
+--
+
+INSERT INTO `sponsor` (`id`, `nome`, `livello`, `logo`) VALUES
+(4, 'GlobalRallyNetwork', 'tech partner', 'assets/img/sponsor/img_6a6f72963cf272.21810348.png'),
+(5, 'OfficinaTech', 'supporter', 'assets/img/sponsor/img_6a6f72b1b59a12.39431901.png'),
+(6, 'eb', 'official partner', 'assets/img/sponsor/img_6a6f72c163f659.18708010.png');
+
 -- --------------------------------------------------------
 
 --
@@ -135,17 +167,20 @@ CREATE TABLE `utenti_admin` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `ruolo` enum('admin','manager','membro') NOT NULL DEFAULT 'membro',
-  `creato_il` timestamp NOT NULL DEFAULT current_timestamp()
+  `creato_il` timestamp NOT NULL DEFAULT current_timestamp(),
+  `foto_profilo` mediumtext NOT NULL,
+  `categoria` mediumtext NOT NULL,
+  `position` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `utenti_admin`
 --
 
-INSERT INTO `utenti_admin` (`id`, `username`, `password`, `ruolo`, `creato_il`) VALUES
-(1, 'vale', '$2y$10$qP3J49q6o7zbdYQGCuNGAei88ZbjvMcJOB7SRowTqU2LMdR4bmb4y', 'manager', '2026-07-27 13:22:42'),
-(2, 'saby', '$2y$10$bHPCyayNqt95K/GmKCHsVe4Lsqi7YMBZ6gQnN9JOk55pb.rWICg9i', 'membro', '2026-07-27 13:23:17'),
-(3, 'Giovanni', '$2y$10$U0IjgkCoakRzHVNKA3nGFuG7UfW2W5.DWHlffaMhdBArizz.nTsOu', 'admin', '2026-07-27 13:23:55');
+INSERT INTO `utenti_admin` (`id`, `username`, `password`, `ruolo`, `creato_il`, `foto_profilo`, `categoria`, `position`) VALUES
+(1, 'vale', '$2y$10$qP3J49q6o7zbdYQGCuNGAei88ZbjvMcJOB7SRowTqU2LMdR4bmb4y', 'manager', '2026-07-27 13:22:42', '', '', ''),
+(2, 'saby', '$2y$10$bHPCyayNqt95K/GmKCHsVe4Lsqi7YMBZ6gQnN9JOk55pb.rWICg9i', 'membro', '2026-07-27 13:23:17', '', '', ''),
+(3, 'Giovanni', '$2y$10$U0IjgkCoakRzHVNKA3nGFuG7UfW2W5.DWHlffaMhdBArizz.nTsOu', 'admin', '2026-07-27 13:23:55', '', '', '');
 
 --
 -- Indici per le tabelle scaricate
@@ -210,43 +245,43 @@ ALTER TABLE `utenti_admin`
 -- AUTO_INCREMENT per la tabella `calendario`
 --
 ALTER TABLE `calendario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT per la tabella `candidature`
 --
 ALTER TABLE `candidature`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `messaggi`
 --
 ALTER TABLE `messaggi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `richieste_sponsor`
 --
 ALTER TABLE `richieste_sponsor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `sponsor`
 --
 ALTER TABLE `sponsor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti_admin`

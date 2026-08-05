@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $nome = $_SESSION['username'];
-$fotoProfilo = 'cuai'; // da mettere la foto da caricare
 
 ?>
 

@@ -50,9 +50,9 @@ function classeStato($stato)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passione Motorsport</title>
 
-    <link rel="icon" type="image/png" sizes="16x16" href="img/logo.jpg">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/logo.jpg">
-    <link rel="icon" type="image/x-icon" href="img/logo.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/logo/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo/logo.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/logo/logo.png">
 
 
     <link rel="stylesheet" href="css/components/navbar.css">
@@ -406,7 +406,7 @@ function classeStato($stato)
 
     <section class="PremiumAccess">
         <h5>Collegamento Accesso Per gli utenti del team</h5>
-        <a href="pages/TeamPage.php" class="PremiumAccessButton" target="_blank" >Vai alla pagina</a>
+        <a href="pages/TeamPage.php" class="PremiumAccessButton" target="_blank">Vai alla pagina</a>
     </section>
 
     <!-- footer -->

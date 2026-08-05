@@ -17,6 +17,10 @@ $ultimeNews = fetchAllQuery($pdo, "
     ORDER BY data_pubblicazione DESC
     LIMIT 6
 ");
+
+$user = fetchAllQuery($pdo, "
+    SELECT * FROM utenti_admin ORDER BY ruolo ASC
+");
 ?>
 
 <!DOCTYPE html>
@@ -27,14 +31,15 @@ $ultimeNews = fetchAllQuery($pdo, "
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passione Motorsport Team</title>
 
-    <link rel="icon" type="image/png" sizes="16x16" href="img/logo.jpg">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/logo.jpg">
-    <link rel="icon" type="image/x-icon" href="img/logo.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/logo/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/logo/logo.png">
+    <link rel="icon" type="image/x-icon" href="../assets/img/logo/logo.png">
 
 
     <link rel="stylesheet" href="../css/components/navbar.css">
     <link rel="stylesheet" href="../css/TeamPage.css">
     <link rel="stylesheet" href="../css/components/footer.css">
+    <link rel="stylesheet" href="../css/components/responsive.css">
 
 </head>
 
@@ -49,15 +54,15 @@ $ultimeNews = fetchAllQuery($pdo, "
         </button>
         <div class="nav-links">
             <a href="#home" id="homes" aria-current="page">home</a>
-            <a href="#about" id="abouts">Setup</a>
-            <a href="#news" id="newss">news</a>
-            <a href="#news" id="newss">Lista Driver</a>
+            <a href="#setup" id="setups">Setup</a>
+            <a href="#newss" id="newss">news</a>
+            <a href="#driver" id="drivers">Lista Driver</a>
             <a href="../php/setting.php" class="option">settings</a>
             <a href="../php/logout.php">logout</a>
         </div>
     </nav>
 
-    <section class="news" id="news">
+    <section class="news" id="newss">
         <div class="news-container">
 
             <div class="news-header">
@@ -98,11 +103,94 @@ $ultimeNews = fetchAllQuery($pdo, "
         </div>
     </section>
 
-    <script src="js/admin-storage.js"></script>
-    <script src="js/services/news.js"></script>
-    <script src="js/utils/navbarSwitch.js"></script>
-    <script src="js/services/navbar.js"></script>
-    <script src="js/index.js"></script>
+    <?php
+    // Array di esempio: sostituisci con i tuoi dati reali (es. da query DB)
+    $categorie = [
+        'rally2' => 'Rally2',
+        'rally3' => 'Rally3',
+        'rally4' => 'Rally4',
+        's1600'  => 'S1600',
+        's2000'  => 'S2000',
+    ];
+
+    // Esempio struttura dati: per ogni categoria, un array di gare
+    // Ogni gara ha un nome e un array di 6 voci di setup
+    $gare_esempio = [];
+    for ($i = 1; $i <= 20; $i++) {
+        $gare_esempio[] = [
+            'nome' => 'Gara ' . $i,
+            'setup' => [
+                'Ammortizzatori' => '-',
+                'Molle'          => '-',
+                'Barre antirollio' => '-',
+                'Differenziale'  => '-',
+                'Pneumatici'     => '-',
+                'Aerodinamica'   => '-',
+            ],
+        ];
+    }
+    ?>
+
+    <section class="setup" id="setup">
+
+        <?php foreach ($categorie as $slug => $nomeCategoria): ?>
+            <h3 class="category-title"><?php echo htmlspecialchars($nomeCategoria); ?></h3>
+
+            <div class="<?php echo $slug; ?> race-row">
+                <?php foreach ($gare_esempio as $index => $gara):
+                    $uid = $slug . '-' . $index; // id univoco per checkbox e label
+                ?>
+                    <div class="race-ticket">
+                        <input type="checkbox" id="race-<?php echo $uid; ?>" class="race-toggle">
+
+                        <label for="race-<?php echo $uid; ?>" class="race-label">
+                            <a href="http://" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">
+                                <?php echo htmlspecialchars($gara['nome']); ?>
+                            </a>
+                        </label>
+
+                        <div class="setup-panel">
+                            <label for="race-<?php echo $uid; ?>" class="setup-overlay"></label>
+                            <div class="setup-content">
+                                <label for="race-<?php echo $uid; ?>" class="setup-close">&times;</label>
+                                <h3 class="setup-title"><?php echo htmlspecialchars($nomeCategoria . ' — ' . $gara['nome']); ?></h3>
+                                <div class="setup-grid">
+                                    <?php foreach ($gara['setup'] as $etichetta => $valore): ?>
+                                        <div class="setup-item">
+                                            <span class="setup-label"><?php echo htmlspecialchars($etichetta); ?></span>
+                                            <span class="setup-value"><?php echo htmlspecialchars($valore); ?></span>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+
+    </section>
+
+    <section class="driver" id="driver">
+        <h2 class="title">I nostri Driver</h2>
+        <div class="content-card">
+            <?php foreach ($user as $utente): ?>
+                <div class="driver-card">
+                    <img src="<?php echo htmlspecialchars($utente['foto_profilo']) ?>" alt="<?php echo htmlspecialchars($utente['username']); ?>" class="profilo">
+                    <h2><?php echo htmlspecialchars($utente['username']) ?></h2>
+                    <h2><?php echo htmlspecialchars($utente['categoria']) ?></h2>
+                    <h3><?php echo htmlspecialchars($utente['position']) ?></h3>
+                    </img>
+                </div>
+            <?php endforeach ?>
+        </div>
+    </section>
+
+    <script src="../js/admin-storage.js"></script>
+    <script src="../js/services/news.js"></script>
+    <script src="../js/utils/navbarSwitch.js"></script>
+    <script src="../js/services/navbar.js"></script>
+    <script src="../js/index.js"></script>
 
 
 </body>

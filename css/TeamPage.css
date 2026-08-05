@@ -19,6 +19,7 @@
     --during: rgb(241, 241, 96);
     --program: rgb(235, 126, 126);
     --card-bg: #262218;
+    --card-bg-hover: #6869468c;
 
     --display: 'Oswald', sans-serif;
     --body: 'Inter', sans-serif;
@@ -218,4 +219,261 @@ html {
 
 .news-readmore-link:hover {
     text-decoration: underline;
+}
+
+/*driverList*/
+
+.driver {
+    width: 100%;
+    padding: 100px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.title {
+    color: var(--white);
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 3rem;
+    font-style: var(--mono);
+    font-weight: bold;
+}
+
+.content-card {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 5rem;
+}
+
+.driver-card {
+    margin-top: 2rem;
+    position: relative;
+    margin-left: 5%;
+    background-color: var(--card-bg);
+    width: 400px;
+    justify-content: center;
+    text-align: center;
+    margin-left: auto;
+    margin-right: 225px;
+}
+
+.driver-card img {
+    height: 250px;
+    width: 250px;
+    margin-left: 10px;
+}
+
+
+.driver-card::before,
+.driver-card::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--line);
+}
+
+.driver-card::before {
+    top: -3px;
+    left: -3px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.driver-card::after {
+    bottom: -3px;
+    left: 350px;
+    border-left: none;
+    border-top: none;
+}
+
+.driver-card h2,
+.driver-card h3 {
+    color: var(--white);
+}
+
+.driver-card h2 {
+    font-size: 1.5rem;
+    font-style: var(--display);
+    text-transform: uppercase;
+    font-weight: lighter;
+}
+
+.driver-card h3 {
+    font-size: 1rem;
+    font-style: var(--mono);
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.driver-card:hover{
+    background-color: var(--card-bg-hover);
+    box-shadow: 0 0 25px var(--card-bg-hover);
+    scale: 1.2;
+}
+
+
+/* ==========================================================================
+    SETUP SECTION
+=========================================================================== */
+
+.setup {
+    width: 100%;
+    padding: 100px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.category-title {
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 40px;
+    margin-bottom: 12px;
+}
+
+.category-title:not(:first-child) {
+    margin-top: 60px;
+}
+
+.race-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 20px 40px 30px;
+    scroll-snap-type: x mandatory;
+}
+
+.race-row::-webkit-scrollbar {
+    height: 8px;
+}
+
+.race-row::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.race-row::-webkit-scrollbar-thumb {
+    background: var(--yellow, #e5ff00);
+    border-radius: 4px;
+}
+
+.race-ticket {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.race-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.race-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 100px;
+    background: var(--dark-card, #1a1a1a);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.race-label:hover {
+    border-color: var(--yellow, #e5ff00);
+    transform: translateY(-3px);
+}
+
+.race-label a {
+    color: var(--white);
+    text-decoration: none;
+    text-align: center;
+    pointer-events: none;
+}
+
+.setup-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.race-toggle:checked ~ .setup-panel {
+    opacity: 1;
+    visibility: visible;
+}
+
+.setup-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    z-index: 1;
+}
+
+.setup-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 640px;
+    width: 90%;
+    margin: 10vh auto 0;
+    background: var(--dark-card, #1a1a1a);
+    border: 1px solid var(--yellow, #e5ff00);
+    padding: 40px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.setup-title {
+    grid-column: 1 / -1;
+    color: var(--white);
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.setup-close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.setup-close:hover {
+    color: var(--yellow, #e5ff00);
+}
+
+.setup-grid {
+    display: contents;
+}
+
+.setup-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line);
+    padding: 16px;
+}
+
+.setup-label {
+    color: var(--yellow, #e5ff00);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.setup-value {
+    color: var(--white);
+    font-size: 1rem;
 }
