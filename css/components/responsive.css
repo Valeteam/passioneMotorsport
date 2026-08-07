@@ -315,22 +315,8 @@
         SETUP
 ========================= */
 
-@media (max-width: 768px) {
-    .race-label {
-        width: 130px;
-        height: 90px;
-    }
-
-    .setup-content {
-        grid-template-columns: 1fr;
-        padding: 24px;
-    }
-
-    .category-title {
-        padding: 0 20px;
-    }
-
-    .race-row {
-        padding: 20px 20px 30px;
+@media (max-width: 500px) {
+    .setup-tabella {
+        font-size: 0.82rem;
     }
 }

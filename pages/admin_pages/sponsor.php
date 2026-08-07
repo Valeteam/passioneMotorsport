@@ -40,6 +40,7 @@ $ruolo = $_SESSION['ruolo']
             <a href="sponsor.php" class="active">sponsor</a>
             <a href="categorie.php">categorie news</a>
             <a href="piloti.php">piloti</a>
+            <a href="setupGare.php">setup gare</a>
 
             <p class="admin-nav-group">richieste</p>
             <a href="messaggi.php">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>

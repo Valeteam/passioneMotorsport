@@ -21,7 +21,7 @@ $ruolo = $_SESSION['ruolo']
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/logo/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/logo/logo.png">
     <link rel="icon" type="image/x-icon" href="../../assets/img/logo/logo.png">
-    
+
     <link rel="stylesheet" href="../../css/admin.css">
 </head>
 
@@ -40,7 +40,8 @@ $ruolo = $_SESSION['ruolo']
             <a href="sponsor.php">sponsor</a>
             <a href="categorie.php">categorie news</a>
             <a href="piloti.php">piloti</a>
-
+            <a href="setupGare.php">setup gare</a>
+            
             <p class="admin-nav-group">richieste</p>
             <a href="messaggi.php">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>
             <a href="candidature.php">candidature Pilota<span class="badge" id="badge-candidature">0</span></a>

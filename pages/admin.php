@@ -41,6 +41,7 @@ $ruolo = $_SESSION['ruolo']
             <a href="admin_pages/sponsor.php">sponsor</a>
             <a href="admin_pages/categorie.php">categorie news</a>
             <a href="admin_pages/piloti.php">piloti</a>
+            <a href="admin_pages/setupGare.php">setup gare</a>
 
             <p class="admin-nav-group">richieste</p>
             <a href="admin_pages/messaggi.php">messaggi contatti <span class="badge" id="badge-messaggi">0</span></a>

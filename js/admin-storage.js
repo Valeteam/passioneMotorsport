@@ -8,7 +8,9 @@ const ENDPOINT = {
     richiesteSponsor: "richiesteSponsor.php",
     messaggi: "messaggii.php",
     candidature: "candidaturee.php",
-    piloti: "piloti.php"
+    piloti: "piloti.php",
+    setupCategorie: "setup_categorie.php",
+    setupGare: "setup_gare.php"
 };
 
 const AdminDB = (() => {

@@ -18,6 +18,17 @@ $ultimeNews = fetchAllQuery($pdo, "
     LIMIT 6
 ");
 
+
+$categorie = fetchAllQuery($pdo, "SELECT * FROM categorie_setup ORDER BY nome ASC");
+
+$gare = fetchAllQuery($pdo, "
+    SELECT gare_setup.*, categorie_setup.slug AS categoria_slug
+    FROM gare_setup
+    LEFT JOIN categorie_setup ON gare_setup.categoria_id = categorie_setup.id
+    ORDER BY gare_setup.creato_il ASC
+");
+
+
 $user = fetchAllQuery($pdo, "
     SELECT * FROM utenti_admin ORDER BY ruolo ASC
 ");
@@ -103,72 +114,36 @@ $user = fetchAllQuery($pdo, "
         </div>
     </section>
 
-    <?php
-    $categorie = [
-        'rally2' => 'Rally2',
-        'rally3' => 'Rally3',
-        'rally4' => 'Rally4',
-        's1600'  => 'S1600',
-        's2000'  => 'S2000',
-    ];
-
-    // Esempio struttura dati: per ogni categoria, un array di gare
-    // Ogni gara ha un nome e un array di 6 voci di setup
-    $gare_esempio = [];
-    for ($i = 1; $i <= 20; $i++) {
-        $gare_esempio[] = [
-            'nome' => 'Gara ' . $i,
-            'setup' => [
-                'Ammortizzatori' => '-',
-                'Molle'          => '-',
-                'Barre antirollio' => '-',
-                'Differenziale'  => '-',
-                'Pneumatici'     => '-',
-                'Aerodinamica'   => '-',
-            ],
-        ];
-    }
-    ?>
-
     <section class="setup" id="setup">
+        <h2 class="title">Setup Vettura</h2>
 
-        <?php foreach ($categorie as $slug => $nomeCategoria): ?>
-            <h3 class="category-title"><?php echo htmlspecialchars($nomeCategoria); ?></h3>
+        <?php foreach ($categorie as $cat): ?>
+            <h3 class="category-title"><?php echo htmlspecialchars($cat['nome']); ?></h3>
 
-            <div class="<?php echo $slug; ?> race-row">
-                <?php foreach ($gare_esempio as $index => $gara):
-                    $uid = $slug . '-' . $index; // id univoco per checkbox e label
+            <div class="<?php echo htmlspecialchars($cat['slug']); ?> race-row">
+                <?php foreach ($gare as $gara):
+                    if ($gara['categoria_slug'] !== $cat['slug']) continue;
                 ?>
-                    <div class="race-ticket">
-                        <input type="checkbox" id="race-<?php echo $uid; ?>" class="race-toggle">
-
-                        <label for="race-<?php echo $uid; ?>" class="race-label">
-                            <a href="http://" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">
-                                <?php echo htmlspecialchars($gara['nome']); ?>
-                            </a>
-                        </label>
-
-                        <div class="setup-panel">
-                            <label for="race-<?php echo $uid; ?>" class="setup-overlay"></label>
-                            <div class="setup-content">
-                                <label for="race-<?php echo $uid; ?>" class="setup-close">&times;</label>
-                                <h3 class="setup-title"><?php echo htmlspecialchars($nomeCategoria . ' — ' . $gara['nome']); ?></h3>
-                                <div class="setup-grid">
-                                    <?php foreach ($gara['setup'] as $etichetta => $valore): ?>
-                                        <div class="setup-item">
-                                            <span class="setup-label"><?php echo htmlspecialchars($etichetta); ?></span>
-                                            <span class="setup-value"><?php echo htmlspecialchars($valore); ?></span>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <button type="button"
+                        class="race-ticket"
+                        data-gara-id="<?php echo $gara['id']; ?>"
+                        data-gara-nome="<?php echo htmlspecialchars($cat['nome'] . ' — ' . $gara['nome']); ?>">
+                        <?php echo htmlspecialchars($gara['nome']); ?>
+                    </button>
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
-
     </section>
+
+    <div class="setup-modal-overlay" id="setup-modal">
+        <div class="setup-modal">
+            <div class="setup-modal-header">
+                <h3 id="setup-modal-titolo">Setup</h3>
+                <span class="setup-modal-close" id="setup-modal-close">chiudi ✕</span>
+            </div>
+            <div class="setup-modal-body" id="setup-modal-body"></div>
+        </div>
+    </div>
 
     <section class="driver" id="driver">
         <h2 class="title">I nostri Driver</h2>
@@ -189,6 +164,8 @@ $user = fetchAllQuery($pdo, "
     <script src="../js/services/news.js"></script>
     <script src="../js/utils/navbarSwitch.js"></script>
     <script src="../js/services/navbar.js"></script>
+    <script src="../js/setup-data.js"></script>
+    <script src="../js/setup-box.js"></script>
     <script src="../js/index.js"></script>
 
 
