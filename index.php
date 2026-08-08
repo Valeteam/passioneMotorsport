@@ -2,6 +2,7 @@
 
 session_start();
 
+
 $ruolo = $_SESSION['ruolo'];
 
 require_once '../psmrt_new/php/config.php';

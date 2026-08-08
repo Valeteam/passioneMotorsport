@@ -1,5 +1,7 @@
 <?php
 session_start();
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../../loginPage.php");
@@ -33,6 +35,8 @@ $ruolo = $_SESSION['ruolo'];
 
         <nav class="admin-nav">
             <a href="../admin.php">dashboard</a>
+            <a href="../TeamPage.php">Pagina Team</a>
+            <a href="../../index.php">Pagina Principale</a>
 
             <p class="admin-nav-group">contenuti</p>
             <a href="news.php">news</a>

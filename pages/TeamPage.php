@@ -1,7 +1,15 @@
 <?php
 
 session_start();
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+
 require_once '../php/config.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../loginPage.php");
+    exit;
+}
 
 $ultimeNews = fetchAllQuery($pdo, "
     SELECT news.*, categorie.nome AS categoria
