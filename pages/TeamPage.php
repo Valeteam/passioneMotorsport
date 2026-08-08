@@ -3,13 +3,6 @@
 session_start();
 require_once '../php/config.php';
 
-function fetchAllQuery(PDO $pdo, string $sql, array $params = []): array
-{
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    return $stmt->fetchAll();
-}
-
 $ultimeNews = fetchAllQuery($pdo, "
     SELECT news.*, categorie.nome AS categoria
     FROM news
@@ -70,6 +63,9 @@ $user = fetchAllQuery($pdo, "
             <a href="#driver" id="drivers">Lista Driver</a>
             <a href="../php/setting.php" class="option">settings</a>
             <a href="../php/logout.php">logout</a>
+            <?php if ($_SESSION['ruolo'] === 'admin' || $_SESSION['ruolo'] === 'manager' ): ?>
+                <a href="admin.php" target="_blank">Admin Page</a>
+            <?php endif; ?>
         </div>
     </nav>
 
@@ -81,13 +77,6 @@ $user = fetchAllQuery($pdo, "
                 <h2 class="news-heading">ultime notizie</h2>
             </div>
 
-            <div class="news-category-filter">
-                <button class="news-filter-btn active" data-filter="tutte">tutte</button>
-                <button class="news-filter-btn" data-filter="gare">gare</button>
-                <button class="news-filter-btn" data-filter="community">community</button>
-                <button class="news-filter-btn" data-filter="annunci">annunci</button>
-            </div>
-
             <div class="news-article-grid">
                 <?php foreach ($ultimeNews as $articolo): ?>
                     <?php if ($articolo['categoria'] == 'e-rally'): ?>
@@ -95,7 +84,7 @@ $user = fetchAllQuery($pdo, "
                             data-id="<?php echo $articolo['id']; ?>"
                             data-category="<?php echo htmlspecialchars($articolo['categoria']); ?>"
                             data-date="<?php echo $articolo['data_pubblicazione']; ?>">
-                            <img class="news-card-image" src="<?php echo htmlspecialchars($articolo['immagine']); ?>" alt="" loading="lazy">
+                            <img class="news-highlight-image" src="<?php echo htmlspecialchars('../' . $articolo['immagine']) ?>" alt="" loading="lazy">
                             <div class="news-card-content">
                                 <div class="news-item-meta">
                                     <span class="news-item-tag"><?php echo htmlspecialchars($articolo['categoria']); ?></span>

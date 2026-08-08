@@ -18,3 +18,10 @@ try {
 } catch (PDOException $e) {
     die("Connessione al database fallita: " . $e->getMessage());
 }
+
+
+function fetchAllQuery(PDO $pdo, string $sql, array $params = []): array {
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll();
+}

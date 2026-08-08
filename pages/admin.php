@@ -24,6 +24,7 @@ $ruolo = $_SESSION['ruolo']
     <link rel="icon" type="image/x-icon" href="../assets/img/logo/logo.png">
 
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/components/responsive.css">
 </head>
 
 <body>

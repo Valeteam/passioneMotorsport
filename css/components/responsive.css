@@ -320,3 +320,26 @@
         font-size: 0.82rem;
     }
 }
+
+
+/* =========================
+        ADMIN
+========================= */
+
+@media (max-width: 900px) {
+    .admin-sidebar {
+        display: none;
+    }
+
+    .admin-main {
+        padding: 24px;
+    }
+
+    .admin-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-form-row {
+        grid-template-columns: 1fr;
+    }
+}

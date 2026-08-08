@@ -81,11 +81,19 @@ nav h2 span {
     border: 1px solid var(--grigio);
     color: var(--white);
     margin-right: 15%;
+    transition: background-color 0.25s ease-in-out, border 0.25s ease-in-out;
+}
+
+.headerCTA:hover {
+    background-color: rgb(71, 54, 23);
+    border-color: var(--arancioBold);
 }
 
 #headerCTAin {
     display: none;
 }
+
+
 
 @media(max-width: 1250px) {
     .headerCTA {
@@ -100,11 +108,6 @@ nav h2 span {
     nav h2 {
         margin-left: 10%;
     }
-}
-
-.headerCTA:hover {
-    background-color: rgb(71, 54, 23);
-    border-color: var(--arancioBold);
 }
 
 @media (max-width: 1440px) {

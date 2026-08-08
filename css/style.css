@@ -19,6 +19,11 @@
     --during: rgb(241, 241, 96);
     --program: rgb(235, 126, 126);
     --card-bg: #262218;
+    --tiktok: #21b4af ;
+    --istagram: #E1306C;
+    --facebook: #3B5998;
+    --youtube: #ff0000;
+    --istagramTeam: rgba(212, 209, 22, 0.637);
 
     --display: 'Oswald', sans-serif;
     --body: 'Inter', sans-serif;
@@ -135,7 +140,7 @@ html {
     padding: 14px 26px;
     border-radius: 2px;
     border: 1px solid var(--line);
-    transition: transform .15s, border-color .15s, background .15s;
+    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out, background 0.2s ease-in-out;
 }
 
 .btn:hover {
@@ -180,6 +185,9 @@ html {
     align-items: center;
     text-align: center;
     margin-top: 2.5%;
+    text-transform: uppercase;
+    font-style: var(--mono);
+    font-size: 1.5rem;
 }
 
 .about h3 {
@@ -287,7 +295,8 @@ html {
 .news-filter-btn.active,
 .news-filter-btn:hover {
     border-color: var(--line);
-    color: var(--white);
+    background-color: var(--white);
+    color: var(--black);
 }
 
 .news-item-meta {
@@ -380,6 +389,7 @@ html {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 8px;
+    color: var(--white);
 }
 
 .news-card-text {
@@ -716,10 +726,9 @@ html {
     width: 100%;
     max-width: 420px;
     padding: 12px 20px;
-    margin: 10px auto 0;
+    margin: 20px auto 0;
     box-sizing: border-box;
     border: 2px solid var(--line);
-    border-radius: 24px;
     background-color: var(--trasparente);
     color: var(--white);
     font-size: 16px;
@@ -731,10 +740,9 @@ html {
     width: 100%;
     max-width: 520px;
     padding: 20px;
-    margin: 10px auto 0;
+    margin: 20px auto 0;
     box-sizing: border-box;
     border: 2px solid var(--line);
-    border-radius: 24px;
     background-color: var(--trasparente);
     color: var(--white);
     font-size: 16px;
@@ -776,7 +784,6 @@ html {
     font-size: 1.2rem;
     font-weight: bold;
     text-transform: uppercase;
-    border-radius: 24px;
     border: 2px solid var(--line);
     transition: all 0.15s ease;
 }
@@ -821,7 +828,7 @@ html {
     text-transform: uppercase;
     background: #161616;
     border: 1px solid var(--line);
-    transition: background 0.15s ease, transform 0.12s ease, border-color 0.15s ease;
+    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
 .social-links a svg {
@@ -829,7 +836,7 @@ html {
     height: 20px;
     flex-shrink: 0;
     color: var(--c);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease-in-out;
 }
 
 .social-links a:hover {
@@ -849,17 +856,24 @@ html {
 }
 
 .social-links a.tiktok {
-    --c: #21b4af;
+    --c: var(--tiktok);
 }
 
 .social-links a.instagram {
-    --c: #E1306C;
+    --c: var(--istagram);
 }
 
 .social-links a.facebook {
-    --c: #3B5998;
+    --c: var(--facebook);
 }
 
+.social-links a.instagramTeam{
+    --c: var(--istagramTeam);
+}
+
+.social-links a.youtube {
+    --c: var(--youtube);
+}
 
 /* =========================
         Accesso Premium
@@ -889,11 +903,14 @@ html {
 .PremiumAccessButton{
     width: 420px;
     padding: 20px 20px;
-    border-radius: 20px;
     background-color: var(--yellowBold);
     border: 2px solid var(--line);
-    transition: background-color 0.5s ease-in-out;
+    transition: background-color 0.25s ease-in-out;
     text-decoration: none;
+    text-transform: uppercase;
+    font-style: var(--display);
+    font-size: 1.2rem;
+    font-weight: bold;
     color: var(--black);
 }
 
