@@ -73,7 +73,7 @@
 
 @media(max-width:550px) {
     .home {
-        height: 70vh;
+        height: 100vh;
     }
 
 
@@ -85,7 +85,17 @@
 
 @media (max-width: 380px) {
     .home {
-        height: 80vh;
+        height: 140vh;
+    }
+
+    .wrap h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 350px) {
+    .home {
+        height: 100vh;
     }
 
     .wrap h1 {
@@ -202,7 +212,7 @@
 
 @media(max-width:550px) {
     .contatti {
-        height: 65vh;
+        height: 165vh;
     }
 
     .email {
@@ -221,9 +231,10 @@
     }
 }
 
-@media(max-width: 420px) {
+
+@media(max-width: 450px) {
     .contatti {
-        height: 125vh;
+        height: 155vh;
     }
 
     .send button {
@@ -233,7 +244,7 @@
 
 @media (max-width: 400px) {
     .contatti {
-        height: 145vh;
+        height: 185vh;
     }
 
     .email {
@@ -244,14 +255,38 @@
 
 @media(max-width: 380px) {
     .contatti {
-        height: 170vh;
+        height: 220vh;
     }
 }
 
 
+@media(max-width: 350px) {
+    .contatti {
+        height: 180vh;
+    }
+}
+
+/* =========================
+        CALENDARIO
+========================= */
+
+@media(max-width: 440px) {
+    .calendario {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .virtualRace{
+        border: none;
+    }
+    .realRace{
+        border: none;
+    }
+}
+
 /* =========================
         VIRTUAL
 ========================= */
+
 
 @media(max-width:550px) {
     .roadmap {
@@ -268,18 +303,24 @@
     }
 }
 
-@media(max-width: 420px) {
+@media(max-width: 440px) {
     .roadmap {
-        margin-left: -4.05%;
+        margin-left: -3.4%;
     }
 
 }
 
 @media(max-width: 400px) {
     .roadmap {
-        margin-left: -4.05%;
+        margin-left: -5.5%;
     }
 
+}
+
+@media(max-width: 350px) {
+    .roadmap {
+        margin-left: -6.5%;
+    }
 }
 
 /* =========================
@@ -295,7 +336,7 @@
 
     .driver-card {
         margin-left: auto;
-        margin-right: 60px ;
+        margin-right: 60px;
     }
 }
 

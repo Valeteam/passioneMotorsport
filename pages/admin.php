@@ -89,10 +89,10 @@ $ruolo = $_SESSION['ruolo']
         <div class="admin-panel">
             <h3>accessi rapidi</h3>
             <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                <a href="admin_pages/news.html" class="btn primary">+ nuovo articolo</a>
-                <a href="admin_pages/calendario.html" class="btn">+ nuova gara</a>
-                <a href="admin_pages/messaggi.html" class="btn">vedi messaggi</a>
-                <a href="admin_pages/candidature.html" class="btn">vedi candidature</a>
+                <a href="admin_pages/news.php" class="btn primary">+ nuovo articolo</a>
+                <a href="admin_pages/calendario.php" class="btn">+ nuova gara</a>
+                <a href="admin_pages/messaggi.php" class="btn">vedi messaggi</a>
+                <a href="admin_pages/candidature.php" class="btn">vedi candidature</a>
             </div>
         </div>
     </main>

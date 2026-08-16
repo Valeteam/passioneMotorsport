@@ -67,7 +67,7 @@ $ruolo = $_SESSION['ruolo']
         <!-- SPONSOR ATTIVI -->
         <div class="admin-panel">
             <h3 id="form-heading">nuovo sponsor</h3>
-            <form id="sponsor-form">
+            <form id="sponsor-form" method="POST">
                 <input type="hidden" id="sponsor-id">
 
                 <div class="admin-form-row">

@@ -2,10 +2,10 @@
 
 session_start();
 
+require_once 'php/config.php';
 
 $ruolo = $_SESSION['ruolo'];
 
-require_once '../psmrt_new/php/config.php';
 
 $ultimeNews = fetchAllQuery($pdo, "
     SELECT news.*, categorie.nome AS categoria
