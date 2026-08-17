@@ -94,29 +94,15 @@ nav h2 span {
 }
 
 
-
-@media(max-width: 1250px) {
-    .headerCTA {
-        margin-right: 5%;
-    }
-
-    .headerCTA:hover {
-        background-color: rgb(71, 54, 23);
-        border-color: var(--arancioBold);
-    }
-
-    nav h2 {
-        margin-left: 10%;
-    }
-}
-
 @media (max-width: 1440px) {
     nav {
         padding: 1rem 1.5rem;
     }
 
     nav h2 {
-        margin-left: 5%;
+        font-size: 1.1rem;
+        min-width: 0;
+        overflow-wrap: break-word;
     }
 
     .nav-toggle {
@@ -167,5 +153,35 @@ nav h2 span {
 
     #headerCTAin {
         display: flex;
+    }
+}
+
+@media(max-width: 1250px) {
+    .headerCTA {
+        margin-right: 5%;
+    }
+
+    .headerCTA:hover {
+        background-color: rgb(71, 54, 23);
+        border-color: var(--arancioBold);
+    }
+
+    nav h2 {
+        margin-left: 10%;
+    }
+}
+
+@media (max-width: 420px) {
+    nav {
+        padding: 0.8rem 1rem;
+    }
+
+    nav h2 {
+        font-size: 0.95rem;
+        margin-left: 0;
+    }
+
+    .nav-toggle {
+        font-size: 1.5rem;
     }
 }

@@ -57,41 +57,51 @@ html {
 
 .home {
     width: 100%;
-    height: 85vh;
+    min-height: 90vh;
     position: relative;
-    padding: 120px 0 120px;
+    display: flex;
+    align-items: center;
+    padding: 160px 24px 80px;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
+    box-sizing: border-box;
 }
 
 .home-route {
     position: absolute;
-    inset: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    top: 0;
     z-index: 0;
-    opacity: 0.5;
-    margin-top: 3%;
+    opacity: 0.35;
     pointer-events: none;
 }
 
 .home-route2 {
     position: absolute;
-    inset: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    top: auto;
     z-index: 0;
-    opacity: 0.5;
-    margin-top: 28%;
+    opacity: 0.2;
     pointer-events: none;
 }
 
 .wrap {
-    margin-left: 25%;
-    margin-top: 12.5%;
+    position: relative;
     z-index: 1;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .wrap h1 {
     color: var(--white);
     text-transform: uppercase;
-    font-size: 3rem;
+    font-size: clamp(2rem, 6vw, 3rem);
 }
 
 .lineeta {
@@ -173,7 +183,8 @@ html {
 .about {
     width: 100%;
     position: relative;
-    padding: 120px 0 90px;
+    padding: 120px 24px 90px;
+    box-sizing: border-box;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
     text-align: center;
@@ -184,15 +195,15 @@ html {
     text-transform: uppercase;
     align-items: center;
     text-align: center;
-    margin-top: 2.5%;
-    text-transform: uppercase;
+    margin-top: 0;
     font-style: var(--mono);
     font-size: 1.5rem;
 }
 
 .about h3 {
     color: var(--white);
-    margin-top: 5%;
+    margin: 2rem auto 0;
+    max-width: 760px;
 }
 
 .cards-grid {
@@ -200,9 +211,9 @@ html {
     grid-template-columns: 1fr 1fr;
     gap: 1px;
     border: 1px solid var(--line);
-    width: 50%;
-    margin-left: 25%;
-    margin-top: 5%;
+    max-width: 760px;
+    width: 100%;
+    margin: 3rem auto 0;
 }
 
 .info-card {
@@ -420,13 +431,13 @@ html {
 .calendario {
     width: 100%;
     position: relative;
-    padding: 120px 0 90px;
+    padding: 120px 24px 90px;
+    box-sizing: border-box;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1px;
-    margin-top: 5%;
     text-align: center;
 }
 
