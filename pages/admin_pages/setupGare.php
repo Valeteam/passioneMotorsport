@@ -26,11 +26,19 @@ $ruolo = $_SESSION['ruolo'];
 
 
     <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/components/responsive.css">
 </head>
 
 <body>
 
-    <aside class="admin-sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="admin-sidebar" id="adminSidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
         <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
 
@@ -88,7 +96,11 @@ $ruolo = $_SESSION['ruolo'];
             <h3>gare esistenti</h3>
             <table class="admin-table">
                 <thead>
-                    <tr><th>categoria</th><th>nome</th><th></th></tr>
+                    <tr>
+                        <th>categoria</th>
+                        <th>nome</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody id="gare-table-body"></tbody>
             </table>

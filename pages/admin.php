@@ -31,7 +31,14 @@ $ruolo = $_SESSION['ruolo']
 
 <body>
 
-    <aside class="admin-sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="admin-sidebar" id="adminSidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
         <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
 
@@ -99,6 +106,7 @@ $ruolo = $_SESSION['ruolo']
 
 
     <script src="../js/admin-storage.js"></script>
+    <script src="../js/sidebar.js"></script>
     <script src="../js/admin.js"></script>
 
 </body>

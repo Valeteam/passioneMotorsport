@@ -6,7 +6,6 @@ require_once 'php/config.php';
 
 $ruolo = $_SESSION['ruolo'];
 
-
 $ultimeNews = fetchAllQuery($pdo, "
     SELECT news.*, categorie.nome AS categoria
     FROM news
@@ -20,18 +19,9 @@ $sponsorAttivi = fetchAllQuery($pdo, "
 ");
 
 $calendario = fetchAllQuery($pdo, "
-    SELECT * FROM calendario ORDER BY stato DESC
-    LIMIT 20
+    SELECT * FROM calendario ORDER BY datazione ASC
 ");
 
-$gareReali = array_filter($calendario, fn($gara) => $gara['reparto'] === 'reale');
-$gareEsports = array_filter($calendario, fn($gara) => $gara['reparto'] === 'esports');
-function classeStato($stato)
-{
-    if ($stato === 'disputata') return 'done';
-    if ($stato === 'prossima') return 'during';
-    return 'program';
-}
 
 ?>
 
@@ -51,6 +41,7 @@ function classeStato($stato)
 
     <link rel="stylesheet" href="css/components/navbar.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes/animazioni.css">
     <link rel="stylesheet" href="css/components/footer.css">
     <link rel="stylesheet" href="css/components/responsive.css">
 
@@ -92,8 +83,8 @@ function classeStato($stato)
                 fill="none" stroke="rgb(202, 155, 68)" stroke-opacity="1" stroke-width="2" stroke-dasharray="10 8" />
         </svg>
         <div class="wrap">
-            <h2 class="lineeta upper"> WRC ・ ERC ・ Gare Italiane - <span>Vivi la velocità ・ Condividi
-                    l'adrenalina</span></h2>
+            <h2 class="lineeta upper"> WRC ・ ERC ・ Gare Italiane - <span>VIVI LA VELOCITA' ・ CONDIVIDI
+                    L'ADREANALINA</span></h2>
             <h1 class="introText">Passione Motorsport</h1>
 
             <div class="underText">
@@ -217,25 +208,19 @@ function classeStato($stato)
     <!-- calendario -->
 
     <section class="calendario" id="calendario">
-        <div class="realRace boxing">
-            <h2>Calendario Gare Real Che Supportiamo</h2>
-            <?php foreach ($gareReali as $realRace): ?>
-                <h3 class="tag <?php echo classeStato($realRace['stato']); ?>">
-                    <?php echo htmlspecialchars($realRace['nome']); ?>
-                    <span><?php echo htmlspecialchars($realRace['data_gara']); ?></span>
-                    <span><?php echo htmlspecialchars($realRace['stato']); ?></span>
-                </h3>
-            <?php endforeach; ?>
+        <div class="titoloCalendario">
+            <h1 id="titoloCalendarioBack">Calendario Gare WRC</h1>
+            <h1 id="titoloCalendario">Calendario</h1>
         </div>
-
-        <div class="virtualRace boxing">
-            <h2>Calendario Gare Virtuale</h2>
-            <?php foreach ($gareEsports as $virtualRace): ?>
-                <h3 class="tag <?php echo classeStato($virtualRace['stato']); ?>">
-                    <?php echo htmlspecialchars($virtualRace['nome']); ?>
-                    <span><?php echo htmlspecialchars($virtualRace['data_gara']); ?></span>
-                    <span><?php echo htmlspecialchars($virtualRace['stato']); ?></span>
-                </h3>
+        <div class="containerCalendar">
+            <?php foreach ($calendario as $gara): ?>
+                <div class="box">
+                    <h2><?php echo htmlspecialchars($gara['titolo']); ?></h2>
+                    <h3><?php echo htmlspecialchars($gara['datazione']); ?></h3>
+                    <h3><?php echo htmlspecialchars($gara['validita']); ?></h3>
+                    <img class="calendarioImg" src="<?php echo htmlspecialchars($gara['immagine']); ?>" alt="" loading="lazy">
+                    <a href="#" class="visualizzaDettagli">Visualizza dettagli</a>
+                </div>
             <?php endforeach; ?>
         </div>
     </section>
@@ -243,7 +228,10 @@ function classeStato($stato)
     <!-- sponsor -->
 
     <section class="sponsor" id="sponsor">
-        <h1>Sostenitori O Collaboratori della Pagina</h1>
+        <div class="intoSponsor">
+            <h1>Sostenitori O Collaboratori della Pagina</h1>
+            <h1>SPONSOR</h1>
+        </div>
         <div class="carousel">
 
             <div class="group">
@@ -276,7 +264,10 @@ function classeStato($stato)
     <!-- virtuaTeam -->
 
     <section class="virtualTeam" id="virtualTeam">
-        <h1>Passione Motorsport Racing Team</h1>
+        <div class="virtualTeamIntro">
+            <h1>Passione Motorsport Racing Team</h1>
+            <h1>Racing Team</h1>
+        </div>
 
         <h2>
             Il Team Virtuale è il cuore digitale di Passione Motorsport: una community di quasi 40 persone che vive il
@@ -337,31 +328,57 @@ function classeStato($stato)
     <!-- contatti -->
 
     <section class="contatti" id="contatti">
+        <div class="introContatti">
+            <h1>Contatti</h1>
+            <h1>Contatti</h1>
+        </div>
+
         <div class="spacing send">
             <h2>Scrivici qui sotto se hai qualche domanda</h2>
+            <p class="send-intro">Compila il modulo e ti risponderemo via email.</p>
+
             <form method="POST" action="php/invia_contatto.php">
-                <input type="text" class="text" id="nome" placeholder="il tuo nome" name="nome" required>
-                <input type="email" class="email" id="email" placeholder="email" name="email" required>
+                <div class="field">
+                    <label for="nome">Nome</label>
+                    <input type="text" class="text" id="nome" name="nome" placeholder="il tuo nome" autocomplete="name" required>
+                </div>
 
-                <select class="text" id="motivo" name="motivo" required>
-                    <option value="generico">Motivo Messaggio</option>
-                    <option value="generico">messaggio generico</option>
-                    <option value="candidatura">candidatura Pilota</option>
-                    <option value="sponsor">proposta di sponsorizzazione</option>
-                </select>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" class="email" id="email" name="email" placeholder="nome@esempio.it" autocomplete="email" required>
+                </div>
 
-                <input type="text" class="text" id="azienda" placeholder="nome azienda" name="azienda">
+                <div class="field full">
+                    <label for="motivo">Motivo del messaggio</label>
+                    <select class="text" id="motivo" name="motivo" required>
+                        <option value="" disabled selected>Scegli un motivo</option>
+                        <option value="generico">messaggio generico</option>
+                        <option value="candidatura">candidatura Pilota</option>
+                        <option value="sponsor">proposta di sponsorizzazione</option>
+                    </select>
+                </div>
 
-                <select class="text" id="reparto" name="reparto">
-                    <option value="">reparto</option>
-                    <option value="esports">esports</option>
-                    <option value="reale">reale</option>
-                </select>
+                <div class="field full field-azienda">
+                    <label for="azienda">Nome azienda</label>
+                    <input type="text" class="text" id="azienda" name="azienda" placeholder="nome azienda" autocomplete="organization">
+                </div>
 
-                <input type="text" maxlength="150" class="text" id="text"
-                    placeholder="Inserisci qui il contenuto del messaggio" name="messaggio" required>
+                <div class="field full field-reparto">
+                    <label for="reparto">Reparto</label>
+                    <select class="text" id="reparto" name="reparto">
+                        <option value="">scegli il reparto</option>
+                        <option value="esports">esports</option>
+                        <option value="reale">reale</option>
+                    </select>
+                </div>
 
-                <button type="submit" class="submit" id="submit">Invia</button>
+                <div class="field full">
+                    <label for="text">Messaggio</label>
+                    <textarea class="text" id="text" name="messaggio" maxlength="150" rows="5" placeholder="Scrivi qui il tuo messaggio" required></textarea>
+                    <span class="field-hint">Massimo 150 caratteri</span>
+                </div>
+
+                <button type="submit" class="submit" id="submit">Invia messaggio</button>
             </form>
         </div>
 
@@ -408,7 +425,6 @@ function classeStato($stato)
             </div>
         </div>
     </section>
-
 
     <!-- Accesso Vip -->
 

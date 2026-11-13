@@ -9,6 +9,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     background: var(--bg);
+    margin-left: -20px;
 }
 
 .footer-logo {
@@ -16,6 +17,7 @@ footer {
     font-size: 1.2rem;
     color: var(--white);
     letter-spacing: .1em;
+    margin-right: 40px;
 }
 
 .footer-copy {

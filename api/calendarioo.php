@@ -7,7 +7,7 @@ $metodo = $_SERVER['REQUEST_METHOD'];
 switch ($metodo) {
 
     case 'GET':
-        $stmt = $pdo->query("SELECT * FROM calendario ORDER BY data_gara ASC");
+        $stmt = $pdo->query("SELECT * FROM calendario ORDER BY datazione ASC");
         $risultati = $stmt->fetchAll();
         echo json_encode($risultati);
         break;
@@ -16,14 +16,14 @@ switch ($metodo) {
         $dati = json_decode(file_get_contents('php://input'), true);
 
         $stmt = $pdo->prepare("
-            INSERT INTO calendario (nome, reparto, data_gara, stato)
+            INSERT INTO calendario (titolo, validita, datazione, immagine)
             VALUES (?, ?, ?, ?)
         ");
         $stmt->execute([
-            $dati['nome'],
-            $dati['reparto'],
-            $dati['data_gara'],
-            $dati['stato']
+            $dati['titolo'],
+            $dati['validita'],
+            $dati['datazione'],
+            $dati['immagine']
         ]);
 
         echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
@@ -34,14 +34,14 @@ switch ($metodo) {
 
         $stmt = $pdo->prepare("
             UPDATE calendario
-            SET nome = ?, reparto = ?, data_gara = ?, stato = ?
+            SET titolo = ?, validita = ?, datazione = ?, immagine = ?
             WHERE id = ?
         ");
         $stmt->execute([
-            $dati['nome'],
-            $dati['reparto'],
-            $dati['data_gara'],
-            $dati['stato'],
+            $dati['titolo'],
+            $dati['validita'],
+            $dati['datazione'],
+            $dati['immagine'],
             $dati['id']
         ]);
 

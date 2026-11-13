@@ -1,0 +1,271 @@
+/* =========================
+   ANIMAZIONI & INTERAZIONI
+========================= */
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes revealUp {
+    from { opacity: 0; translate: 0 40px; }
+    to   { opacity: 1; translate: 0 0; }
+}
+
+@keyframes routeDash {
+    to { stroke-dashoffset: -180; }
+}
+
+@keyframes dotPulse {
+    from { box-shadow: 0 0 0 0 rgba(235, 235, 156, 0.6); }
+    to   { box-shadow: 0 0 0 14px rgba(235, 235, 156, 0); }
+}
+
+
+/* =========================
+        HOME
+========================= */
+
+.wrap > * {
+    animation: fadeUp 0.8s ease backwards;
+}
+.wrap > :nth-child(2) { animation-delay: 0.12s; }
+.wrap > :nth-child(3) { animation-delay: 0.24s; }
+.wrap > :nth-child(4) { animation-delay: 0.36s; }
+
+/* il tracciato tratteggiato scorre */
+.home-route path,
+.home-route2 path {
+    animation: routeDash 8s linear infinite;
+}
+.home-route2 path {
+    animation-direction: reverse;
+}
+
+/*riflesso*/
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+.btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+.btn:hover {
+    transform: translateY(-3px);
+}
+.btn:hover::before {
+    transform: translateX(120%);
+}
+.btn:active {
+    transform: translateY(0) scale(0.97);
+}
+.btn.ghost:hover {
+    border-color: var(--arancioBold);
+    background: rgba(235, 235, 156, 0.08);
+}
+
+/* =========================
+        ABOUT
+========================= */
+
+.info-card {
+    transition: background-color 0.3s ease;
+}
+.info-card:hover {
+    background: rgba(235, 235, 156, 0.05);
+}
+.card-title {
+    transition: color 0.3s ease;
+}
+.info-card:hover .card-title {
+    color: var(--arancioBold);
+}
+.info-list li {
+    transition: padding-left 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.info-list li:hover {
+    padding-left: 14px;
+    color: var(--yellowBold);
+    border-top-color: var(--arancioBold);
+}
+
+/* =========================
+        News
+========================= */
+
+.news-filter-btn {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.news-filter-btn:hover {
+    transform: translateY(-2px);
+}
+.news-filter-btn:active {
+    transform: scale(0.94);
+}
+
+.news-article-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    animation: fadeUp 0.5s ease backwards;
+}
+.news-article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55);
+    z-index: 1;
+}
+.news-article-card:active {
+    transform: translateY(-2px) scale(0.99);
+}
+.news-card-image,
+.news-highlight-image {
+    transition: transform 0.6s ease;
+}
+.news-article-card:hover .news-card-image,
+.news-article-card:hover .news-highlight-image {
+    transform: scale(1.06);
+}
+
+.news-readmore-link {
+    text-decoration: none;
+    background: linear-gradient(var(--arancioBold), var(--arancioBold)) left bottom / 0 1px no-repeat;
+    transition: background-size 0.3s ease, color 0.3s ease;
+}
+.news-readmore-link:hover {
+    text-decoration: none;
+    background-size: 100% 1px;
+    color: var(--arancioBold);
+}
+
+/* =========================
+        Sponsor
+========================= */
+
+.group {
+    flex-shrink: 0;
+    min-width: 100%;
+    animation-duration: 20s;
+}
+@keyframes spin {
+    from { translate: 0; }
+    to   { translate: calc(-100% - 1em); }
+}
+.carousel:hover .group {
+    animation-play-state: paused;
+}
+.card img {
+    filter: grayscale(1) opacity(0.7);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+.card:hover img {
+    filter: none;
+    transform: scale(1.12);
+}
+
+/* =========================
+        virtualTeam
+========================= */
+.roadmap-item {
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+.roadmap-item:hover {
+    transform: translateX(8px);
+    border-color: var(--yellowBold);
+    background: #2a261e;
+}
+.roadmap-item::before {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.roadmap-item:hover::before {
+    transform: scale(1.5);
+    background: var(--arancioBold);
+    animation: dotPulse 1.2s ease-out infinite;
+}
+.roadmap-title {
+    transition: color 0.3s ease;
+}
+.roadmap-item:hover .roadmap-title {
+    color: var(--yellowBold);
+}
+.roadmap-list li,
+.roadmap-steps li {
+    transition: padding-left 0.25s ease, color 0.25s ease;
+}
+.roadmap-list li:hover,
+.roadmap-steps li:hover {
+    padding-left: 10px;
+    color: var(--yellowBold);
+}
+.roadmap-stats > div {
+    transition: transform 0.25s ease;
+}
+.roadmap-stats > div:hover {
+    transform: translateY(-3px);
+}
+.roadmap-stats > div:hover .num {
+    color: var(--arancioBold);
+}
+.roadmap-stats .num {
+    transition: color 0.25s ease;
+}
+.roadmap-badges span {
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    cursor: default;
+}
+.roadmap-badges span:hover {
+    background: var(--arancioBold);
+    border-color: var(--arancioBold);
+    color: #1a1815;
+    transform: translateY(-3px);
+}
+
+/* =========================
+        Contatti
+========================= */
+.social-links a:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* =========================
+        Accesso Premium
+========================= */
+.PremiumAccessButton {
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: calc(100% - 48px);
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.PremiumAccessButton:hover {
+    transform: translateY(-4px);
+}
+.PremiumAccessButton:active {
+    transform: translateY(0) scale(0.97);
+}
+
+@supports (animation-timeline: view()) {
+    .info-card,
+    .containerCalendar .box,
+    .roadmap-item,
+    .send form,
+    .social-links a {
+        animation: revealUp linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 40%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

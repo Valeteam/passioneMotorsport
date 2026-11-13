@@ -64,6 +64,7 @@ h3 {
     letter-spacing: 0.02em;
     font-weight: 600;
 }
+
 /* =========================================================
     BOTTONI
 ========================================================= */
@@ -154,7 +155,8 @@ h3 {
     gap: 2px;
 }
 
-.admin-nav a, .a {
+.admin-nav a,
+.a {
     font-size: 14px;
     padding: 10px 12px;
     border-radius: 4px;
@@ -193,6 +195,43 @@ h3 {
     letter-spacing: 0.08em;
     color: var(--text-dim);
     margin: 22px 0 8px 12px;
+}
+
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: auto;
+    right: 15px;
+    width: 44px;
+    height: 44px;
+    padding: 9px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+
+.sidebar-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin: 5px auto;
+    background: var(--white);
+    transition: transform .25s ease,
+        opacity .2s ease;
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .6);
+    z-index: 900;
+    opacity: 0;
+    transition: opacity .25s ease;
 }
 
 
@@ -482,4 +521,3 @@ table.admin-table {
     font-family: var(--mono);
     font-size: 13px;
 }
-

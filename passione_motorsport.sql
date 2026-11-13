@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ago 08, 2026 alle 14:27
--- Versione del server: 10.4.32-MariaDB
--- Versione PHP: 8.0.30
+-- Creato il: Nov 13, 2026 alle 21:12
+-- Versione del server: 10.11.16-MariaDB
+-- Versione PHP: 8.3.36
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,19 +29,24 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `calendario` (
   `id` int(11) NOT NULL,
-  `nome` varchar(150) NOT NULL,
-  `reparto` enum('esports','reale') NOT NULL,
-  `data_gara` date NOT NULL,
-  `stato` enum('in programma','prossima','disputata') NOT NULL DEFAULT 'in programma'
+  `titolo` varchar(150) NOT NULL,
+  `datazione` date NOT NULL,
+  `validita` enum('moderno','storico') NOT NULL DEFAULT 'moderno',
+  `immagine` varchar(255) DEFAULT NULL COMMENT 'percorso immagine, es. assets/img/calendario/nomefile.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `calendario`
 --
 
-INSERT INTO `calendario` (`id`, `nome`, `reparto`, `data_gara`, `stato`) VALUES
-(7, 'Rally del Tirreno', 'esports', '2026-08-08', 'prossima'),
-(8, 'Rally Bassano', 'reale', '2026-10-29', 'in programma');
+INSERT INTO `calendario` (`id`, `titolo`, `datazione`, `validita`, `immagine`) VALUES
+(1, 'E-rally Valle del Sossio', '2026-08-08', 'moderno', 'assets/img/calendario/valleDelSossio.jpg'),
+(2, 'Madoine E-rally', '2026-10-29', 'moderno', 'assets/img/calendario/madoine.jpg'),
+(3, 'Nebrodi E-rally', '2027-01-23', 'moderno', 'assets/img/calendario/nebrodi.jpg'),
+(4, 'E-rally centro Sicilia', '2027-03-14', 'moderno', 'assets/img/calendario/centroSicilia.jpg'),
+(5, 'Messina e-rally\r\n', '2027-04-17', 'moderno', 'assets/img/calendario/messina.jpg'),
+(6, 'Tindari E-rally', '2027-10-09', 'moderno', 'assets/img/calendario/tindari.jpg'),
+(9, 'E-rally Riviera Ionica', '2027-10-09', 'moderno', 'assets/img/calendario/rivieraIonica.jpg');
 
 -- --------------------------------------------------------
 
@@ -164,7 +169,7 @@ CREATE TABLE `news` (
 --
 
 INSERT INTO `news` (`id`, `titolo`, `descrizione`, `categoria_id`, `immagine`, `in_evidenza`, `data_pubblicazione`, `creato_il`) VALUES
-(8, 'RALLY CITTA\' DI NOALE', 'dsfsdfsdf', 6, 'assets/img/news/img_6a7718a872f6d3.98167967.PNG', 1, '2026-08-09', '2026-08-08 11:53:12');
+(8, 'RALLY CITTA\' DI NOALE', 'dsfsdfsdf', 6, 'assets/img/news/test.PNG', 1, '2026-08-09', '2026-08-08 11:53:12');
 
 -- --------------------------------------------------------
 
@@ -558,7 +563,7 @@ ALTER TABLE `utenti_admin`
 -- AUTO_INCREMENT per la tabella `calendario`
 --
 ALTER TABLE `calendario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT per la tabella `candidature`

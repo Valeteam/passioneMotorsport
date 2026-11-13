@@ -23,13 +23,21 @@ $ruolo = $_SESSION['ruolo']
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/logo/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/logo/logo.png">
     <link rel="icon" type="image/x-icon" href="../../assets/img/logo/logo.png">
-    
+
     <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/components/responsive.css">
 </head>
 
 <body>
 
-    <aside class="admin-sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Apri menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="admin-sidebar" id="adminSidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
         <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
 
