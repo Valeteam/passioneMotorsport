@@ -8,24 +8,23 @@ const previewWrap = document.getElementById('upload-preview');
 const previewImg = document.getElementById('upload-preview-img');
 const cancelBtn = document.getElementById('cancel-edit');
 const formHeading = document.getElementById('form-heading');
+const tbody = document.getElementById('sponsor-table-body');
 
-let currentLogoData = "";
+let logoCorrente = '';
 
-logoField.addEventListener('change', () => {
-    const file = logoField.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        currentLogoData = e.target.result;
-        previewImg.src = currentLogoData;
-        previewWrap.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-});
+collegaAnteprima(logoField, previewWrap, previewImg);
+
+function resetForm() {
+    form.reset();
+    idField.value = '';
+    logoCorrente = '';
+    previewWrap.style.display = 'none';
+    formHeading.textContent = 'nuovo sponsor';
+    cancelBtn.style.display = 'none';
+}
 
 async function loadSponsors() {
     const sponsor = await AdminDB.getAll('sponsor');
-    const tbody = document.getElementById('sponsor-table-body');
     const empty = document.getElementById('sponsor-empty');
 
     if (sponsor.length === 0) {
@@ -37,11 +36,11 @@ async function loadSponsors() {
 
     tbody.innerHTML = sponsor.map(s => `
     <tr>
-      <td>${s.nome}</td>
-      <td><span class="tag status-planned">${s.livello}</span></td>
+      <td>${esc(s.nome)}</td>
+      <td><span class="tag status-planned">${esc(s.livello)}</span></td>
       <td class="actions">
-        <button class="btn small" onclick="editSponsor(${s.id})">modifica</button>
-        <button class="btn small danger" onclick="deleteSponsor(${s.id})">rimuovi</button>
+        <button class="btn small" data-azione="modifica" data-id="${Number(s.id)}">modifica</button>
+        <button class="btn small danger" data-azione="elimina" data-id="${Number(s.id)}">rimuovi</button>
       </td>
     </tr>
   `).join('');
@@ -55,11 +54,14 @@ async function editSponsor(id) {
     idField.value = item.id;
     nomeField.value = item.nome;
     livelloField.value = item.livello;
+    logoField.value = '';
 
-    if (item.logo) {
-        currentLogoData = item.logo;
-        previewImg.src = item.logo;
+    logoCorrente = item.logo || '';
+    if (logoCorrente) {
+        previewImg.src = urlImmagine(logoCorrente);
         previewWrap.style.display = 'block';
+    } else {
+        previewWrap.style.display = 'none';
     }
 
     formHeading.textContent = 'modifica sponsor';
@@ -70,101 +72,76 @@ async function editSponsor(id) {
 async function deleteSponsor(id) {
     if (!confirm('Rimuovere questo sponsor?')) return;
     await AdminDB.remove('sponsor', id);
-    loadSponsors();
+    await loadSponsors();
 }
 
-cancelBtn.addEventListener('click', () => {
-    form.reset();
-    idField.value = '';
-    currentLogoData = '';
-    previewWrap.style.display = 'none';
-    formHeading.textContent = 'nuovo sponsor';
-    cancelBtn.style.display = 'none';
+tbody.addEventListener('click', e => {
+    const bottone = e.target.closest('button[data-azione]');
+    if (!bottone) return;
+    const id = Number(bottone.dataset.id);
+
+    if (bottone.dataset.azione === 'modifica') conErrori(() => editSponsor(id));
+    if (bottone.dataset.azione === 'elimina') conErrori(() => deleteSponsor(id));
 });
 
-form.addEventListener('submit', async (e) => {
+cancelBtn.addEventListener('click', resetForm);
+
+form.addEventListener('submit', e => {
     e.preventDefault();
 
-    let percorsoImmagine = currentLogoData;
-    const nuovoFile = logoField.files[0];
-    if (nuovoFile) {
-        percorsoImmagine = await uploadImage(nuovoFile);
-    }
+    conErrori(async () => {
+        let percorso = logoCorrente;
+        const nuovoFile = logoField.files[0];
+        if (nuovoFile) {
+            percorso = await AdminDB.upload('sponsor', nuovoFile);
+        }
 
-    const payload = {
-        nome: nomeField.value,
-        livello: livelloField.value,
-        logo: percorsoImmagine
-    };
+        const payload = {
+            nome: nomeField.value,
+            livello: livelloField.value,
+            logo: percorso || null
+        };
 
-    if (idField.value) {
-        await AdminDB.update('sponsor', Number(idField.value), payload);
-    } else {
-        await AdminDB.add('sponsor', payload);
-    }
+        if (idField.value) {
+            await AdminDB.update('sponsor', Number(idField.value), payload);
+        } else {
+            await AdminDB.add('sponsor', payload);
+        }
 
-    form.reset();
-    idField.value = '';
-    currentLogoData = '';
-    previewWrap.style.display = 'none';
-    formHeading.textContent = 'nuovo sponsor';
-    cancelBtn.style.display = 'none';
-
-    loadSponsors();
-});
-
-async function uploadImage(file) {
-    const dati = new FormData();
-    dati.append('tipo', 'sponsor');
-    dati.append('immagine', file);
-
-    const risposta = await fetch(API_BASE + 'uploadImg.php', {
-        method: 'POST',
-        body: dati
+        resetForm();
+        await loadSponsors();
+        mostraMessaggio('Sponsor salvato', 'ok');
     });
-
-    const risultato = await risposta.json();
-    return risultato.percorso;
-}
+});
 
 /* ---------- richieste di sponsorizzazione ---------- */
 let activeRequestId = null;
 
-function requestStatusClass(stato) {
-    if (stato === 'da leggere') return 'status-unread';
-    if (stato === 'risposto') return 'status-replied';
-    return 'status-read';
-}
+const requestsBody = document.getElementById('requests-table-body');
 
 async function loadRequests() {
     const richieste = await AdminDB.getAll('richiesteSponsor');
-    const tbody = document.getElementById('requests-table-body');
     const empty = document.getElementById('requests-empty');
 
     if (richieste.length === 0) {
-        tbody.innerHTML = '';
+        requestsBody.innerHTML = '';
         empty.style.display = 'block';
         return;
     }
     empty.style.display = 'none';
 
-    tbody.innerHTML = richieste.map(r => `
+    requestsBody.innerHTML = richieste.map(r => `
     <tr class="${r.stato === 'da leggere' ? 'unread' : ''}">
-      <td>${r.azienda}</td>
-      <td>${r.referente}</td>
-      <td>${formatDate(r.creato_il)}</td>
-      <td><span class="tag ${requestStatusClass(r.stato)}">${r.stato}</span></td>
+      <td>${esc(r.azienda)}</td>
+      <td>${esc(r.referente)}</td>
+      <td>${esc(formatDate(r.creato_il))}</td>
+      <td><span class="tag ${statoClass(r.stato)}">${esc(r.stato)}</span></td>
       <td class="actions">
-        <button class="btn small" onclick="openRequestModal(${r.id})">apri</button>
-        <button class="btn small danger" onclick="deleteRequest(${r.id})">elimina</button>
+        <button class="btn small" data-azione="apri" data-id="${Number(r.id)}">apri</button>
+        <button class="btn small danger" data-azione="elimina" data-id="${Number(r.id)}">elimina</button>
       </td>
     </tr>
   `).join('');
-}
-
-function formatDate(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 async function openRequestModal(id) {
@@ -173,14 +150,15 @@ async function openRequestModal(id) {
     if (!item) return;
 
     activeRequestId = id;
+    // textContent = testo semplice, mai interpretato come HTML
     document.getElementById('modal-azienda').textContent = item.azienda;
     document.getElementById('modal-referente').textContent = `${item.referente} — ${item.email}`;
     document.getElementById('modal-messaggio').textContent = item.messaggio;
     document.getElementById('request-modal').classList.add('open');
 
     if (item.stato === 'da leggere') {
-        await AdminDB.update('richiesteSponsor', id, { ...item, stato: 'letto' });
-        loadRequests();
+        await AdminDB.update('richiesteSponsor', id, { stato: 'letto' });
+        await loadRequests();
     }
 }
 
@@ -191,21 +169,29 @@ function closeRequestModal() {
 
 async function markRequestReplied() {
     if (!activeRequestId) return;
+    const id = activeRequestId;
 
-    const richieste = await AdminDB.getAll('richiesteSponsor');
-    const item = richieste.find(r => Number(r.id) === activeRequestId);
-    if (!item) return;
-
-    await AdminDB.update('richiesteSponsor', activeRequestId, { ...item, stato: 'risposto' });
-    closeRequestModal();
-    loadRequests();
+    await conErrori(async () => {
+        await AdminDB.update('richiesteSponsor', id, { stato: 'risposto' });
+        closeRequestModal();
+        await loadRequests();
+    });
 }
 
 async function deleteRequest(id) {
     if (!confirm('Eliminare questa richiesta?')) return;
     await AdminDB.remove('richiesteSponsor', id);
-    loadRequests();
+    await loadRequests();
 }
 
-loadSponsors();
-loadRequests();
+requestsBody.addEventListener('click', e => {
+    const bottone = e.target.closest('button[data-azione]');
+    if (!bottone) return;
+    const id = Number(bottone.dataset.id);
+
+    if (bottone.dataset.azione === 'apri') conErrori(() => openRequestModal(id));
+    if (bottone.dataset.azione === 'elimina') conErrori(() => deleteRequest(id));
+});
+
+conErrori(loadSponsors);
+conErrori(loadRequests);

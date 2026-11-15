@@ -1,36 +1,30 @@
 <?php
-header('Content-Type: application/json');
-require_once '../php/config.php';
+require_once __DIR__ . '/../php/api_bootstrap.php';
+richiediStaff();
 
-$metodo = $_SERVER['REQUEST_METHOD'];
-
-switch ($metodo) {
+switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
-        $stmt = $pdo->query("SELECT * FROM calendario ORDER BY datazione ASC");
-        $risultati = $stmt->fetchAll();
-        echo json_encode($risultati);
-        break;
+        rispondi($pdo->query("SELECT * FROM calendario ORDER BY datazione ASC")->fetchAll());
 
     case 'POST':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("
             INSERT INTO calendario (titolo, validita, datazione, immagine)
             VALUES (?, ?, ?, ?)
         ");
         $stmt->execute([
-            $dati['titolo'],
-            $dati['validita'],
-            $dati['datazione'],
-            $dati['immagine']
+            campoTesto($dati, 'titolo', 150),
+            campoScelta($dati, 'validita', ['moderno', 'storico']),
+            campoData($dati, 'datazione'),
+            campoImmagine($dati, 'immagine', 'calendario')
         ]);
 
-        echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
-        break;
+        rispondi(['id' => (int) $pdo->lastInsertId(), 'successo' => true], 201);
 
     case 'PUT':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("
             UPDATE calendario
@@ -38,28 +32,29 @@ switch ($metodo) {
             WHERE id = ?
         ");
         $stmt->execute([
-            $dati['titolo'],
-            $dati['validita'],
-            $dati['datazione'],
-            $dati['immagine'],
-            $dati['id']
+            campoTesto($dati, 'titolo', 150),
+            campoScelta($dati, 'validita', ['moderno', 'storico']),
+            campoData($dati, 'datazione'),
+            campoImmagine($dati, 'immagine', 'calendario'),
+            campoIntero($dati, 'id')
         ]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Gara non trovata');
+        }
+        rispondi(['successo' => true]);
 
     case 'DELETE':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("DELETE FROM calendario WHERE id = ?");
-        $stmt->execute([$dati['id']]);
+        $stmt->execute([campoIntero($dati, 'id')]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Gara non trovata');
+        }
+        rispondi(['successo' => true]);
 
     default:
-        http_response_code(405);
-        echo json_encode(['errore' => 'Metodo non consentito']);
+        errore(405, 'Metodo non consentito');
 }
-
-?>

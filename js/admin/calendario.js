@@ -1,23 +1,30 @@
 const form = document.getElementById('race-form');
 const idField = document.getElementById('race-id');
-const nomeField = document.getElementById('race-nome');
-const repartoField = document.getElementById('race-reparto');
+const titoloField = document.getElementById('race-titolo');
 const dataField = document.getElementById('race-data');
-const statoField = document.getElementById('race-stato');
+const validitaField = document.getElementById('race-validita');
+const immagineField = document.getElementById('race-immagine');
+const previewWrap = document.getElementById('upload-preview');
+const previewImg = document.getElementById('upload-preview-img');
 const cancelBtn = document.getElementById('cancel-edit');
 const formHeading = document.getElementById('form-heading');
+const tbody = document.getElementById('race-table-body');
 
-function statusClass(stato) {
-    if (stato === 'disputata') return 'status-done';
-    if (stato === 'prossima') return 'status-next';
-    return 'status-planned';
+let immagineCorrente = '';
+
+collegaAnteprima(immagineField, previewWrap, previewImg);
+
+function resetForm() {
+    form.reset();
+    idField.value = '';
+    immagineCorrente = '';
+    previewWrap.style.display = 'none';
+    formHeading.textContent = 'nuova gara';
+    cancelBtn.style.display = 'none';
 }
 
 async function loadRaces() {
-    let gare = await AdminDB.getAll('calendario');
-    gare = [...gare].sort((a, b) => new Date(a.data_gara) - new Date(b.data_gara));
-
-    const tbody = document.getElementById('race-table-body');
+    const gare = await AdminDB.getAll('calendario');
     const empty = document.getElementById('race-empty');
 
     if (gare.length === 0) {
@@ -29,21 +36,15 @@ async function loadRaces() {
 
     tbody.innerHTML = gare.map(g => `
     <tr>
-      <td>${formatDate(g.data_gara)}</td>
-      <td>${g.nome}</td>
-      <td><span class="tag dept-${g.reparto}">${g.reparto}</span></td>
-      <td><span class="tag ${statusClass(g.stato)}">${g.stato}</span></td>
+      <td>${esc(formatDate(g.datazione))}</td>
+      <td>${esc(g.titolo)}</td>
+      <td><span class="tag ${g.validita === 'storico' ? 'status-planned' : 'status-next'}">${esc(g.validita)}</span></td>
       <td class="actions">
-        <button class="btn small" onclick="editRace(${g.id})">modifica</button>
-        <button class="btn small danger" onclick="deleteRace(${g.id})">elimina</button>
+        <button class="btn small" data-azione="modifica" data-id="${Number(g.id)}">modifica</button>
+        <button class="btn small danger" data-azione="elimina" data-id="${Number(g.id)}">elimina</button>
       </td>
     </tr>
   `).join('');
-}
-
-function formatDate(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 async function editRace(id) {
@@ -52,10 +53,17 @@ async function editRace(id) {
     if (!item) return;
 
     idField.value = item.id;
-    nomeField.value = item.nome;
-    repartoField.value = item.reparto;
-    dataField.value = item.data_gara;
-    statoField.value = item.stato;
+    titoloField.value = item.titolo;
+    dataField.value = item.datazione;
+    validitaField.value = item.validita;
+    immagineCorrente = item.immagine || '';
+
+    if (immagineCorrente) {
+        previewImg.src = urlImmagine(immagineCorrente);
+        previewWrap.style.display = 'block';
+    } else {
+        previewWrap.style.display = 'none';
+    }
 
     formHeading.textContent = 'modifica gara';
     cancelBtn.style.display = 'inline-flex';
@@ -65,38 +73,48 @@ async function editRace(id) {
 async function deleteRace(id) {
     if (!confirm('Rimuovere questa gara dal calendario?')) return;
     await AdminDB.remove('calendario', id);
-    loadRaces();
+    await loadRaces();
 }
 
-cancelBtn.addEventListener('click', () => {
-    form.reset();
-    idField.value = '';
-    formHeading.textContent = 'nuova gara';
-    cancelBtn.style.display = 'none';
+// un solo ascoltatore per tutta la tabella (niente onclick dentro l'HTML)
+tbody.addEventListener('click', e => {
+    const bottone = e.target.closest('button[data-azione]');
+    if (!bottone) return;
+    const id = Number(bottone.dataset.id);
+
+    if (bottone.dataset.azione === 'modifica') conErrori(() => editRace(id));
+    if (bottone.dataset.azione === 'elimina') conErrori(() => deleteRace(id));
 });
 
-form.addEventListener('submit', async (e) => {
+cancelBtn.addEventListener('click', resetForm);
+
+form.addEventListener('submit', e => {
     e.preventDefault();
 
-    const payload = {
-        nome: nomeField.value,
-        reparto: repartoField.value,
-        data_gara: dataField.value,
-        stato: statoField.value
-    };
+    conErrori(async () => {
+        let percorso = immagineCorrente;
+        const nuovoFile = immagineField.files[0];
+        if (nuovoFile) {
+            percorso = await AdminDB.upload('calendario', nuovoFile);
+        }
 
-    if (idField.value) {
-        await AdminDB.update('calendario', Number(idField.value), payload);
-    } else {
-        await AdminDB.add('calendario', payload);
-    }
+        const payload = {
+            titolo: titoloField.value,
+            datazione: dataField.value,
+            validita: validitaField.value,
+            immagine: percorso || null
+        };
 
-    form.reset();
-    idField.value = '';
-    formHeading.textContent = 'nuova gara';
-    cancelBtn.style.display = 'none';
+        if (idField.value) {
+            await AdminDB.update('calendario', Number(idField.value), payload);
+        } else {
+            await AdminDB.add('calendario', payload);
+        }
 
-    loadRaces();
+        resetForm();
+        await loadRaces();
+        mostraMessaggio('Gara salvata', 'ok');
+    });
 });
 
-loadRaces();
+conErrori(loadRaces);

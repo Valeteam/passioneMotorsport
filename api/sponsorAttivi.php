@@ -1,63 +1,53 @@
 <?php
-header('Content-Type: application/json');
-require_once '../php/config.php';
+require_once __DIR__ . '/../php/api_bootstrap.php';
+richiediStaff();
 
-$metodo = $_SERVER['REQUEST_METHOD'];
+const LIVELLI_SPONSOR = ['supporter', 'official partner', 'tech partner'];
 
-switch ($metodo) {
+switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
-        $stmt = $pdo->query("SELECT * FROM sponsor ORDER BY nome ASC");
-        $risultati = $stmt->fetchAll();
-        echo json_encode($risultati);
-        break;
+        rispondi($pdo->query("SELECT * FROM sponsor ORDER BY nome ASC")->fetchAll());
 
     case 'POST':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
-        $stmt = $pdo->prepare("
-            INSERT INTO sponsor (nome, livello, logo)
-            VALUES (?, ?, ?)
-        ");
+        $stmt = $pdo->prepare("INSERT INTO sponsor (nome, livello, logo) VALUES (?, ?, ?)");
         $stmt->execute([
-            $dati['nome'],
-            $dati['livello'],
-            $dati['logo']
+            campoTesto($dati, 'nome', 150),
+            campoScelta($dati, 'livello', LIVELLI_SPONSOR),
+            campoImmagine($dati, 'logo', 'sponsor')
         ]);
 
-        echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
-        break;
+        rispondi(['id' => (int) $pdo->lastInsertId(), 'successo' => true], 201);
 
     case 'PUT':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
-        $stmt = $pdo->prepare("
-            UPDATE sponsor
-            SET nome = ?, livello = ?, logo = ?
-            WHERE id = ?
-        ");
+        $stmt = $pdo->prepare("UPDATE sponsor SET nome = ?, livello = ?, logo = ? WHERE id = ?");
         $stmt->execute([
-            $dati['nome'],
-            $dati['livello'],
-            $dati['logo'],
-            $dati['id']
+            campoTesto($dati, 'nome', 150),
+            campoScelta($dati, 'livello', LIVELLI_SPONSOR),
+            campoImmagine($dati, 'logo', 'sponsor'),
+            campoIntero($dati, 'id')
         ]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Sponsor non trovato');
+        }
+        rispondi(['successo' => true]);
 
     case 'DELETE':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("DELETE FROM sponsor WHERE id = ?");
-        $stmt->execute([$dati['id']]);
+        $stmt->execute([campoIntero($dati, 'id')]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Sponsor non trovato');
+        }
+        rispondi(['successo' => true]);
 
     default:
-        http_response_code(405);
-        echo json_encode(['errore' => 'Metodo non consentito']);
+        errore(405, 'Metodo non consentito');
 }
-
-?>

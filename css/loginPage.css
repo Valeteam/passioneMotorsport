@@ -70,6 +70,7 @@ body {
 }
 
 .admin-compilation {
+    position: relative;
     margin-bottom: 20px;
 }
 
@@ -99,4 +100,56 @@ body {
     border-color: var(--yellowBold);
     box-shadow: 0 0 10px var(--yellowBold);
     outline: none;
+}
+
+.admin-compilation input[type="checkbox"].occhio {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    position: absolute;
+    right: 15px;
+    top: 62%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    outline: none;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--trasparente);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'%3E%3C/path%3E%3Cline x1='1' y1='1' x2='23' y2='23'%3E%3C/line%3E%3C/svg%3E");
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.admin-compilation input[type="checkbox"].occhio:hover {
+    opacity: 1;
+}
+
+.admin-compilation input[type="checkbox"].occhio:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'%3E%3C/path%3E%3Ccircle cx='12' cy='12' r='3'%3E%3C/circle%3E%3C/svg%3E");
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1); 
+}
+
+.admin-compilation input[type="checkbox"].occhio:focus {
+    border-color: var(--trasparente);
+    box-shadow: none;
+    outline: none;
+}
+
+.reset{
+    text-align: center;
+}
+
+.reset a{
+    display: block;
+    text-decoration: none;
+    margin-top: 25px;
+    padding: 15px;
+    color: var(--white);
+    font-style: var(--display);
+    font-weight: bold;
+    text-transform: uppercase;
 }

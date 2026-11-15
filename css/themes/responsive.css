@@ -164,7 +164,6 @@
     }
 }
 
-/* telefono: pulsanti social a griglia, tutti dentro lo schermo */
 @media (max-width: 640px) {
     .send h2 {
         font-size: 2rem;
@@ -198,7 +197,6 @@
         letter-spacing: 0.02em;
     }
 
-    /* 1 colonna su telefono, 2 se c'è spazio */
     .social-links {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
@@ -213,13 +211,11 @@
         font-size: 14px;
     }
 
-    /* se i pulsanti sono dispari, l'ultimo occupa tutta la riga */
     .social-links a:last-child:nth-child(odd) {
         grid-column: 1 / -1;
     }
 }
 
-/* telefoni molto piccoli */
 @media (max-width: 360px) {
     .send form {
         padding: 50px 14px 22px;
@@ -242,12 +238,10 @@
     .email,
     .text {
         width: 25%;
-        /* margin-left: 40%; */
     }
 
     .text {
         width: 50%;
-        /* margin-left: 27%; */
     }
 }
 
@@ -258,12 +252,10 @@
 
     .email {
         width: 35%;
-        /* margin-left: 35%; */
     }
 
     .text {
         width: 70%;
-        /* margin-left: 17%; */
     }
 
     .send button {

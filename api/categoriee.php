@@ -1,59 +1,45 @@
 <?php
-header('Content-Type: application/json');
-require_once '../php/config.php';
+require_once __DIR__ . '/../php/api_bootstrap.php';
+richiediStaff();
 
-$metodo = $_SERVER['REQUEST_METHOD'];
-
-switch ($metodo) {
+switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
-        $stmt = $pdo->query("SELECT * FROM categorie ORDER BY nome ASC");
-        $risultati = $stmt->fetchAll();
-        echo json_encode($risultati);
-        break;
+        rispondi($pdo->query("SELECT * FROM categorie ORDER BY nome ASC")->fetchAll());
 
     case 'POST':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
-        $stmt = $pdo->prepare("
-            INSERT INTO categorie (nome)
-            VALUES (?)
-        ");
-        $stmt->execute([
-            $dati['nome']
-        ]);
+        $stmt = $pdo->prepare("INSERT INTO categorie (nome) VALUES (?)");
+        $stmt->execute([campoTesto($dati, 'nome', 50)]);
 
-        echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
-        break;
+        rispondi(['id' => (int) $pdo->lastInsertId(), 'successo' => true], 201);
 
     case 'PUT':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
-        $stmt = $pdo->prepare("
-            UPDATE categorie
-            SET nome = ?
-            WHERE id = ?
-        ");
+        $stmt = $pdo->prepare("UPDATE categorie SET nome = ? WHERE id = ?");
         $stmt->execute([
-            $dati['nome'],
-            $dati['id']
+            campoTesto($dati, 'nome', 50),
+            campoIntero($dati, 'id')
         ]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Categoria non trovata');
+        }
+        rispondi(['successo' => true]);
 
     case 'DELETE':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("DELETE FROM categorie WHERE id = ?");
-        $stmt->execute([$dati['id']]);
+        $stmt->execute([campoIntero($dati, 'id')]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Categoria non trovata');
+        }
+        rispondi(['successo' => true]);
 
     default:
-        http_response_code(405);
-        echo json_encode(['errore' => 'Metodo non consentito']);
+        errore(405, 'Metodo non consentito');
 }
-
-?>

@@ -1,23 +1,18 @@
 <?php
-header('Content-Type: application/json');
-require_once '../php/config.php';
+require_once __DIR__ . '/../php/api_bootstrap.php';
+richiediStaff();
 
-$metodo = $_SERVER['REQUEST_METHOD'];
-
-switch ($metodo) {
+switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
-        $stmt = $pdo->query("
+        rispondi($pdo->query("
             SELECT id, username, foto_profilo, categoria, ultima_posizione, ruolo
             FROM utenti_admin
             ORDER BY username ASC
-        ");
-        $risultati = $stmt->fetchAll();
-        echo json_encode($risultati);
-        break;
+        ")->fetchAll());
 
     case 'PUT':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("
             UPDATE utenti_admin
@@ -25,18 +20,17 @@ switch ($metodo) {
             WHERE id = ?
         ");
         $stmt->execute([
-            $dati['foto_profilo'] ?? null,
-            $dati['categoria'] ?? null,
-            $dati['ultima_posizione'] ?? null,
-            $dati['id']
+            campoImmagine($dati, 'foto_profilo', 'piloti'),
+            campoTesto($dati, 'categoria', 50, false),
+            campoTesto($dati, 'ultima_posizione', 50, false),
+            campoIntero($dati, 'id')
         ]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Pilota non trovato');
+        }
+        rispondi(['successo' => true]);
 
     default:
-        http_response_code(405);
-        echo json_encode(['errore' => 'Metodo non consentito']);
+        errore(405, 'Metodo non consentito');
 }
-
-?>

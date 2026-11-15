@@ -1,9 +1,6 @@
 <?php
 require_once 'config.php';
 
-// il form pubblico manda i dati come form tradizionale (non JSON),
-// quindi qui li leggiamo da $_POST, non da json_decode(php://input)
-// come facevamo nelle API dell'admin
 $nome = trim($_POST['nome'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $motivo = $_POST['motivo'] ?? 'generico';
@@ -11,24 +8,32 @@ $messaggio = trim($_POST['messaggio'] ?? '');
 $azienda = trim($_POST['azienda'] ?? '');
 $reparto = $_POST['reparto'] ?? '';
 
-// validazione minima: senza questi tre, non ha senso salvare nulla
-if ($nome === '' || $email === '' || $messaggio === '') {
-    header("Location: ../index.php?contatto=errore");
+function contattoErrore(): void
+{
+    header('Location: ../index.php?contatto=errore');
     exit;
 }
+if ($nome === '' || $email === '' || $messaggio === '') {
+    contattoErrore();
+}
 
-// smistamento in base al motivo scelto: stessa idea che avevi
-// avuto tu settimane fa, ora la mettiamo in pratica
+if (mb_strlen($nome) > 100 || mb_strlen($email) > 150 || mb_strlen($azienda) > 150 || mb_strlen($messaggio) > 2000) {
+    contattoErrore();
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    contattoErrore();
+}
+
+if (!in_array($motivo, ['generico', 'candidatura', 'sponsor'], true)) {
+    $motivo = 'generico';
+}
+
 switch ($motivo) {
 
     case 'candidatura':
-        // qui serve per forza un reparto valido, coerente con l'ENUM
-        // della tabella — se manca o non e' uno dei due valori ammessi,
-        // meglio trattarla come messaggio generico piuttosto che
-        // rischiare un errore SQL
         if ($reparto !== 'esports' && $reparto !== 'reale') {
-            header("Location: ../index.php?contatto=errore");
-            exit;
+            contattoErrore();
         }
 
         $stmt = $pdo->prepare("
@@ -39,11 +44,8 @@ switch ($motivo) {
         break;
 
     case 'sponsor':
-        // qui il "nome" del form diventa il referente,
-        // e serve anche il nome dell'azienda
         if ($azienda === '') {
-            header("Location: ../index.php?contatto=errore");
-            exit;
+            contattoErrore();
         }
 
         $stmt = $pdo->prepare("
@@ -54,7 +56,6 @@ switch ($motivo) {
         break;
 
     default:
-        // qualsiasi altro valore (o 'generico') finisce come messaggio normale
         $stmt = $pdo->prepare("
             INSERT INTO messaggi (nome, email, motivo, messaggio, stato)
             VALUES (?, ?, ?, ?, 'da leggere')
@@ -62,5 +63,5 @@ switch ($motivo) {
         $stmt->execute([$nome, $email, $motivo, $messaggio]);
 }
 
-header("Location: ../index.php?contatto=ok");
+header('Location: ../index.php?contatto=ok');
 exit;

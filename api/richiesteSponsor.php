@@ -1,68 +1,54 @@
 <?php
-header('Content-Type: application/json');
-require_once '../php/config.php';
+require_once __DIR__ . '/../php/api_bootstrap.php';
+richiediStaff();
 
-$metodo = $_SERVER['REQUEST_METHOD'];
-
-switch ($metodo) {
+switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
-        $stmt = $pdo->query("SELECT * FROM richieste_sponsor ORDER BY creato_il DESC ");
-        $risultati = $stmt->fetchAll();
-        echo json_encode($risultati);
-        break;
+        rispondi($pdo->query("SELECT * FROM richieste_sponsor ORDER BY creato_il DESC")->fetchAll());
 
     case 'POST':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("
             INSERT INTO richieste_sponsor (azienda, referente, email, messaggio, stato)
             VALUES (?, ?, ?, ?, ?)
         ");
         $stmt->execute([
-            $dati['azienda'],
-            $dati['referente'],
-            $dati['email'],
-            $dati['messaggio'],
-            $dati['stato']
+            campoTesto($dati, 'azienda', 150),
+            campoTesto($dati, 'referente', 100),
+            campoEmail($dati, 'email'),
+            campoTesto($dati, 'messaggio', 5000),
+            isset($dati['stato']) ? campoScelta($dati, 'stato', STATI_LETTURA) : 'da leggere'
         ]);
 
-        echo json_encode(['id' => $pdo->lastInsertId(), 'successo' => true]);
-        break;
+        rispondi(['id' => (int) $pdo->lastInsertId(), 'successo' => true], 201);
 
     case 'PUT':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
-        $stmt = $pdo->prepare("
-            UPDATE richieste_sponsor
-            SET azienda = ?, referente = ?, email = ?, messaggio = ?, stato = ?
-            WHERE id = ?
-        ");
-
+        $stmt = $pdo->prepare("UPDATE richieste_sponsor SET stato = ? WHERE id = ?");
         $stmt->execute([
-            $dati['azienda'],
-            $dati['referente'],
-            $dati['email'],
-            $dati['messaggio'],
-            $dati['stato'],
-            $dati['id']
+            campoScelta($dati, 'stato', STATI_LETTURA),
+            campoIntero($dati, 'id')
         ]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Richiesta non trovata');
+        }
+        rispondi(['successo' => true]);
 
     case 'DELETE':
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
 
         $stmt = $pdo->prepare("DELETE FROM richieste_sponsor WHERE id = ?");
-        $stmt->execute([$dati['id']]);
+        $stmt->execute([campoIntero($dati, 'id')]);
 
-        echo json_encode(['successo' => true]);
-        break;
+        if ($stmt->rowCount() === 0) {
+            errore(404, 'Richiesta non trovata');
+        }
+        rispondi(['successo' => true]);
 
     default:
-        http_response_code(405);
-        echo json_encode(['errore' => 'Metodo non consentito']);
+        errore(405, 'Metodo non consentito');
 }
-
-?>

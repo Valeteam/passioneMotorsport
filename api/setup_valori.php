@@ -1,27 +1,21 @@
 <?php
-header('Content-Type: application/json');
-require_once '../php/config.php';
+require_once __DIR__ . '/../php/api_bootstrap.php';
 
-$metodo = $_SERVER['REQUEST_METHOD'];
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    richiediTeam();
+} else {
+    richiediStaff();
+}
 
-switch ($metodo) {
+switch ($_SERVER['REQUEST_METHOD']) {
 
     case 'GET':
-        // qui usiamo $_GET perche' e' una richiesta di lettura con un
-        // parametro nell'url (?gara=ID) — normale in un'API REST.
-        // resta comunque sicuro perche' il valore passa da un prepared
-        // statement (?), non viene mai incollato dentro la stringa SQL
-        $garaId = $_GET['gara'] ?? null;
+        $garaId = filter_var($_GET['gara'] ?? null, FILTER_VALIDATE_INT);
 
-        if (!$garaId || !is_numeric($garaId)) {
-            http_response_code(400);
-            echo json_encode(['errore' => 'Parametro gara mancante o non valido']);
-            exit;
+        if ($garaId === false) {
+            errore(400, 'Parametro gara mancante o non valido');
         }
 
-        // LEFT JOIN condizionato sulla gara specifica: prendiamo TUTTI i
-        // parametri esistenti, con il valore di questa gara se c'e',
-        // NULL se per qualche motivo mancasse
         $stmt = $pdo->prepare("
             SELECT setup_parametri.id, setup_parametri.gruppo, setup_parametri.etichetta,
                    setup_parametri.unita, setup_parametri.ordine, setup_valori.valore
@@ -32,18 +26,34 @@ switch ($metodo) {
             ORDER BY setup_parametri.gruppo, setup_parametri.ordine
         ");
         $stmt->execute([$garaId]);
-        $risultati = $stmt->fetchAll();
-        echo json_encode($risultati);
-        break;
+        rispondi($stmt->fetchAll());
 
     case 'PUT':
-        // qui aggiorniamo PIU' valori insieme (tutti i parametri di una
-        // gara, salvati in un solo click) — il corpo e':
-        // { gara_id: 5, valori: [ {parametro_id: 1, valore: 0.20}, ... ] }
-        $dati = json_decode(file_get_contents('php://input'), true);
+        $dati = leggiBody();
+        $garaId = campoIntero($dati, 'gara_id');
+        $valori = $dati['valori'] ?? null;
 
-        $garaId = $dati['gara_id'];
-        $valori = $dati['valori'];
+        if (!is_array($valori) || count($valori) === 0 || count($valori) > 200) {
+            errore(400, "Campo 'valori' mancante o non valido");
+        }
+
+        $righe = [];
+        foreach ($valori as $riga) {
+            if (!is_array($riga)) {
+                errore(400, 'Riga di valori non valida');
+            }
+
+            $parametroId = campoIntero($riga, 'parametro_id');
+            $valore = $riga['valore'] ?? null;
+
+            if ($valore === null || $valore === '') {
+                $valore = null;
+            } elseif (!is_numeric($valore) || abs((float) $valore) >= 10000000) {
+                errore(400, "Valore non valido per il parametro $parametroId");
+            }
+
+            $righe[] = [$valore, $garaId, $parametroId];
+        }
 
         $stmt = $pdo->prepare("
             UPDATE setup_valori
@@ -51,20 +61,19 @@ switch ($metodo) {
             WHERE gara_id = ? AND parametro_id = ?
         ");
 
-        foreach ($valori as $riga) {
-            $stmt->execute([
-                $riga['valore'] !== '' ? $riga['valore'] : null,
-                $garaId,
-                $riga['parametro_id']
-            ]);
+        $pdo->beginTransaction();
+        try {
+            foreach ($righe as $r) {
+                $stmt->execute($r);
+            }
+            $pdo->commit();
+        } catch (Throwable $e) {
+            $pdo->rollBack();
+            throw $e;
         }
 
-        echo json_encode(['successo' => true]);
-        break;
+        rispondi(['successo' => true]);
 
     default:
-        http_response_code(405);
-        echo json_encode(['errore' => 'Metodo non consentito']);
+        errore(405, 'Metodo non consentito');
 }
-
-?>

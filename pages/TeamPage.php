@@ -1,15 +1,9 @@
 <?php
 
-session_start();
-header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-header('Pragma: no-cache');
+require_once __DIR__ . '/../php/guard_pagina.php';
+require_once __DIR__ . '/../php/config.php';
 
-require_once '../php/config.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../loginPage.php");
-    exit;
-}
+$ruolo = proteggiPagina(['admin', 'manager', 'membro'], '../loginPage.php', '../loginPage.php');
 
 $ultimeNews = fetchAllQuery($pdo, "
     SELECT news.*, categorie.nome AS categoria
@@ -31,12 +25,12 @@ $gare = fetchAllQuery($pdo, "
 
 
 $user = fetchAllQuery($pdo, "
-    SELECT * FROM utenti_admin ORDER BY ruolo ASC
+    SELECT id, username, foto_profilo, categoria, ultima_posizione, ruolo FROM utenti_admin ORDER BY ruolo ASC
 ");
 ?>
 
 <!DOCTYPE html>
-<html lang="ita">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
@@ -51,7 +45,7 @@ $user = fetchAllQuery($pdo, "
     <link rel="stylesheet" href="../css/components/navbar.css">
     <link rel="stylesheet" href="../css/TeamPage.css">
     <link rel="stylesheet" href="../css/components/footer.css">
-    <link rel="stylesheet" href="../css/components/responsive.css">
+    <link rel="stylesheet" href="../css/themes/responsive.css">
 
 </head>
 
@@ -71,7 +65,7 @@ $user = fetchAllQuery($pdo, "
             <a href="#driver" id="drivers">Lista Driver</a>
             <a href="../php/setting.php" class="option">settings</a>
             <a href="../php/logout.php">logout</a>
-            <?php if ($_SESSION['ruolo'] === 'admin' || $_SESSION['ruolo'] === 'manager' ): ?>
+            <?php if (in_array($ruolo, ['admin', 'manager'], true) ): ?>
                 <a href="admin.php" target="_blank">Admin Page</a>
             <?php endif; ?>
         </div>
@@ -149,15 +143,12 @@ $user = fetchAllQuery($pdo, "
                 <div class="driver-card">
                     <img src="<?php echo $utente['foto_profilo'] ? htmlspecialchars('../' . $utente['foto_profilo']) : '../assets/img/piloti/placeholder.jpg'; ?>" alt="<?php echo htmlspecialchars($utente['username']); ?>" class="profilo">
                     <h2><?php echo htmlspecialchars($utente['username']) ?></h2>
-                    <h2><?php echo htmlspecialchars($utente['categoria']) ?></h2>
-                    <h3><?php echo htmlspecialchars($utente['ultima_posizione']) ?></h3>
-                    </img>
+                    <h2><?php echo htmlspecialchars($utente['categoria'] ?? '') ?></h2>
+                    <h3><?php echo htmlspecialchars($utente['ultima_posizione'] ?? '') ?></h3>
                 </div>
             <?php endforeach ?>
         </div>
     </section>
-
-    <script src="../js/admin-storage.js"></script>
     <script src="../js/services/news.js"></script>
     <script src="../js/utils/navbarSwitch.js"></script>
     <script src="../js/services/navbar.js"></script>

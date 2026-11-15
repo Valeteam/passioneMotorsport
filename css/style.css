@@ -1309,8 +1309,68 @@ html {
     align-content: center;
 }
 
+.introContatti h1:last-of-type {
+    position: relative;
+    font-family: var(--display);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: var(--white);
+    margin-bottom: 64px;
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+}
+
+.introContatti {
+    position: relative;
+    text-align: center;
+    margin-bottom: 44px;
+    padding: 24px 0;
+}
+
+.introContatti::before {
+    content: "CONTATTI";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--display);
+    font-size: clamp(5rem, 18vw, 12rem);
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+    opacity: 0.16;
+    pointer-events: none;
+    user-select: none;
+}
+
+.introContatti h1:first-of-type {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 0 0 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellowBold);
+}
+
+.introContatti h1:first-of-type::before,
+.introContatti h1:first-of-type::after {
+    content: "";
+    width: 36px;
+    height: 1px;
+    background: var(--yellowBold);
+}
+
 .spacing {
-    margin-top: 2rem;
+    margin-top: 5rem;
 }
 
 .send {
@@ -1342,7 +1402,6 @@ html {
     color: var(--grigio);
 }
 
-/* ----- card del form ----- */
 .send form {
     position: relative;
     display: grid;
@@ -1359,7 +1418,6 @@ html {
     overflow: hidden;
 }
 
-/* linguetta in alto a sinistra, come "In evidenza" nelle news */
 .send form::before {
     content: "modulo di contatto";
     position: absolute;
@@ -1376,7 +1434,6 @@ html {
     clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
 }
 
-/* ----- campo = etichetta + input ----- */
 .field {
     display: flex;
     flex-direction: column;
@@ -1448,7 +1505,6 @@ html {
     opacity: 0.55;
 }
 
-/* messaggio */
 .send form textarea {
     min-height: 130px;
     line-height: 1.6;
@@ -1463,7 +1519,6 @@ html {
     color: var(--grigio);
 }
 
-/* select con freccia nei colori del sito */
 .send form select {
     padding-right: 48px;
     cursor: pointer;
@@ -1472,7 +1527,6 @@ html {
     background-position: right 18px center;
 }
 
-/* finché non scegli, la select ha il colore del placeholder */
 .send form select:required:invalid {
     color: var(--line);
 }
@@ -1482,14 +1536,12 @@ html {
     background-color: var(--card-bg);
 }
 
-/* autofill: niente sfondo bianco del browser */
 .send form input:-webkit-autofill {
     -webkit-text-fill-color: var(--white);
     box-shadow: 0 0 0 1000px var(--card-bg) inset;
     caret-color: var(--white);
 }
 
-/* ----- campi che compaiono in base al motivo (solo CSS) ----- */
 @supports selector(:has(*)) {
     .field-azienda,
     .field-reparto {
@@ -1503,7 +1555,6 @@ html {
     }
 }
 
-/* ----- pulsante ----- */
 .send form button {
     grid-column: 1 / -1;
     width: 100%;

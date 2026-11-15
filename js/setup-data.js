@@ -1,12 +1,21 @@
 /*
-  setup-data.js (versione pubblica, collegata al backend)
-  ---------------------------------------------------------
-  Adesso loadSetupData() e' davvero asincrona: chiede al server
-  i valori reali di QUELLA gara specifica.
+    setup-data.js (TeamPage)
+    ------------------------
+    loadSetupData() chiede al server i valori di QUELLA gara specifica.
+    Il percorso e' relativo alla pagina (pages/TeamPage.php -> ../api/).
 */
 
 async function loadSetupData(garaId) {
-    const risposta = await fetch(`../api/setup_valori.php?gara=${garaId}`);
+    const risposta = await fetch(`../api/setup_valori.php?gara=${encodeURIComponent(garaId)}`, {
+        credentials: 'same-origin'
+    });
+
+    if (!risposta.ok) {
+        throw new Error(risposta.status === 403 || risposta.status === 401
+            ? 'Non hai i permessi per vedere questo setup'
+            : 'Impossibile caricare il setup');
+    }
+
     const parametri = await risposta.json();
 
     const raggruppati = {};

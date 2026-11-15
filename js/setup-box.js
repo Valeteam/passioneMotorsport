@@ -1,14 +1,21 @@
 /*
-  setup-box.js
-  ------------
-  apriSetup ora e' asincrona perche' loadSetupData() fa una vera
-  richiesta al server.
+    setup-box.js
+    ------------
+    apriSetup ora e' asincrona perche' loadSetupData() fa una vera
+    richiesta al server.
 */
 
 const setupModal = document.getElementById('setup-modal');
 const setupModalTitolo = document.getElementById('setup-modal-titolo');
 const setupModalBody = document.getElementById('setup-modal-body');
 const setupModalClose = document.getElementById('setup-modal-close');
+
+// testo sicuro da incollare dentro innerHTML
+function esc(valore) {
+    return String(valore ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
 
 function formattaValore(campo) {
     if (campo.value === null || campo.value === undefined) {
@@ -25,12 +32,12 @@ function costruisciTabella(dati) {
     let righe = '';
 
     for (const gruppo in dati) {
-        righe += `<tr class="setup-gruppo-riga"><td colspan="2">${gruppo}</td></tr>`;
+        righe += `<tr class="setup-gruppo-riga"><td colspan="2">${esc(gruppo)}</td></tr>`;
         dati[gruppo].forEach(campo => {
             righe += `
                 <tr>
-                    <td class="setup-nome">${campo.label}</td>
-                    <td class="setup-valore">${formattaValore(campo)}</td>
+                    <td class="setup-nome">${esc(campo.label)}</td>
+                    <td class="setup-valore">${esc(formattaValore(campo))}</td>
                 </tr>
             `;
         });
@@ -44,8 +51,12 @@ async function apriSetup(garaId, garaNome) {
     setupModalBody.innerHTML = '<p style="color:var(--line); padding:20px 0;">caricamento...</p>';
     setupModal.classList.add('open');
 
-    const dati = await loadSetupData(garaId);
-    setupModalBody.innerHTML = costruisciTabella(dati);
+    try {
+        const dati = await loadSetupData(garaId);
+        setupModalBody.innerHTML = costruisciTabella(dati);
+    } catch (err) {
+        setupModalBody.textContent = err.message;
+    }
 }
 
 function chiudiSetup() {

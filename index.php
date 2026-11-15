@@ -4,7 +4,7 @@ session_start();
 
 require_once 'php/config.php';
 
-$ruolo = $_SESSION['ruolo'];
+$ruolo = $_SESSION['ruolo'] ?? null;
 
 $ultimeNews = fetchAllQuery($pdo, "
     SELECT news.*, categorie.nome AS categoria
@@ -43,7 +43,7 @@ $calendario = fetchAllQuery($pdo, "
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/themes/animazioni.css">
     <link rel="stylesheet" href="css/components/footer.css">
-    <link rel="stylesheet" href="css/components/responsive.css">
+    <link rel="stylesheet" href="css/themes/responsive.css">
 
 </head>
 
@@ -439,8 +439,6 @@ $calendario = fetchAllQuery($pdo, "
         <div class="footer-logo">Passione Motorsport Racing Team</div>
         <div class="footer-copy">Passione Motorsport Racing Team © 2026 — TUTTI I DIRITTI RISERVATI</div>
     </footer>
-
-    <script src="js/admin-storage.js"></script>
     <script src="js/services/news.js"></script>
     <script src="js/services/contatti_open.js"></script>
     <script src="js/utils/navbarSwitch.js"></script>

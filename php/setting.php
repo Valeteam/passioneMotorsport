@@ -18,7 +18,7 @@ $fotoAttuale = $utente['foto_profilo'] ?? null;
 ?>
 
 <!DOCTYPE html>
-<html lang="ita">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
@@ -37,8 +37,17 @@ $fotoAttuale = $utente['foto_profilo'] ?? null;
 
     <h2 class="intro-text">impostazioni Generali</h2>
 
-    <?php if (isset($_GET['errore'])): ?>
-        <p class="setting-errore">Qualcosa non ha funzionato, riprova.</p>
+    <?php
+    $messaggiErrore = [
+        'nome_non_valido'    => 'Il nome deve avere tra 3 e 50 caratteri.',
+        'nome_in_uso'        => 'Questo nome è già usato da un altro utente.',
+        'password_non_valida' => 'La nuova password deve avere almeno 8 caratteri.',
+        'password_attuale'   => 'La password attuale non è corretta.',
+    ];
+    $errore = isset($_GET['errore']) && is_string($_GET['errore']) ? $_GET['errore'] : null;
+    ?>
+    <?php if ($errore !== null): ?>
+        <p class="setting-errore"><?php echo htmlspecialchars($messaggiErrore[$errore] ?? 'Qualcosa non ha funzionato, riprova.'); ?></p>
     <?php endif; ?>
     <?php if (isset($_GET['successo'])): ?>
         <p class="setting-successo">Modifica salvata correttamente.</p>
@@ -50,10 +59,10 @@ $fotoAttuale = $utente['foto_profilo'] ?? null;
             <span>Nome</span><span><?php echo htmlspecialchars($nome); ?></span>
             <form method="POST" action="../php/modific_name.php">
                 <div class="change-group">
-                    <label for="new_username">password</label>
-                    <input type="text" id="new_username" name="username" placeholder="inserisci il nuovo nome" required>
+                    <label for="new_username">nuovo nome</label>
+                    <input type="text" id="new_username" name="username" placeholder="inserisci il nuovo nome" minlength="3" maxlength="50" required>
                 </div>
-                <button type="submit" class="btn pLog">Cambia Password</button>
+                <button type="submit" class="btn pLog">Cambia nome</button>
             </form>
         </div>
 
@@ -61,8 +70,12 @@ $fotoAttuale = $utente['foto_profilo'] ?? null;
             <span>Password</span>
             <form method="POST" action="../php/modific_password.php">
                 <div class="change-group">
-                    <label for="new_password">password</label>
-                    <input type="password" id="new_password" name="password" placeholder="inserisci la nuova password" required>
+                    <label for="old_password">password attuale</label>
+                    <input type="password" id="old_password" name="password_attuale" placeholder="inserisci la password attuale" autocomplete="current-password" required>
+                </div>
+                <div class="change-group">
+                    <label for="new_password">nuova password</label>
+                    <input type="password" id="new_password" name="password" placeholder="almeno 8 caratteri" minlength="8" maxlength="72" autocomplete="new-password" required>
                 </div>
                 <button type="submit" class="btn pLog">Cambia Password</button>
             </form>
@@ -73,7 +86,7 @@ $fotoAttuale = $utente['foto_profilo'] ?? null;
 
             <div class="photo-preview-wrap">
                 <img id="foto-preview"
-                    src="<?php echo $fotoAttuale ? htmlspecialchars('../' . $fotoAttuale) : '../assets/img/piloti/placeholder.png'; ?>"
+                    src="<?php echo $fotoAttuale ? htmlspecialchars('../' . $fotoAttuale) : '../assets/img/piloti/placeholder.jpg'; ?>"
                     alt="foto profilo attuale">
             </div>
 

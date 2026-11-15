@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Access PassioneMotorsport</title>
+    <title>Login - Premium Access PassioneMotorsport</title>
 
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/logo/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/logo/logo.png">
@@ -30,10 +30,14 @@
             <div class="admin-compilation">
                 <label for="password">password</label>
                 <input type="password" id="password" name="password" placeholder="inserisci password" required>
-                <input type="checkbox" onclick="showPass()">
+                <input type="checkbox" class="occhio" onclick="showPass()">
             </div>
             <button type="submit" class="btn pLog">entra</button>
         </form>
+        <div class="reset">
+            <a href="recuperoPassword.php">Hai dimenticato la password?</a>
+        </div>
+
     </div>
 
     <script src="js/services/admin/showPassword.js"></script>

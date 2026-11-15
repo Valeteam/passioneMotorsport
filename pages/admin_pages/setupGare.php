@@ -1,15 +1,6 @@
 <?php
-session_start();
-header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-header('Pragma: no-cache');
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../loginPage.php");
-    exit;
-}
-
-$ruolo = $_SESSION['ruolo'];
-
+require_once __DIR__ . '/../../php/guard_pagina.php';
+$ruolo = proteggiPagina(['admin', 'manager'], '../../loginPage.php', '../TeamPage.php');
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +17,7 @@ $ruolo = $_SESSION['ruolo'];
 
 
     <link rel="stylesheet" href="../../css/admin.css">
-    <link rel="stylesheet" href="../../css/components/responsive.css">
+    <link rel="stylesheet" href="../../css/themes/responsive.css">
 </head>
 
 <body>
@@ -40,7 +31,7 @@ $ruolo = $_SESSION['ruolo'];
 
     <aside class="admin-sidebar" id="adminSidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
-        <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
+        <p class="admin-role" id="admin-role-label">ruolo: <?php echo htmlspecialchars($ruolo); ?></p>
 
         <nav class="admin-nav">
             <a href="../admin.php">dashboard</a>
@@ -120,6 +111,7 @@ $ruolo = $_SESSION['ruolo'];
         </div>
     </main>
 
+    <script src="../../js/admin-utils.js"></script>
     <script src="../../js/admin-storage.js"></script>
     <script src="../../js/admin/setupGare.js"></script>
     <script src="../../js/sidebar.js"></script>

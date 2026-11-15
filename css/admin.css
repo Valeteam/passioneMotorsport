@@ -521,3 +521,31 @@ table.admin-table {
     font-family: var(--mono);
     font-size: 13px;
 }
+
+/* messaggi (errori e conferme) in alto a destra: usati da admin-utils.js */
+#admin-toast {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: min(360px, calc(100vw - 32px));
+}
+
+.admin-toast-item {
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #fff;
+    background: #5a2323;
+    border: 1px solid #c25555;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.admin-toast-item.ok {
+    background: #1f3d24;
+    border-color: #4c9a5a;
+}

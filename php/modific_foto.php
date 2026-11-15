@@ -10,17 +10,15 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $dati = json_decode(file_get_contents('php://input'), true);
-$percorso = $dati['foto_profilo'] ?? null;
+$percorso = is_array($dati) ? ($dati['foto_profilo'] ?? null) : null;
 
-if (!$percorso) {
+if (!is_string($percorso) || !preg_match('#^assets/img/piloti/[A-Za-z0-9._-]+\.(jpe?g|png|webp|gif)$#i', $percorso)) {
     http_response_code(400);
-    echo json_encode(['successo' => false, 'errore' => 'Percorso mancante']);
+    echo json_encode(['successo' => false, 'errore' => 'Percorso non valido']);
     exit;
 }
 
 $stmt = $pdo->prepare("UPDATE utenti_admin SET foto_profilo = ? WHERE id = ?");
-$stmt->execute([$percorso, $_SESSION['user_id']]);
+$stmt->execute([$percorso, (int) $_SESSION['user_id']]);
 
 echo json_encode(['successo' => true]);
-
-?>

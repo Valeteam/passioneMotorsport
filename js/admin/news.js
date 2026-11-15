@@ -10,29 +10,29 @@ const previewWrap = document.getElementById('upload-preview');
 const previewImg = document.getElementById('upload-preview-img');
 const cancelBtn = document.getElementById('cancel-edit');
 const formHeading = document.getElementById('form-heading');
+const tbody = document.getElementById('news-table-body');
 
-let currentImageData = "";
+// percorso dell'immagine GIA' salvata (quello che sta nel database)
+let immagineCorrente = '';
 
-imageField.addEventListener('change', () => {
-    const file = imageField.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        currentImageData = e.target.result;
-        previewImg.src = currentImageData;
-        previewWrap.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-});
+collegaAnteprima(imageField, previewWrap, previewImg);
+
+function resetForm() {
+    form.reset();
+    idField.value = '';
+    immagineCorrente = '';
+    previewWrap.style.display = 'none';
+    formHeading.textContent = 'nuovo articolo';
+    cancelBtn.style.display = 'none';
+}
 
 async function loadCategoryOptions() {
     const categorie = await AdminDB.getAll('categorie');
-    categoryField.innerHTML = categorie.map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
+    categoryField.innerHTML = categorie.map(c => `<option value="${Number(c.id)}">${esc(c.nome)}</option>`).join('');
 }
 
 async function loadNewsTable() {
     const news = await AdminDB.getAll('news');
-    const tbody = document.getElementById('news-table-body');
     const empty = document.getElementById('news-empty');
 
     if (news.length === 0) {
@@ -44,21 +44,16 @@ async function loadNewsTable() {
 
     tbody.innerHTML = news.map(item => `
     <tr>
-      <td>${item.titolo}</td>
-      <td><span class="tag status-planned">${item.categoria ?? '—'}</span></td>
-      <td>${formatDate(item.data_pubblicazione)}</td>
+      <td>${esc(item.titolo)}</td>
+      <td><span class="tag status-planned">${esc(item.categoria ?? '—')}</span></td>
+      <td>${esc(formatDate(item.data_pubblicazione, 'long'))}</td>
       <td>${Number(item.in_evidenza) ? 'sì' : 'no'}</td>
       <td class="actions">
-        <button class="btn small" onclick="editNews(${item.id})">modifica</button>
-        <button class="btn small danger" onclick="deleteNews(${item.id})">elimina</button>
+        <button class="btn small" data-azione="modifica" data-id="${Number(item.id)}">modifica</button>
+        <button class="btn small danger" data-azione="elimina" data-id="${Number(item.id)}">elimina</button>
       </td>
     </tr>
   `).join('');
-}
-
-function formatDate(iso) {
-    const d = new Date(iso);
-    return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 async function editNews(id) {
@@ -72,13 +67,13 @@ async function editNews(id) {
     categoryField.value = item.categoria_id;
     dateField.value = item.data_pubblicazione;
     featuredField.checked = !!Number(item.in_evidenza);
+    imageField.value = '';
 
-    if (item.immagine) {
-        currentImageData = item.immagine;
-        previewImg.src = item.immagine;
+    immagineCorrente = item.immagine || '';
+    if (immagineCorrente) {
+        previewImg.src = urlImmagine(immagineCorrente);
         previewWrap.style.display = 'block';
     } else {
-        currentImageData = "";
         previewWrap.style.display = 'none';
     }
 
@@ -90,58 +85,52 @@ async function editNews(id) {
 async function deleteNews(id) {
     if (!confirm('Eliminare questo articolo?')) return;
     await AdminDB.remove('news', id);
-    loadNewsTable();
+    await loadNewsTable();
 }
 
-cancelBtn.addEventListener('click', () => {
-    form.reset();
-    idField.value = '';
-    currentImageData = '';
-    previewWrap.style.display = 'none';
-    formHeading.textContent = 'nuovo articolo';
-    cancelBtn.style.display = 'none';
+tbody.addEventListener('click', e => {
+    const bottone = e.target.closest('button[data-azione]');
+    if (!bottone) return;
+    const id = Number(bottone.dataset.id);
+
+    if (bottone.dataset.azione === 'modifica') conErrori(() => editNews(id));
+    if (bottone.dataset.azione === 'elimina') conErrori(() => deleteNews(id));
 });
 
-form.addEventListener('submit', async (e) => {
+cancelBtn.addEventListener('click', resetForm);
+
+form.addEventListener('submit', e => {
     e.preventDefault();
 
-    let percorsoImmagine = currentImageData;
-    const nuovoFile = imageField.files[0];
-    if (nuovoFile) {
-        percorsoImmagine = await uploadImage(nuovoFile);
-    }
+    conErrori(async () => {
+        let percorso = immagineCorrente;
+        const nuovoFile = imageField.files[0];
+        if (nuovoFile) {
+            percorso = await AdminDB.upload('news', nuovoFile);
+        }
 
-    const payload = {
-        titolo: titleField.value,
-        descrizione: excerptField.value,
-        categoria_id: Number(categoryField.value),
-        data_pubblicazione: dateField.value,
-        immagine: percorsoImmagine,
-        in_evidenza: featuredField.checked
-    };
+        const payload = {
+            titolo: titleField.value,
+            descrizione: excerptField.value,
+            categoria_id: Number(categoryField.value) || null,
+            data_pubblicazione: dateField.value,
+            immagine: percorso || null,
+            in_evidenza: featuredField.checked
+        };
 
-    if (idField.value) {
-        await AdminDB.update('news', Number(idField.value), payload);
-    } else {
-        await AdminDB.add('news', payload);
-    }
+        if (idField.value) {
+            await AdminDB.update('news', Number(idField.value), payload);
+        } else {
+            await AdminDB.add('news', payload);
+        }
 
-    form.reset();
+        resetForm();
+        await loadNewsTable();
+        mostraMessaggio('Articolo salvato', 'ok');
+    });
 });
 
-async function uploadImage(file) {
-    const dati = new FormData();
-    dati.append('tipo', 'news');
-    dati.append('immagine', file);
-
-    const risposta = await fetch(API_BASE + 'uploadImg.php', {
-        method: 'POST',
-        body: dati
-    });
-
-    const risultato = await risposta.json();
-    return risultato.percorso;
-}
-
-loadCategoryOptions();
-loadNewsTable();
+conErrori(async () => {
+    await loadCategoryOptions();
+    await loadNewsTable();
+});

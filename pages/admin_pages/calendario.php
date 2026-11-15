@@ -1,15 +1,6 @@
 <?php
-session_start();
-header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
-header('Pragma: no-cache');
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../../loginPage.php");
-    exit;
-}
-
-$ruolo = $_SESSION['ruolo']
-
+require_once __DIR__ . '/../../php/guard_pagina.php';
+$ruolo = proteggiPagina(['admin', 'manager'], '../../loginPage.php', '../TeamPage.php');
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -24,7 +15,7 @@ $ruolo = $_SESSION['ruolo']
     <link rel="icon" type="image/x-icon" href="../../assets/img/logo/logo.png">
 
     <link rel="stylesheet" href="../../css/admin.css">
-    <link rel="stylesheet" href="../../css/components/responsive.css">
+    <link rel="stylesheet" href="../../css/themes/responsive.css">
 </head>
 
 <body>
@@ -38,7 +29,7 @@ $ruolo = $_SESSION['ruolo']
 
     <aside class="admin-sidebar" id="adminSidebar">
         <p class="admin-logo">PASSIONE MOTORSPORT <span>ADMIN</span></p>
-        <p class="admin-role" id="admin-role-label">ruolo: <?php echo $ruolo ?></p>
+        <p class="admin-role" id="admin-role-label">ruolo: <?php echo htmlspecialchars($ruolo); ?></p>
 
         <nav class="admin-nav">
             <a href="../admin.php">dashboard</a>
@@ -77,31 +68,33 @@ $ruolo = $_SESSION['ruolo']
                 <input type="hidden" id="race-id">
 
                 <div class="admin-field">
-                    <label for="race-nome">nome gara</label>
-                    <input type="text" id="race-nome" required placeholder="es. Rally del Titano">
+                    <label for="race-titolo">titolo</label>
+                    <input type="text" id="race-titolo" required maxlength="150" placeholder="es. Rally del Titano">
                 </div>
 
                 <div class="admin-form-row">
                     <div class="admin-field">
-                        <label for="race-reparto">reparto</label>
-                        <select id="race-reparto" required>
-                            <option value="esports">esports</option>
-                            <option value="reale">reale</option>
-                        </select>
-                    </div>
-                    <div class="admin-field">
                         <label for="race-data">data</label>
                         <input type="date" id="race-data" required>
+                    </div>
+                    <div class="admin-field">
+                        <label for="race-validita">validità (tipo di campionato)</label>
+                        <select id="race-validita" required>
+                            <option value="moderno">moderno</option>
+                            <option value="storico">storico</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="admin-field">
-                    <label for="race-stato">stato</label>
-                    <select id="race-stato" required>
-                        <option value="in programma">in programma</option>
-                        <option value="prossima">prossima</option>
-                        <option value="disputata">disputata</option>
-                    </select>
+                    <label>immagine</label>
+                    <label class="admin-upload" id="upload-label">
+                        trascina un'immagine qui o clicca per selezionarla
+                        <input type="file" id="race-immagine" accept="image/*">
+                        <div class="admin-upload-preview" id="upload-preview" style="display:none;">
+                            <img id="upload-preview-img" src="" alt="anteprima">
+                        </div>
+                    </label>
                 </div>
 
                 <div style="display:flex; gap:12px;">
@@ -117,9 +110,8 @@ $ruolo = $_SESSION['ruolo']
                 <thead>
                     <tr>
                         <th>data</th>
-                        <th>nome gara</th>
-                        <th>reparto</th>
-                        <th>stato</th>
+                        <th>titolo</th>
+                        <th>validità</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -129,6 +121,7 @@ $ruolo = $_SESSION['ruolo']
         </div>
     </main>
 
+    <script src="../../js/admin-utils.js"></script>
     <script src="../../js/admin-storage.js"></script>
     <script src="../../js/admin/calendario.js"></script>
     <script src="../../js/sidebar.js"></script>
