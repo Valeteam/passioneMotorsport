@@ -25,6 +25,9 @@
     --facebook: #3B5998;
     --youtube: #ff0000;
     --istagramTeam: rgba(212, 209, 22, 0.637);
+    --oro:#D4AF37 ;
+    --argento: #8D9093;
+    --bronzo: #CD7F32;
 
     --display: 'Oswald', sans-serif;
     --body: 'Inter', sans-serif;
@@ -1292,6 +1295,266 @@ html {
     line-height: 1.7;
     color: var(--white);
     margin: 0;
+}
+
+.zonaCoppe {
+    position: relative;
+    width: 100%;
+    padding: 100px 24px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+}
+
+.coppeIntro h1:last-of-type {
+    position: relative;
+    font-family: var(--display);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: var(--white);
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+}
+
+.coppeIntro {
+    position: relative;
+    text-align: center;
+    margin-bottom: 44px;
+    padding: 24px 0;
+}
+
+.coppeIntro::before {
+    content: "Vittorie";
+    text-transform: uppercase;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--display);
+    font-size: clamp(5rem, 18vw, 12rem);
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line);
+    opacity: 0.16;
+    pointer-events: none;
+    user-select: none;
+}
+
+.coppeIntro h1:first-of-type {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 0 0 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellowBold);
+}
+
+.coppeIntro h1:first-of-type::before,
+.coppeIntro h1:first-of-type::after {
+    content: "";
+    width: 36px;
+    height: 1px;
+    background: var(--yellowBold);
+}
+
+.disposizione {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+.disposizione .box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 70px 26px 0;
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.disposizione .box:hover {
+    transform: translateY(-8px);
+    border-color: var(--yellowBold);
+    box-shadow:
+        0 22px 40px rgba(0, 0, 0, 0.6),
+        0 0 22px rgba(235, 235, 156, 0.18);
+}
+
+.disposizione .box:active {
+    transform: translateY(-3px) scale(0.99);
+}
+
+.disposizione .box::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 4px;
+    background: var(--arancioBold);
+    transition: width 0.45s ease;
+}
+
+.disposizione .box:hover::after {
+    width: 100%;
+}
+
+.disposizione .box h3 {
+    position: absolute;
+    top: 18px;
+    left: 0;
+    margin: 0;
+    padding: 6px 22px 6px 16px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #1a1815;
+    background: var(--arancioBold);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+
+.disposizione .box>h2 {
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    margin: 0;
+    font-family: var(--display);
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--line);
+    transition: -webkit-text-stroke-color 0.35s ease, color 0.35s ease;
+}
+
+.disposizione .box:hover>h2 {
+    color: rgba(202, 155, 68, 0.15);
+    -webkit-text-stroke-color: var(--arancioBold);
+}
+
+.disposizione .box h1 {
+    margin: 0 0 26px;
+    font-family: var(--display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+.disposizione .posizioni {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+    padding: 18px 0 26px;
+    border-top: 1px dashed var(--line);
+}
+
+.disposizione .posizioni h2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+.disposizione .posizioni h2:empty {
+    display: none;
+}
+
+.disposizione .posizioni h2::before {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--grigio);
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--grigio);
+    transition: box-shadow 0.35s ease;
+}
+
+.disposizione .posizioni h2:nth-child(1)::before {
+    content: "1°";
+    background: var(--oro);
+    border-color: var(--oro);
+    color: #1a1815;
+}
+
+.disposizione .posizioni h2:nth-child(2)::before {
+    content: "2°";
+    background: var(--argento);
+    border-color: var(--argento);
+    color: #1a1815;
+}
+
+.disposizione .posizioni h2:nth-child(3)::before {
+    content: "3°";
+    background: var(--bronzo);
+    border-color: var(--bronzo);
+    color: #1a1815;
+}
+
+.disposizione .box .posizioni .quarto .quinto::before {
+    content: "4°" !important;
+    background: var(--trasparente);
+    border-color: var(--grigio);
+    color: var(--grigio);
+}
+
+.disposizione .box .posizioni .quinto::before {
+    content: "5°" !important;
+    background: var(--trasparente);
+    border-color: var(--grigio);
+    color: var(--grigio);
+}
+
+.disposizione .box:hover .posizioni h2:nth-child(1)::before {
+    box-shadow: 0 0 16px #be9e31;
+}
+
+.disposizione .box:hover .posizioni h2:nth-child(2)::before {
+    box-shadow: 0 0 12px #797b7e;
+}
+
+.disposizione .box:hover .posizioni h2:nth-child(3)::before {
+    box-shadow: 0 0 12px #b16f2d;
+}
+
+@supports (animation-timeline: view()) {
+    .disposizione .box {
+        animation: revealUp linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 40%;
+    }
 }
 
 /* =========================

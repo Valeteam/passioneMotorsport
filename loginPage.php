@@ -35,7 +35,7 @@
             <button type="submit" class="btn pLog">entra</button>
         </form>
         <div class="reset">
-            <a href="recuperoPassword.php">Hai dimenticato la password?</a>
+            <a href="pages/resetPassword.php">Hai dimenticato la password?</a>
         </div>
 
     </div>

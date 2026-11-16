@@ -324,6 +324,89 @@ $calendario = fetchAllQuery($pdo, "
         </div>
 
     </section>
+    <section class="zonaCoppe">
+        <div class="coppeIntro">
+            <h1>Vittorie del Team</h1>
+            <h1>Vittorie del Team</h1>
+        </div>
+        <div class="disposizione">
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2024</h2>
+                <h3>TEAM</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2></h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2024</h2>
+                <h3>ASSOLUTO</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2></h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>CIE-R ASFLATO</h1>
+                <h2>2024</h2>
+                <h3>2RUOTE MOTRICI</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2></h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2025</h2>
+                <h3>TEAM</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2></h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2026</h2>
+                <h3>RALLY2</h3>
+                <div class="posizioni">
+                    <h2>SECONDO POSTO</h2>
+                    <h2 class="quarto">QUARTO POSTO</h2>
+                    <h2 class="quinto">QUINTO POSTO</h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2026</h2>
+                <h3>RALLY3</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2>SECONDO POSTO</h2>
+                    <h2>TERZO POSTO</h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2026</h2>
+                <h3>RALLY4</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2>SECONDO POSTO</h2>
+                    <h2 class="quarto">QUARTO POSTO</h2>
+                </div>
+            </div>
+            <div class="box">
+                <h1>PMSE-RC</h1>
+                <h2>2026</h2>
+                <h3>S1600</h3>
+                <div class="posizioni">
+                    <h2>PRIMO POSTO</h2>
+                    <h2>SECONDO POSTO</h2>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- contatti -->
 
